@@ -1,0 +1,4 @@
+2023-08-08 10:45:00  [ main:0 ] - [ INFO ]  {"errcode":0,"errmsg":"ok","msgid":3051279492134109192}
+2023-08-08 10:45:56  [ main:0 ] - [ INFO ]  {"errcode":0,"errmsg":"ok","msgid":3051280420820123648}
+2023-08-08 10:52:50  [ main:0 ] - [ INFO ]  {"errcode":0,"errmsg":"ok","msgid":3051287371234836483}
+2023-08-08 10:59:17  [ main:0 ] - [ INFO ]  {"errcode":43101,"errmsg":"user refuse to accept the msg rid: 64d1af85-27998a42-060e94f9"}

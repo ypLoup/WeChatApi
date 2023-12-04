@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.WeChatApi.dao.wechatUserMapper">
+	<resultMap id="BaseResultMap" type="com.WeChatApi.bean.models.wechatUser">
+		<id column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="user_openid" property="userOpenId" jdbcType="VARCHAR" />
+		<result column="user_openid_zfb" property="userOpenIdZfb" jdbcType="VARCHAR" />
+		<result column="user_mobile" property="userMobile" jdbcType="VARCHAR" />
+		<result column="user_create_time" property="userCreateTime" jdbcType="TIMESTAMP" />
+		<result column="user_lastlogin_time" property="userlastloginTime" jdbcType="TIMESTAMP" />
+		<result column="user_disabled_time" property="userdisableTime" jdbcType="TIMESTAMP" />
+		<result column="user_session" property="userSession" jdbcType="VARCHAR" />
+		<result column="user_session_expire" property="userSessionExpire" jdbcType="TIMESTAMP" />
+		<result column="user_status" property="userStatus" jdbcType="INTEGER" />
+		<result column="user_from" property="userFrom" jdbcType="INTEGER" />
+		<result column="user_vehicle_plate_status" property="userVehiclePlateStatus" jdbcType="INTEGER" />
+		<result column="role_type" property="roleType" jdbcType="INTEGER" />
+		<result column="store_id" property="storeId" jdbcType="INTEGER" />
+		<result column="balances" property="balances" jdbcType="INTEGER" />
+		<result column="point" property="point" jdbcType="INTEGER" />
+		<result column="pkl_balances" property="pkl_balances" jdbcType="INTEGER" />
+		<result column="pkl_point" property="pkl_point" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, user_openid,user_openid_zfb, user_mobile, user_create_time, user_lastlogin_time, user_disabled_time,user_session,user_session_expire,user_status,user_from,user_vehicle_plate_status,role_type,store_id,point,balances,pkl_balances,pkl_point
+	</sql>
+	
+	<!-- 查询sysUser的条件参数 -->
+	<sql id="wechatUserConditions">
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="userMobile != null and userMobile != ''">
+			and user_mobile = #{userMobile}
+		</if>
+		<if test="userStatus != null">
+			and user_status = #{userStatus}
+		</if>
+		<if test="userOpenId != null and userOpenId != ''">
+			and user_openid = #{userOpenId}
+		</if>
+		<if test="userOpenIdZfb != null and userOpenIdZfb != ''">
+			and user_openid_zfb = #{userOpenIdZfb}
+		</if>
+		<if test="userFrom != null">
+			and user_from = #{userFrom}
+		</if>
+	</sql>
+	
+	
+	<delete id="deleteByPrimaryKey" >
+		delete from wechat_user
+		where user_id = #{userId}
+	</delete>
+	
+	
+	<delete id="deleteBatch">
+		delete from wechat_user
+		where user_id in
+		<foreach item="ids" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	
+	<insert id="addWechatUserInfo" parameterType="com.WeChatApi.bean.models.wechatUser"  keyProperty="userId">
+		insert into wechat_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userOpenId != null">
+				user_openid,
+			</if>
+			<if test="userOpenIdZfb != null">
+				user_openid_zfb,
+			</if>
+			<if test="userMobile != null and userMobile != ''">
+				user_mobile,
+			</if>
+			<if test="userCreateTime != null">
+				user_create_time,
+			</if>
+			<if test="userlastloginTime != null">
+				user_lastlogin_time,
+			</if>
+			<if test="userdisableTime != null">
+				user_disabled_time,
+			</if>
+			<if test="userSession != null">
+				user_session,
+			</if>
+			<if test="userSessionExpire != null">
+				user_session_expire,
+			</if>
+			<if test="userStatus != null">
+				user_status,
+			</if>
+			<if test="userFrom != null">
+				user_from,
+			</if>
+			<if test="point != null">
+				point
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userOpenId != null">
+				#{userOpenId,jdbcType=VARCHAR},
+			</if>
+			<if test="userOpenIdZfb != null">
+				#{userOpenIdZfb,jdbcType=VARCHAR},
+			</if>
+			<if test="userMobile != null and userMobile != ''">
+				#{userMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="userCreateTime != null">
+				#{userCreateTime},
+			</if>
+			<if test="userlastloginTime != null">
+				#{userlastloginTime},
+			</if>
+			<if test="userdisableTime != null">
+				#{userdisableTime},
+			</if>
+			<if test="userSession != null">
+				#{userSession,jdbcType=VARCHAR},
+			</if>
+			<if test="userSessionExpire != null">
+				#{userSessionExpire},
+			</if>
+			<if test="userStatus != null">
+				#{userStatus},
+			</if>
+			<if test="userFrom != null">
+				#{userFrom},
+			</if>
+			<if test="point != null">
+				#{point}
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<update id="updateWechatUserInfo" parameterType="com.WeChatApi.bean.models.wechatUser">
+		update wechat_user
+		<set>
+			<if test="userMobile != null and userMobile != ''">
+				user_mobile = #{userMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="userOpenId != null">
+				user_openid = #{userOpenId,jdbcType=VARCHAR},
+			</if>
+			<if test="userOpenIdZfb != null">
+				user_openid_zfb = #{userOpenIdZfb,jdbcType=VARCHAR},
+			</if>
+			
+				user_lastlogin_time = now() ,
+			
+			<if test="userStatus != null">
+				user_status = #{userStatus},
+			</if>
+			
+		</set>
+		where user_id = #{userId}
+	</update>
+	
+
+	<select id="findWechatUserInfoByConditions" resultMap="BaseResultMap"
+		parameterType="com.WeChatApi.bean.condition.wechatUserCondition">
+		select
+		<include refid="Base_Column_List" />
+		from wechat_user
+		where 1 = 1
+		<include refid="wechatUserConditions" />
+		order by user_create_time desc
+		<if test="pageNo != null and limit != null">
+			limit ${(pageNo -1 ) * limit}, ${limit}
+		</if>
+	</select>
+	
+	<select id="findWechatUserInfoCountByConditions" resultType="java.lang.Long" parameterType="com.WeChatApi.bean.condition.wechatUserCondition" >
+		select
+			count(0)
+		from
+			wechat_user
+		where
+			1 = 1
+		<include refid="wechatUserConditions" />
+	</select>
+	
+
+	
+	<update id="changeStatusBatch">
+	update user_info set user_status = 0,user_disabled_time=now()
+	where user_id in
+		<foreach item="ids" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+	
+	
+	<select id="findWechatUserInfoByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	
+	select
+		<include refid="Base_Column_List" />
+		from wechat_user
+		where 1 = 1
+		and (user_openid = #{userOpenId} or user_openid_zfb =#{userOpenId} )
+	
+	</select>
+	
+	
+	<select id="findWechatUserInfoCountByOpenId" resultType="java.lang.Long" parameterType="java.lang.String" >
+		select
+			count(0)
+		from
+			wechat_user
+		where
+			1 = 1
+		and (user_openid = #{userOpenId} or user_openid_zfb =#{userOpenId} )
+	</select>
+	
+	
+	<select id="findWechatUserInfoCountByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+			<include refid="Base_Column_List" />
+		from
+			wechat_user
+		where
+			1 = 1
+		and (
+		<if test="openId != null and openId != ''">
+				user_openid = #{openId}
+			</if>
+			<if test="openId != null and openId != ''">
+				or user_openid_zfb = #{openId}
+			</if>
+		
+		)<if test="phone != null and phone != ''">
+				or user_mobile = #{phone}
+			</if>	
+	</select>
+	
+	
+	
+	<update id="updateWechatUserInfoByOpenId" parameterType="java.lang.String">
+		update wechat_user
+		
+			SET	user_lastlogin_time = now()
+		
+		where user_openid = #{userOpenId}
+	</update>
+	
+	<insert id="insertApiLogs" parameterType="java.lang.String">
+	
+		insert into api_logs (api_name, api_key, api_result,
+		api_remarks, create_time
+		)
+		values (#{apiName,jdbcType=VARCHAR}, #{apiKey,jdbcType=VARCHAR},
+		#{apiResult,jdbcType=VARCHAR},
+		#{apiRemarks,jdbcType=VARCHAR},NOW()
+		)
+	</insert>
+	
+	
+	
+	<update id="changeUserRoleTypeByUserOpenId">
+	update wechat_user
+		
+			SET	role_type = 2,store_id=#{suId}
+		
+		where user_openid = #{userOpenId}
+	
+	</update>
+	
+<select id="findUserInfoByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	
+	select
+		<include refid="Base_Column_List" />
+		from wechat_user
+		where 1 = 1
+		and user_id = #{userId}
+	
+	</select>
+	
+	<update id="updateWechatUserInfoMoney">
+	update wechat_user
+		
+			SET	balances = #{newBalances},point = #{newPoint}
+		
+		where user_id = #{userId}
+	
+	</update>
+	
+	<update id="updateWechatUserBalances">
+	update wechat_user
+		
+			SET	balances = 0 
+		
+		where user_id = #{userId}
+	
+	</update>
+	
+	<select id="findUserDiscountByScdId" resultType="com.WeChatApi.bean.dto.userChargeDiscountDto"  >
+	
+	SELECT ucd_id,ucd_title,ucd_type,ucd_discount,ucd_condition_amount,ucd_present_amount,date_format(ucd_effective_time,'%Y-%m-%d %H:%i:%s') as ucd_effective_time,date_format(ucd_expire_time,'%Y-%m-%d %H:%i:%s') as ucd_expire_time,ucd_status from user_charge_discount
+	
+	where  ucd_status=1 and ucd_id= #{ucdId}
+	
+	</select>
+	
+	<select id="findUserDiscountByCondition" resultType="java.util.Map"  >
+	
+	SELECT ucd_id,ucd_title,ucd_type,ucd_discount,ucd_condition_amount,ucd_present_amount,date_format(ucd_effective_time,'%Y-%m-%d %H:%i:%s') as ucd_effective_time,date_format(ucd_expire_time,'%Y-%m-%d %H:%i:%s') as ucd_expire_time,ucd_status from user_charge_discount
+	
+	where  ucd_status=1
+	
+	</select>
+	
+	<insert id="insertVerificationCodeTemp" parameterType="java.lang.String">
+	insert into verification_code_temp (phone_num, verification_code, created_time,
+		disabled_time
+		)
+		values (#{mobileNum,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+		NOW(),ADDDATE(NOW(),INTERVAL 10 minute)
+		)
+	</insert>
+	
+	
+	<select id="findVerificationCode" resultType="java.lang.Long" parameterType="java.lang.String" >
+		select
+			count(0)
+		from
+			verification_code_temp
+		where
+			1 = 1
+		and phone_num = #{mobileNum,jdbcType=VARCHAR} and verification_code = #{code,jdbcType=VARCHAR}
+		and disabled_time >= now() order by created_time desc limit 1
+	</select>
+	
+		<insert id="inserVehPlateVerify" parameterType="java.lang.String">
+		insert into vehPlateVerify (userId,plate,plateColor, mobileNum, verifyImageUrl,
+		verifyImageUrl2,verifyContent, create_time
+		)
+		values (#{userOpenId,jdbcType=VARCHAR},#{plate,jdbcType=VARCHAR},#{plateColor,jdbcType=VARCHAR}, #{mobileNum,jdbcType=VARCHAR},
+		#{verifyImageUrl,jdbcType=VARCHAR},
+		#{verifyImageUrl2,jdbcType=VARCHAR},#{verifyContent,jdbcType=VARCHAR},NOW()
+		)
+	</insert>
+	
+	
+	<select id="findUserInfoByVehplate" parameterType="java.lang.String" resultMap="BaseResultMap">
+	
+	select
+		<include refid="Base_Column_List" />
+		from wechat_user
+		WHERE user_id IN (SELECT user_id FROM wechat_user_vehicle WHERE uv_plate = #{vehplate} AND uv_status =1 )
+	
+	</select>
+	
+	
+	<insert id="insertRedpackRecord" parameterType="java.lang.String">
+	
+		insert into red_pack_record (userId,userOpenId,amount,orderNumber, dataJson, wechatJson,
+		redpackJson,type,resultType,channelType, create_time
+		)
+		values (#{userId,jdbcType=VARCHAR},#{userOpenId,jdbcType=VARCHAR},#{amount,jdbcType=VARCHAR},#{orderNumber,jdbcType=VARCHAR}, #{dataJson,jdbcType=VARCHAR},
+		#{wechatJson,jdbcType=VARCHAR},
+		#{redpackJson,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{resultType,jdbcType=VARCHAR},#{channelType,jdbcType=VARCHAR},NOW()
+		)
+	</insert>
+	
+	
+	<select id="findUserInfoByPhoneNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+	
+	select
+		<include refid="Base_Column_List" />
+		from wechat_user
+		where 1 = 1
+		and user_mobile = #{mobileNum}
+	
+	</select>
+	
+	<select id="findUserInfoByOrderNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+	SELECT * FROM wechat_user WHERE user_id IN (
+
+SELECT user_id FROM wechat_user_vehicle WHERE uv_plate IN (SELECT veh_plate FROM `operation_order` WHERE 1 and order_id = #{orderNum}) AND  uv_status =1)
+	</select>
+	
+	
+	<update id="updateWechatUserInfoMoney_Pkl">
+	update wechat_user
+		
+			SET	pkl_balances = #{newBalances},pkl_point = #{newPoint}
+		
+		where user_id = #{userId}
+	
+	</update>
+	
+	
+		<select id="findIsZengsong" resultType="java.lang.Long"  >
+		select
+			count(0)
+		from
+			sys_option
+		where
+			op_value = 2 and op_name = "gift_point_status"
+		
+	</select>
+	
+	
+	<insert id="addWechatUserPointRecord" parameterType="java.lang.Integer">
+	
+		insert into wechat_user_point_record (user_id
+		)
+		values (#{userId,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<select id="findWechatUserPointRecordByUserId" resultType="java.lang.Long"  >
+		select
+			count(0)
+		from
+			wechat_user_point_record
+		where
+			user_id = #{userId}
+		
+	</select>
+	
+	<select id="findNotifycation" resultType="java.util.HashMap"  >
+		SELECT * FROM sys_notifycation WHERE id = 1 and n_status != 0
+		
+	</select>
+	
+	
+	<insert id="insertWechatUserTemplate" parameterType="java.util.Map">
+        insert into wechat_user_template (
+        <foreach collection="map" item="value" index="key" separator=",">
+            ${key}
+        </foreach>
+        )
+        values (
+        <foreach collection="map" item="value" index="key" separator=",">
+            #{value}
+        </foreach>
+        )
+
+
+    </insert>
+    
+    
+    <select id="findTempNameByTempId" resultType="java.lang.String"  >
+		SELECT template_name FROM `sys_message_template` where template_id = #{templateId}
+		
+	</select>
+	
+	
+	<select id="findWechatUsertTempInfoByTempId" resultType="java.lang.Long"  >
+		select
+			count(0)
+		from
+			wechat_user_template
+		where
+			user_open_id = #{userOpenId} AND template_id = #{templateId}
+			
+		
+	</select>
+	
+	
+	<update id="updateWechatUserTemplateByTempId">
+	update wechat_user_template
+		
+			SET	status = 1,update_time = NOW()
+		
+		where user_open_id = #{userOpenId} AND template_id = #{templateId}
+	
+	</update>
+	
+	
+	<select id="findBlackPlateCountByPlate" resultType="java.lang.Long" parameterType="java.lang.String" >
+		select
+			count(0)
+		from
+			operation_black_list
+		where
+			1 = 1
+		and veh_plate = #{plate,jdbcType=VARCHAR} and veh_plate_color = #{plateColor,jdbcType=VARCHAR}
+		and b_status = 1
+	</select>
+	
+</mapper>

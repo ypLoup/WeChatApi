@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.WeChatApi.dao.wechatUserVehicleMapper">
+	<resultMap id="BaseResultMap" type="com.WeChatApi.bean.models.wechatUserVehicle">
+		<id column="uv_id" property="uvId" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="user_openid" property="userOpenId" jdbcType="VARCHAR" />
+		<result column="uv_plate" property="uvPlate" jdbcType="VARCHAR" />
+		<result column="plate_color" property="plateColor" jdbcType="VARCHAR" />
+		<result column="uv_status" property="uvStatus" jdbcType="INTEGER" />
+		<result column="userVehicle_disabled_time" property="userVehicleDisabledTime" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+		<result column="pkl_code" property="pkl_code" jdbcType="VARCHAR" />
+		<result column="order_entry_time" property="order_entry_time" jdbcType="VARCHAR" />
+		<result column="order_exit_time" property="order_exit_time" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		uv_id, user_id, user_openid, uv_plate, plate_color, uv_status,userVehicle_disabled_time,create_time,update_time
+	</sql>
+	
+	<!-- 查询wechatUserVehicle的条件参数 -->
+	<sql id="UserVehicleConditions">
+		<if test="userOpenId != null and userOpenId != ''">
+			and user_openid = #{userOpenId}
+		</if>
+		<if test="uvPlate != null and uvPlate != ''">
+			and uv_plate = #{uvPlate}
+		</if>
+		<if test="uvStatus != null">
+			and uv_status = #{uvStatus}
+		</if>
+		<if test="plateColor != null and plateColor != ''">
+			and plate_color = #{plateColor}
+		</if>
+		<if test="uvId != null">
+			and uv_id = #{uvId}
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+	</sql>
+	
+	
+	<delete id="deleteByPrimaryKey">
+		delete from wechat_user_vehicle
+		where uv_id = #{uvId}
+	</delete>
+	
+	
+	<update id="deleteVehicle">
+		update wechat_user_vehicle set uv_status = 0,userVehicle_disabled_time=now()
+		where user_id = #{userId} and uv_plate = #{vehiclePlate}
+	</update>
+	
+	
+	<delete id="deleteBatch">
+		delete from wechat_user_vehicle
+		where uv_id in
+		<foreach item="ids" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	
+	<insert id="addUserVehicleInfo" parameterType="com.WeChatApi.bean.models.wechatUserVehicle">
+		insert into wechat_user_vehicle
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="userOpenId != null">
+				user_openid,
+			</if>
+			<if test="uvPlate != null">
+				uv_plate,
+			</if>
+			<if test="plateColor != null">
+				plate_color,
+			</if>
+			<if test="uvStatus != null">
+				uv_status,
+			</if>
+			create_time,
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="userOpenId != null">
+				#{userOpenId,jdbcType=VARCHAR},
+			</if>
+			<if test="uvPlate != null">
+				#{uvPlate,jdbcType=VARCHAR},
+			</if>
+			<if test="plateColor != null">
+				#{plateColor,jdbcType=VARCHAR},
+			</if>
+			<if test="uvStatus != null">
+				#{uvStatus,jdbcType=INTEGER},
+			</if>
+			now(),
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<update id="updateUserVehicleInfo" parameterType="com.WeChatApi.bean.models.wechatUserVehicle">
+		update wechat_user_vehicle
+		<set>
+			<if test="uvPlate != null">
+				uv_plate = #{uvPlate,jdbcType=VARCHAR},
+			</if>
+			<if test="plateColor != null">
+				plate_color = #{plateColor,jdbcType=VARCHAR},
+			</if>
+			<if test="uvStatus != null">
+				uv_status = #{uvStatus,jdbcType=INTEGER},
+			</if>
+			update_time = now(),
+		</set>
+		where uv_id = #{uvId,jdbcType=INTEGER}
+	</update>
+	
+
+	<select id="findUserVehicleByConditions" resultMap="BaseResultMap"
+		parameterType="com.WeChatApi.bean.condition.wechatUserVehicleCondition">
+		select
+		<include refid="Base_Column_List" />
+		from wechat_user_vehicle
+		where 1 = 1
+		<include refid="UserVehicleConditions" />
+		order by create_time desc
+		<if test="pageNo != null and limit != null">
+			limit ${(pageNo -1 ) * limit}, ${limit}
+		</if>
+	</select>
+	
+	
+	<select id="findUserVehicleBeanByCondition" resultMap="BaseResultMap"
+		parameterType="com.WeChatApi.bean.condition.wechatUserVehicleCondition">
+		select
+		<include refid="Base_Column_List" />
+		from wechat_user_vehicle
+		where 1 = 1
+		<include refid="UserVehicleConditions" />
+		order by create_time desc limit 1
+		
+	</select>
+	
+	
+	<select id="findUserVehicleCountByConditions" resultType="java.lang.Long" parameterType="com.WeChatApi.bean.condition.wechatUserVehicleCondition" >
+		select
+			count(0)
+		from
+			wechat_user_vehicle
+		where
+			1 = 1
+		<include refid="UserVehicleConditions" />
+	</select>
+	
+
+	
+	<update id="changeStatusBatch">
+	update wechat_user_vehicle set uv_status = #{status},userVehicle_disabled_time=now()
+	where uv_id in
+		<foreach item="ids" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+	
+	<select id="findUserVehicleByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		<!--   SELECT
+		a.*, b.order_status,b.pkl_code,b.order_entry_time,b.order_exit_time
+	      FROM
+		wechat_user_vehicle a
+		LEFT JOIN operation_order b ON a.uv_plate = b.veh_plate
+		AND b.order_status = 1
+		WHERE
+		1=1
+		 -->
+		SELECT a.*, b.order_status,b.pkl_code,b.order_entry_time,b.order_exit_time FROM wechat_user_vehicle a LEFT JOIN ( SELECT a.order_status,a.pkl_code,a.order_entry_time,a.order_exit_time,a.veh_plate FROM  operation_order a ,( select order_id,MAX(order_entry_time) AS order_entry_time,veh_plate FROM operation_order WHERE order_status=1 GROUP BY veh_plate)
+		 b WHERE a.veh_plate = b.veh_plate AND a.order_entry_time=b.order_entry_time) b ON a.uv_plate = b.veh_plate AND b.order_status = 1
+		  WHERE
+		  1=1
+		  <if test="userOpenId != null and userOpenId != ''">
+		 and	a.user_openid =  #{userOpenId,jdbcType=VARCHAR}
+		</if>
+		
+	
+	</select>
+	
+	
+	
+	<select id="findUserVehicleByUserId"  resultMap="BaseResultMap">
+		<!--   SELECT
+		a.*, b.order_status,b.pkl_code,b.order_entry_time,b.order_exit_time
+	      FROM
+		wechat_user_vehicle a
+		LEFT JOIN operation_order b ON a.uv_plate = b.veh_plate
+		AND b.order_status = 1
+		WHERE
+		1=1
+		 -->
+		<!-- SELECT a.*, b.order_status,b.pkl_code,b.order_entry_time,b.order_exit_time FROM wechat_user_vehicle a LEFT JOIN ( SELECT a.order_status,a.pkl_code,a.order_entry_time,a.order_exit_time,a.veh_plate FROM  operation_order a ,( select order_id,MAX(order_entry_time) AS order_entry_time,veh_plate FROM operation_order WHERE order_status=1 GROUP BY veh_plate)
+		 b WHERE a.veh_plate = b.veh_plate AND a.order_entry_time=b.order_entry_time) b ON a.uv_plate = b.veh_plate AND b.order_status = 1
+		  WHERE
+		  1=1
+		  <if test="userId != null and userId != ''">
+		 and	a.user_id =  #{userId,jdbcType=VARCHAR}
+		</if> -->
+		SELECT * FROM (SELECT a.*, b.order_status,b.pkl_code,b.pkll_code,b.order_entry_time,b.order_exit_time,"1" as order_type FROM wechat_user_vehicle a LEFT JOIN ( SELECT a.order_status,a.pkl_code,a.pkll_code,a.order_entry_time,a.order_exit_time,a.veh_plate,a.veh_plate_color FROM  operation_order a ,( select order_id,MAX(order_entry_time) AS order_entry_time,veh_plate FROM operation_order WHERE order_status=1 
+		<if test="list!= null and list.size()>0" >
+		 and veh_plate in 
+		 <foreach item="list2" index="index" collection="list" open="("
+			separator="," close=")">
+			#{list2}
+		</foreach>
+		</if>
+		  GROUP BY veh_plate)
+		 b WHERE a.veh_plate = b.veh_plate AND a.order_entry_time=b.order_entry_time) b ON a.uv_plate = b.veh_plate AND b.order_status = 1 and a.plate_color=b.veh_plate_color
+		  WHERE
+		  1=1
+		  AND a.uv_status=1
+		<if test="userId != null and userId != ''">
+		 and	a.user_id =  #{userId,jdbcType=VARCHAR}
+		</if>
+		
+         UNION ALL
+SELECT a.*, b.order_status,b.pkl_code,b.pkll_code,b.order_entry_time,b.order_exit_time,"2" as order_type FROM wechat_user_vehicle a LEFT JOIN ( SELECT a.order_status,a.pkl_code,a.pkll_code,a.order_entry_time,a.order_exit_time,a.veh_plate,a.veh_plate_color FROM  road_operation_order a ,( select order_id,MAX(order_entry_time) AS order_entry_time,veh_plate FROM road_operation_order WHERE order_status=1 
+ <if test="list!= null and list.size()>0" >
+		 and veh_plate in 
+		 <foreach item="list2" index="index" collection="list" open="("
+			separator="," close=")">
+			#{list2}
+		</foreach>
+		</if>
+ 
+  GROUP BY veh_plate)
+		 b WHERE a.veh_plate = b.veh_plate AND a.order_entry_time=b.order_entry_time) b ON a.uv_plate = b.veh_plate AND b.order_status = 1 and a.plate_color=b.veh_plate_color
+		  WHERE
+		  1=1
+		  AND a.uv_status=1
+		<if test="userId != null and userId != ''">
+		 and	a.user_id =  #{userId,jdbcType=VARCHAR}
+		</if>
+		) AS tep GROUP BY  uv_plate,plate_color,order_entry_time ORDER BY order_entry_time DESC
+	
+	</select>
+	
+	
+	<select id="findVehPlatesByUserId" resultType="java.lang.String">
+	select DISTINCT `uv_plate` from wechat_user_vehicle where user_id = #{userId,jdbcType=VARCHAR} and uv_status = 1
+	</select>
+	
+	
+	<select id="findVehPlatesEndingTimeByUserId" resultType="java.util.Map">
+	SELECT uv_plate,DATE_FORMAT(sub_expire_time, '%Y-%m-%d %H:%i:%s') AS sub_expire_time,plate_color from (select a. `uv_plate`,b.sub_expire_time,a.plate_color from wechat_user_vehicle a  INNER JOIN operation_subscription  b ON a.uv_plate=b.veh_plate and a.plate_color=b.veh_plate_color  WHERE  a.user_id = #{userId,jdbcType=VARCHAR} and a.uv_status = 1 AND  b.sub_expire_time &gt;now() 
+UNION ALL 
+select a. `uv_plate`,b.sub_expire_time,a.plate_color from wechat_user_vehicle a  INNER JOIN road_operation_subscription  b ON a.uv_plate=b.veh_plate and  a.plate_color=b.veh_plate_colors WHERE  a.user_id = #{userId,jdbcType=VARCHAR} and a.uv_status = 1 AND  b.sub_expire_time &gt;now()) c  GROUP BY uv_plate ORDER by sub_expire_time ASC 
+	</select>
+
+	
+</mapper>

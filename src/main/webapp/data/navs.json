@@ -1,0 +1,104 @@
+[
+    {
+        "menuid":"1",
+        "title": "妇保院后台",
+        "href": "views/console.jsp",
+        "fontFamily": "ok-icon",
+        "icon": "&#xe629;",
+        "spread": true,
+        "isCheck": true
+    },  
+     
+    {
+        "menuid":"2",
+        "title": "记录管理",
+        "href": "",
+        "icon": "&#xe63c;",
+        "spread": false,
+        "hidden":true,
+        "children": [
+        
+            {
+                "title": "通行记录",
+                "href": "views/recordInfo/accessRecordInfo/accessRecordInfo.jsp",
+                "fontFamily": "layui-icon",
+                "icon": "&#xe617;",
+                "spread": false
+            }
+            
+        ]
+    },
+    
+    {
+        "menuid":"3",
+        "title": "信息管理",
+        "href": "",
+        "icon": "&#xe620;",
+        "spread": false,
+        "children": [
+        {
+                "title": "设备信息管理",
+                "href": "views/system/sysDevice/sysDeviceInfo.jsp",
+                "fontFamily": "layui-icon",
+                "icon": "&#xe617;",
+                "spread": false
+            },{
+                "title": "权限用户管理",
+                "href": "views/userInfo/userInfo.jsp",
+                "fontFamily": "layui-icon",
+                "icon": "&#xe617;",
+                "spread": false
+            },
+            {
+                "title": "系统用户管理",
+                "href": "views/system/sysUser/sysUserInfo.jsp",
+                "fontFamily": "layui-icon",
+                "icon": "&#xe617;",
+                "spread": false
+            },
+            {
+                "title": "设备参数管理",
+                "href": "views/system/sysOption/sysOptionInfo.jsp",
+                "fontFamily": "layui-icon",
+                "icon": "&#xe617;",
+                "spread": false
+            }
+        ]
+    },
+    {
+        "menuid":"4",
+        "title": "权限管理",
+        "href": "",
+        "icon": "&#xe620;",
+        "spread": false,
+        "children": [
+        {
+                "title": "设备分组",
+                "href": "views/OrgPower/orgBasDevice/orgBasDeviceInfo.jsp",
+                "fontFamily": "layui-icon",
+                "icon": "&#xe617;",
+                "spread": false
+            },
+            {
+                "title": "用户分组",
+                "href": "views/OrgPower/orgUserInfo/orgUserInfo.jsp",
+                "fontFamily": "layui-icon",
+                "icon": "&#xe617;",
+                "spread": false
+            },{
+                "title": "权限下发",
+                "href": "views/OrgPower/sendPower/powerInfo.jsp",
+                "fontFamily": "layui-icon",
+                "icon": "&#xe617;",
+                "spread": false
+            }
+        ]
+    }
+    
+    
+    
+    
+    
+    
+    
+]

@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.WeChatApi.dao.invoiceMapper">
+	<resultMap id="BaseResultMap" type="com.WeChatApi.bean.models.invoice">
+		<id column="id"  property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userOpenId" jdbcType="VARCHAR" />
+		<result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+		<result column="tax_number" property="taxNumber" jdbcType="VARCHAR"/>
+		<result column="address_mobile" property="addressMobile" jdbcType="VARCHAR"/>
+		<result column="bank_number" property="bankNumber" jdbcType="VARCHAR"/>
+		<result column="email" property="email" jdbcType="VARCHAR"/>
+		<!-- <result column="type" property="type" jdbcType="VARCHAR"/> -->
+	</resultMap>
+	
+	<resultMap id="ParkingPayMap" type="com.WeChatApi.bean.models.parkinglotsPay">
+		<id column="pay_id"  property="pay_id" jdbcType="INTEGER" />
+		<result column="out_trade_no" property="out_trade_no" jdbcType="VARCHAR" />
+		<result column="order_number" property="order_number" jdbcType="VARCHAR"/>
+		<result column="pkl_code" property="pkl_code" jdbcType="VARCHAR"/>
+		<result column="pkll_code" property="pkll_code" jdbcType="VARCHAR"/>
+		<result column="veh_plate" property="veh_plate" jdbcType="VARCHAR"/>
+		<result column="pay_number" property="pay_number" jdbcType="VARCHAR"/>
+		<result column="platform_txn_no" property="platform_txn_no" jdbcType="VARCHAR"/>
+		<result column="channel_txn_no" property="channel_txn_no" jdbcType="VARCHAR"/>
+		<result column="pay_receipts" property="pay_receipts" jdbcType="INTEGER"/>
+		<result column="pay_receipts_txt" property="pay_receipts_txt" jdbcType="DOUBLE"/>
+		<result column="free_reason" property="free_reason" jdbcType="INTEGER"/>
+		<result column="pay_method" property="pay_method" jdbcType="INTEGER"/>
+		<result column="pay_kind" property="pay_kind" jdbcType="VARCHAR"/>
+		<result column="pay_channel" property="pay_channel" jdbcType="VARCHAR"/>
+		<result column="pu_id" property="pu_id" jdbcType="INTEGER"/>
+		<result column="pay_time" property="pay_time" jdbcType="TIMESTAMP"/>
+		<result column="pay_remark" property="pay_remark" jdbcType="VARCHAR"/>
+		<result column="blue_card_return" property="blue_card_return" jdbcType="VARCHAR"/>
+		<result column="refund_amount" property="refund_amount" jdbcType="INTEGER"/>
+		<result column="invoice_pdf" property="invoice_pdf" jdbcType="VARCHAR"/>
+		<result column="invoice_datetime" property="invoice_datetime" jdbcType="TIMESTAMP"/>
+		<result column="invoice_status" property="invoice_status" jdbcType="INTEGER"/>
+		<result column="invoice_company_name" property="invoice_company_name" jdbcType="VARCHAR"/>
+		<result column="invoice_tax_number" property="invoice_tax_number" jdbcType="VARCHAR"/>
+		<result column="invoice_address_mobile	" property="invoice_address_mobile	" jdbcType="VARCHAR"/>
+		<result column="invoice_bank_number" property="invoice_bank_number" jdbcType="VARCHAR"/>
+		<result column="invoice_email" property="invoice_email" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+		id,user_id,company_name,tax_number,address_mobile,bank_number,email
+	</sql>
+	
+	
+	<sql id="invoiceConditions">
+		<if test="userOpenId != null and userOpenId != ''">
+			and user_id = #{userOpenId}
+		</if>
+		<if test="companyName != null and companyName != ''">
+			and company_name  like CONCAT ('%',#{companyName},'%')
+		</if>
+		<if test="taxNumber != null and taxNumber != ''">
+			and tax_number = #{taxNumber}
+		</if>
+		<if test="addressMobile != null and addressMobile != ''">
+			and address_mobile = #{addressMobile}
+		</if>
+		<if test="bankNumber != null and bankNumber != ''">
+			and bank_number = #{bankNumber}
+		</if>
+		<if test="email != null and email != ''">
+			and email = #{email}
+		</if>
+		 
+	</sql>
+	
+	
+	<sql id="parkingPayConditions">
+		<if test="out_trade_no != null and out_trade_no != ''">
+			and out_trade_no = #{out_trade_no}
+		</if>
+		<if test="veh_plate != null and veh_plate != ''">
+			and veh_plate = #{veh_plate}
+		</if>
+		<if test="veh_plates != null and veh_plates != ''">
+			
+         and veh_plate in
+		<foreach item="ids" index="index" collection="vehPlateLits" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+		</if>
+		<if test="out_trade_noList != null and out_trade_noList.size() >0">
+			
+         and out_trade_no in
+		<foreach item="no" index="index" collection="out_trade_noList" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		</if>
+		<if test="invoice_status != null">
+			and invoice_status = #{invoice_status} and pay_method !=34
+		</if> 
+	</sql>
+	
+	
+	<select id="findParkingPayInfo" resultMap="ParkingPayMap" parameterType="com.WeChatApi.bean.condition.parkinglotsPayCondition">
+	select
+		*
+		from parkinglots_pay
+		where 1 = 1
+		<include refid="parkingPayConditions" />
+		order by pay_time desc
+	</select>
+	
+	
+	
+	<select id="findParkingPayInfoByPayId" resultMap="ParkingPayMap" parameterType="java.lang.String">
+	select
+		*
+		from parkinglots_pay
+		where 1 = 1
+		and pay_id =#{payId}
+		order by pay_time desc
+	</select>
+	
+	
+	<select id="findParkingPayInfoCount" resultType="java.lang.Long"  parameterType="com.WeChatApi.bean.condition.parkinglotsPayCondition">
+		select
+			count(0)
+		from
+			parkinglots_pay
+		where
+			1 = 1
+		<include refid="parkingPayConditions" />
+	</select>
+	
+	<select id="getSumPriceByOutTradeNoList" resultType="java.util.HashMap"  parameterType="com.WeChatApi.bean.condition.parkinglotsPayCondition">
+		select
+			sum(pay_receipts_txt) as price,GROUP_CONCAT( DISTINCT veh_plate ) as vehPlates
+		from
+			parkinglots_pay
+		where
+			1 = 1
+		
+		 AND invoice_pdf IS  null	
+         and out_trade_no in
+		<foreach item="no" index="index" collection="list" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</select>
+	
+	
+	<update id="updateParkingPayInfo" parameterType="com.WeChatApi.bean.models.parkinglotsPay">
+		update parkinglots_pay
+		<set>
+			<if test="invoice_pdf != null">
+				invoice_pdf = #{invoice_pdf,jdbcType=VARCHAR},
+			</if>
+			<if test="invoice_status != null">
+				invoice_status = #{invoice_status},
+			</if>
+			<if test="invoice_company_name != null">
+				invoice_company_name = #{invoice_company_name,jdbcType=VARCHAR},
+			</if>
+			<if test="invoice_tax_number != null">
+				invoice_tax_number = #{invoice_tax_number,jdbcType=VARCHAR},
+			</if>
+			<if test="invoice_address_mobile != null">
+				invoice_address_mobile = #{invoice_address_mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="invoice_bank_number != null">
+				invoice_bank_number = #{invoice_bank_number,jdbcType=VARCHAR},
+			</if>
+			<if test="invoice_email != null">
+				invoice_email = #{invoice_email,jdbcType=VARCHAR},
+			</if>
+			invoice_datetime = now()
+		</set>
+		where 
+       1=1 
+       
+			
+         and out_trade_no in
+		<foreach item="no" index="index" collection="out_trade_noList" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</update>
+	
+	
+	
+	
+	
+	<select id="findInvoiceInfo" resultMap="BaseResultMap" parameterType="com.WeChatApi.bean.condition.invoiceCondition">
+	select
+		<include refid="Base_Column_List" />
+		from app_invoice_data
+		where 1 = 1
+		<include refid="invoiceConditions" />
+		order by create_time desc
+	</select>
+	
+	
+	<select id="findInvoiceInfoCount" resultType="java.lang.Long"  parameterType="com.WeChatApi.bean.condition.invoiceCondition">
+		select
+			count(0)
+		from
+			app_invoice_data
+		where
+			1 = 1
+		<include refid="invoiceConditions" />
+	</select>
+	
+
+	<insert id="addInvoiceInfo" parameterType="com.WeChatApi.bean.models.invoice">
+		insert into app_invoice_data
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userOpenId != null">
+				user_id,
+			</if>
+			<if test="companyName != null">
+				company_name,
+			</if>
+			<if test="taxNumber != null">
+				tax_number,
+			</if>
+			<if test="addressMobile != null">
+				address_mobile,
+			</if>
+			<if test="bankNumber != null">
+				bank_number,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<!-- <if test="type != null">
+				type,
+			</if> -->
+			create_time
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userOpenId != null">
+				#{userOpenId,jdbcType=VARCHAR},
+			</if>
+			<if test="companyName != null">
+				#{companyName,jdbcType=VARCHAR},
+			</if>
+			<if test="taxNumber != null">
+				#{taxNumber},
+			</if>
+			<if test="addressMobile != null">
+				#{addressMobile},
+			</if>
+			<if test="bankNumber != null">
+				#{bankNumber},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<!-- <if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if> -->
+			NOW()
+		</trim>
+	</insert>
+	
+	
+	<update id="updateInvoiceInfo" parameterType="com.WeChatApi.bean.models.invoice">
+		update app_invoice_data
+		<set>
+			<if test="companyName != null">
+				company_name = #{companyName,jdbcType=VARCHAR},
+			</if>
+			<if test="taxNumber != null">
+				tax_number = #{taxNumber},
+			</if>
+			<if test="addressMobile != null">
+				address_mobile = #{addressMobile},
+			</if>
+			<if test="bankNumber != null">
+				bank_number = #{bankNumber},
+			</if>
+			<if test="email != null">
+				email = #{email},
+			</if>
+			<!-- <if test="type != null">
+				type = #{type},
+			</if> -->
+			update_time = now()
+		</set>
+		where id = #{id}
+	</update>
+	
+	
+	<delete id="delInvoiceInfo" parameterType="com.WeChatApi.bean.models.invoice">
+	delete from app_invoice_data
+		where id = #{id}
+	</delete>
+	
+	
+	<select id="findInvoiceInfoByTaxNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select
+		<include refid="Base_Column_List" />
+		from app_invoice_data
+		where 1 = 1
+		and tax_number = #{taxNumber} and user_id = #{userOpenId}
+	</select>
+	
+	<select id="findParkingPayNoInvoiceInfoByOutTradeNo" resultMap="ParkingPayMap" parameterType="java.lang.String">
+	select
+		*
+		from parkinglots_pay
+		where 1 = 1
+		and out_trade_no = #{outTradeNo}
+		order by pay_time desc
+	</select>
+	
+	
+	
+	<select id="findCouponRecordListByCondition" resultType="java.util.Map" parameterType="com.WeChatApi.bean.condition.couponCondition" >
+	
+	SELECT a.r_id,a.r_order_id,a.r_user_id,a.r_veh_plate,a.r_coupon_id,a.r_coupon_code,a.r_park_code,a.r_send_status,date_format(a.r_time,'%Y-%m-%d %H:%i:%s') as r_time,b.c_title,b.c_amount,b.c_count,b.c_count_received,b.c_balances,b.c_point,date_format(b.c_start_time,'%Y-%m-%d %H:%i:%s') as c_start_time,date_format(b.c_end_time,'%Y-%m-%d %H:%i:%s') as c_end_time,b.c_status,date_format(a.r_expire_time,'%Y-%m-%d %H:%i:%s') as r_expire_time FROM `store_coupon_record` a LEFT JOIN  store_coupon b  ON a.r_coupon_id =b.c_id
+	
+	where  1=1
+	
+	<if test="r_user_id != null ">
+			and r_user_id = #{r_user_id}
+		</if>
+		<if test="r_veh_plate != null and r_veh_plate != ''">
+			and r_veh_plate = #{r_veh_plate}
+		</if>
+	order by a.r_time desc
+	<if test="pageNo != null and limit != null">
+			limit ${(pageNo -1 ) * limit}, ${limit}
+		</if>
+	</select>
+	
+	
+	<select id="findCouponRecordCountByCondition" resultType="java.lang.Long"  parameterType="com.WeChatApi.bean.condition.couponCondition">
+		select
+			count(0)
+		from
+			store_coupon_record
+		where
+			1 = 1
+		<if test="r_user_id != null ">
+			and r_user_id = #{r_user_id}
+		</if>
+		<if test="r_veh_plate != null and r_veh_plate != ''">
+			and r_veh_plate = #{r_veh_plate}
+		</if>
+	
+	</select>
+	
+	
+	
+	<update id="updateStoreChargeRecordBy">
+		update store_charge_record
+		set fpUrl = #{fpurl}
+			
+		
+		where 
+
+          r_id in
+		<foreach item="no" index="index" collection="recordList" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</update>
+	
+	
+	<select id="getStoreSumPriceByRecordId" resultType="java.lang.String">
+	SELECT  convert(SUM(r_balances)/100,decimal(15,2)) as sumPrice from store_charge_record 
+	where 
+
+          r_id in
+		<foreach item="no" index="index" collection="recordList" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+	</select>
+	
+	
+	
+	
+	<update id="updateParkingPayInfo_parking_charge_record" parameterType="com.WeChatApi.bean.models.parkinglotsPay">
+		update parkinglots_charge_record
+		<set>
+			<if test="invoice_pdf != null">
+				fpUrl = #{invoice_pdf,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="invoice_company_name != null">
+				companyName = #{invoice_company_name,jdbcType=VARCHAR},
+			</if>
+			<if test="invoice_tax_number != null">
+				taxNumber = #{invoice_tax_number,jdbcType=VARCHAR},
+			</if>
+			<if test="invoice_address_mobile != null">
+				addressMobile = #{invoice_address_mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="invoice_bank_number != null">
+				bankNumber = #{invoice_bank_number,jdbcType=VARCHAR},
+			</if>
+			<if test="invoice_email != null">
+				email = #{invoice_email,jdbcType=VARCHAR}
+			</if>
+			
+		</set>
+		where 
+       1=1 
+       
+			
+         and cr_id in
+		<foreach item="no" index="index" collection="out_trade_noList" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</update>
+	
+
+	
+</mapper>

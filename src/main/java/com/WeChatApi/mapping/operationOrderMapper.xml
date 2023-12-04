@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.WeChatApi.dao.operationOrderMapper">
+	<resultMap id="BaseResultMap" type="com.WeChatApi.bean.models.operationOrder">
+		<id column="order_id"  property="order_id" jdbcType="INTEGER" />
+		<result column="order_number" property="order_number" jdbcType="VARCHAR" />
+		<result column="pkl_code" property="pkl_code" jdbcType="VARCHAR"/>
+		<result column="pkll_code" property="pkll_code" jdbcType="VARCHAR"/>
+		<result column="pkls_code" property="pkls_code" jdbcType="VARCHAR"/>
+		<result column="order_entry_pklc_code" property="order_entry_pklc_code" jdbcType="VARCHAR"/>
+		<result column="order_entry_pklc_name" property="order_entry_pklc_name" jdbcType="VARCHAR"/>
+		<result column="order_entry_tried_time" property="order_entry_tried_time" jdbcType="TIMESTAMP"/>
+		<result column="order_entry_time" property="order_entry_time" jdbcType="TIMESTAMP"/>
+		<result column="order_entry_photo" property="order_entry_photo"  jdbcType="VARCHAR"/>
+		<result column="order_entry_photo_plate" property="order_entry_photo_plate" jdbcType="VARCHAR"/>
+		<result column="order_entry_etc" property="order_entry_etc" jdbcType="VARCHAR"/>
+		<result column="order_exit_pklc_code" property="order_exit_pklc_code" jdbcType="VARCHAR"/>
+		<result column="order_exit_pklc_name" property="order_exit_pklc_name" jdbcType="VARCHAR"/>
+		<result column="order_exit_tried_time" property="order_exit_tried_time" jdbcType="TIMESTAMP"/>
+		<result column="order_exit_time" property="order_exit_time" jdbcType="TIMESTAMP"/>
+		<result column="order_duration_desc" property="order_duration_desc" jdbcType="VARCHAR"/>
+		<result column="order_exit_photo" property="order_exit_photo" jdbcType="VARCHAR"/>
+		<result column="order_exit_photo_plate" property="order_exit_photo_plate" jdbcType="VARCHAR"/>
+		<result column="order_exit_etc" property="order_exit_etc" jdbcType="VARCHAR"/>
+		<result column="out_trade_no" property="out_trade_no" jdbcType="VARCHAR"/>
+		<result column="post_entry_time" property="post_entry_time" jdbcType="TIMESTAMP"/>
+		<result column="post_exit_time" property="post_exit_time" jdbcType="TIMESTAMP"/>
+		<result column="veh_type" property="veh_type" jdbcType="INTEGER"/>
+		<result column="veh_color" property="veh_color" jdbcType="INTEGER"/>
+		<result column="veh_plate" property="veh_plate" jdbcType="VARCHAR"/>
+		<result column="veh_auth_id" property="veh_auth_id" jdbcType="VARCHAR"/>
+		<result column="veh_plate_color" property="veh_plate_color" jdbcType="INTEGER"/>
+		<result column="veh_plate_color_txt" property="veh_plate_color_txt" jdbcType="VARCHAR"/>
+		<result column="veh_etc" property="veh_etc" jdbcType="INTEGER"/>
+		<result column="veh_uncpay" property="veh_uncpay" jdbcType="INTEGER"/>
+		<result column="car_type" property="car_type" jdbcType="VARCHAR"/>
+		<result column="pu_id" property="pu_id" jdbcType="INTEGER"/>
+		<result column="order_receivable" property="order_receivable" jdbcType="INTEGER"/>
+		<result column="order_discount" property="order_discount" jdbcType="INTEGER"/>
+		<result column="order_discount_type" property="order_discount_type" jdbcType="INTEGER"/>
+		<result column="order_receipts" property="order_receipts" jdbcType="INTEGER"/>
+		<result column="on_line_charge" property="on_line_charge" jdbcType="INTEGER"/>
+		<result column="off_line_charge" property="off_line_charge" jdbcType="INTEGER"/>
+		<result column="order_free_reason" property="order_free_reason" jdbcType="INTEGER"/>
+		<result column="order_pay_method" property="order_pay_method" jdbcType="INTEGER"/>
+		<result column="order_pay_time" property="order_pay_time" jdbcType="TIMESTAMP"/>
+		<result column="order_arrears" property="order_arrears" jdbcType="INTEGER"/>
+		<result column="order_inner_pay" property="order_inner_pay" jdbcType="INTEGER"/>
+		<result column="order_cancel_reason" property="order_cancel_reason" jdbcType="VARCHAR"/>
+		<result column="order_cancel_pu_id" property="order_cancel_pu_id" jdbcType="INTEGER"/>
+		<result column="order_cancel_time" property="order_cancel_time" jdbcType="TIMESTAMP"/>
+		<result column="order_cancel_arrears_reason" property="order_cancel_arrears_reason" jdbcType="VARCHAR"/>
+		<result column="order_cancel_arrears_pu_id" property="order_cancel_arrears_pu_id" jdbcType="INTEGER"/>
+		<result column="order_cancel_arrears_time" property="order_cancel_arrears_time" jdbcType="TIMESTAMP"/>
+		<result column="visit_reason" property="visit_reason" jdbcType="VARCHAR"/>
+		<result column="open_gate_mode" property="open_gate_mode" jdbcType="VARCHAR"/>
+		<result column="match_mode" property="match_mode" jdbcType="VARCHAR"/>
+		<result column="id_card" property="id_card" jdbcType="VARCHAR"/>
+		<result column="confidence" property="confidence" jdbcType="INTEGER"/>
+		<result column="barrior_open" property="barrior_open" jdbcType="VARCHAR"/>
+		<result column="cost_time" property="cost_time" jdbcType="VARCHAR"/>
+		<result column="user_id_card" property="user_id_card" jdbcType="VARCHAR"/>
+		<result column="user_name" property="user_name" jdbcType="VARCHAR"/>
+		<result column="user_phone" property="user_phone" jdbcType="VARCHAR"/>
+		<result column="user_address" property="user_address" jdbcType="VARCHAR"/>
+		<result column="area_id" property="area_id" jdbcType="INTEGER"/>
+		<result column="area_name" property="area_name" jdbcType="VARCHAR"/>
+		<result column="place_number" property="place_number" jdbcType="VARCHAR"/>
+		<result column="memo" property="memo" jdbcType="VARCHAR"/>
+		<result column="operator_id" property="operator_id" jdbcType="INTEGER"/>
+		<result column="operator_name" property="operator_name" jdbcType="VARCHAR"/>
+		<result column="invoice_no" property="invoice_no" jdbcType="VARCHAR"/>
+		<result column="cost_time_exit" property="cost_time_exit" jdbcType="VARCHAR"/>
+		<result column="veh_plate_exit" property="veh_plate_exit" jdbcType="VARCHAR"/>
+		<result column="veh_plate_color_txt_exit" property="veh_plate_color_txt_exit" jdbcType="VARCHAR"/>
+		<result column="confidence_exit" property="confidence_exit" jdbcType="INTEGER"/>
+		<result column="car_type_exit" property="car_type_exit" jdbcType="VARCHAR"/>
+		<result column="user_id_card_exit" property="user_id_card_exit" jdbcType="VARCHAR"/>
+		<result column="open_gate_mode_exit" property="open_gate_mode_exit" jdbcType="VARCHAR"/>
+		<result column="match_mode_exit" property="match_mode_exit" jdbcType="VARCHAR"/>
+		<result column="area_id_exit" property="area_id_exit" jdbcType="INTEGER"/>
+		<result column="area_name_exit" property="area_name_exit" jdbcType="VARCHAR"/>
+		<result column="place_number_exit" property="place_number_exit" jdbcType="VARCHAR"/>
+		<result column="memo_exit" property="memo_exit" jdbcType="VARCHAR"/>
+		<result column="order_remark" property="order_remark" jdbcType="VARCHAR"/>
+		<result column="order_status" property="order_status" jdbcType="INTEGER"/>
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_id, order_number,veh_auth_id, pkl_code, pkll_code, pkls_code, order_entry_pklc_code, order_entry_pklc_name, order_entry_tried_time, order_entry_time, order_entry_photo, order_entry_photo_plate, order_entry_etc, order_exit_pklc_code, order_exit_pklc_name, order_exit_tried_time, order_exit_time, order_duration_desc, order_exit_photo, order_exit_photo_plate, order_exit_etc, out_trade_no, post_entry_time, post_exit_time, veh_type, veh_color, veh_plate, veh_plate_color, veh_plate_color_txt, veh_etc, veh_uncpay, car_type, pu_id, order_receivable, order_discount, order_discount_type, order_receipts, on_line_charge, off_line_charge, order_free_reason, order_pay_method, order_pay_time, order_arrears, order_inner_pay, order_cancel_reason, order_cancel_pu_id, order_cancel_time, order_cancel_arrears_reason, order_cancel_arrears_pu_id, order_cancel_arrears_time, visit_reason, open_gate_mode, match_mode, id_card, confidence, barrior_open, cost_time, user_id_card, user_name, user_phone, user_address, area_id, area_name, place_number, memo, operator_id, operator_name, invoice_no, cost_time_exit, veh_plate_exit, veh_plate_color_txt_exit, confidence_exit, car_type_exit, user_id_card_exit, open_gate_mode_exit, match_mode_exit, area_id_exit, area_name_exit, place_number_exit, memo_exit, order_remark, order_status
+	</sql>
+	
+	<!-- 查询sysUser的条件参数 -->
+	<sql id="operationOrderConditions">
+		<if test="order_status != null">
+			and order_status = #{order_status}
+		</if>
+		<if test="veh_plate_color_txt != null and veh_plate_color_txt != ''">
+			
+         and (
+		<foreach item="ids" index="index" collection="vehPlateMapLits" 
+			separator="or" >
+			 veh_plate = #{ids.plate} and veh_plate_color = #{ids.colour}
+		</foreach>
+		)
+		</if>
+		<if test="veh_plates != null and veh_plates != '' and veh_plate_color_txt == null">
+			
+         and veh_plate in
+		<foreach item="ids" index="index" collection="vehPlateLits" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+		</if>
+		<if test="veh_plate != null and veh_plate != ''">
+			and veh_plate = #{veh_plate}
+		</if>
+		<if test="veh_auth_id != null and veh_auth_id != ''">
+			and veh_auth_id = #{veh_auth_id}
+		</if>
+		
+		<if test="pkl_code != null and pkl_code != ''">
+			and pkl_code = #{pkl_code}
+		</if>
+		<if test="order_number != null and order_number != ''">
+			and order_number = #{order_number}
+		</if>
+		
+		<if test="order_id != null ">
+			and order_id = #{order_id}
+		</if>
+		
+		<if test="veh_plate_color != null ">
+			and veh_plate_color = #{veh_plate_color}
+		</if>
+		 
+	</sql>
+	
+	
+	<select id="findOrderInfo" resultMap="BaseResultMap" parameterType="com.WeChatApi.bean.condition.operationOrderCondition">
+	select
+		<include refid="Base_Column_List" />
+		from operation_order
+		where 1 = 1
+		and order_is_show = 1
+		<include refid="operationOrderConditions" />
+		order by order_entry_time desc
+		<if test="pageNo != null and limit != null">
+			limit ${(pageNo -1 ) * limit}, ${limit}
+		</if>
+	</select>
+	
+	
+	<select id="findOrderInfoCount" resultType="java.lang.Long"  parameterType="com.WeChatApi.bean.condition.operationOrderCondition">
+		select
+			count(0)
+		from
+			operation_order
+		where
+			1 = 1
+			and order_is_show = 1
+		<include refid="operationOrderConditions" />
+	</select>
+	
+	
+	
+	<select id="findOrderInfoLimitOne" resultMap="BaseResultMap" parameterType="com.WeChatApi.bean.condition.operationOrderCondition">
+	select
+		<include refid="Base_Column_List" />
+		from operation_order
+		where 1 = 1
+		<include refid="operationOrderConditions" />
+		order by order_id desc LIMIT 1
+	</select>
+	
+	
+	
+	<select id="findOrderInfoLimitOne_" resultMap="BaseResultMap" parameterType="com.WeChatApi.bean.condition.operationOrderCondition">
+	select
+		<include refid="Base_Column_List" />
+		from operation_order
+		where 1 = 1
+		<include refid="operationOrderConditions" />
+		order by order_id desc LIMIT 1
+	</select>
+	
+	
+	<select id="findOderInfoByOutTradeNo"  resultMap="BaseResultMap" parameterType="java.lang.String">
+	select
+		<include refid="Base_Column_List" />
+		from operation_order
+		where 1 = 1
+		and pkl_code = #{pklCode} and order_number = #{orderNum}
+	
+	</select>
+	
+	<insert id="insertOperationPay" parameterType="java.lang.String">
+	
+	   insert into parkinglots_pay (out_trade_no, order_number, pkl_code, pkll_code,veh_plate,pay_number,platform_txn_no,pay_receipts,pay_receipts_txt,pay_method,pay_kind,pay_channel,pay_remark,in_cash,out_cash,pay_time
+		
+		)
+		values (#{outTradeNo,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR},#{pakCode,jdbcType=VARCHAR},"",#{vehPlate,jdbcType=VARCHAR},#{orderNoAtm,jdbcType=VARCHAR},#{mch_billno,jdbcType=VARCHAR},#{totalMent,jdbcType=VARCHAR},#{redValueDouble,jdbcType=VARCHAR},#{payMethod,jdbcType=VARCHAR},#{payKind,jdbcType=VARCHAR},
+		#{payChannel,jdbcType=VARCHAR},#{payRemark,jdbcType=VARCHAR},#{inCash,jdbcType=VARCHAR},#{outCash,jdbcType=VARCHAR},
+		NOW()
+		)
+	
+	</insert>
+	
+	<select id="findRedPackCountByOrderNumber" resultType="java.lang.Long"  parameterType="java.lang.String">
+		select
+			count(0)
+		from
+			red_pack_record
+		where
+			orderNumber = #{orderNumber,jdbcType=VARCHAR} and resultType = 1
+	</select>
+	
+	
+	<select id="findRoadOperationOrderAmount" resultType="java.lang.String">
+	
+	select sum(order_arrears) from road_operation_order where order_id in 
+	<foreach item="list" index="index" collection="list" open="("
+			separator="," close=")">
+			#{list}
+		</foreach>
+	
+	</select>
+	
+	<select id="findRedPackByOrderNumber" resultType="java.lang.String"  parameterType="java.lang.String"> 
+
+			
+			select
+			wechatJson
+		from
+			red_pack_record rpr LEFT JOIN (SELECT oo.* FROM operation_order oo LEFT JOIN  parkinglots_pay  pp  on pp.pkl_code=oo.pkl_code AND pp.order_number = oo.order_number WHERE oo.order_id = #{orderNum,jdbcType=VARCHAR}) temporder ON 1=1
+		where
+			 resultType = 1 AND rpr.orderNumber = temporder.order_id
+	</select>
+	
+	
+	<select id="findRedPackByOrderNumber_web" resultType="java.lang.String"  parameterType="java.lang.String"> 
+
+			
+			select
+			wechatJson
+		from
+			red_pack_record rpr LEFT JOIN (SELECT oo.* FROM operation_order oo LEFT JOIN  parkinglots_pay  pp  on pp.pkl_code=oo.pkl_code AND pp.order_number = oo.order_number WHERE pp.pay_id = #{orderNum,jdbcType=VARCHAR}) temporder ON 1=1
+		where
+			 resultType = 1 AND rpr.orderNumber = temporder.order_id
+	</select>
+	
+	<update id="updateOrderInfoByOutTradeNo" parameterType="java.lang.String">
+		update operation_order
+		set order_receipts = #{couponFee},order_pay_method = #{payMethod},order_pay_time = now()
+		where 
+         order_number= #{outTradeNo}
+	</update>
+	
+	<!-- <update id="updateOrderInfoByOutTradeNo" parameterType="java.lang.String">
+		update operation_order
+		set order_receipts = #{couponFee},order_pay_method = #{payMethod},order_pay_time = now()
+		where 
+         order_number= #{outTradeNo}
+	</update> -->
+	
+	
+	<update id="updateRoadOrderInfoByOutTradeNo" parameterType="java.lang.String">
+		update road_operation_order
+		set order_receipts = #{couponFee},order_arrears = 0,order_pay_method = #{payMethod},order_pay_time = now()
+		where 
+         order_number= #{outTradeNo}
+	</update>
+	
+	
+	<select id="findRoadOrderInfoByOrderId" parameterType="java.lang.String" resultType="java.util.HashMap">
+	select * from road_operation_order where  order_id =#{orderId}
+	</select>
+	
+	
+		<update id="updateOperationPayInfoByOutTradeNo" parameterType="java.lang.String">
+		update parkinglots_pay
+		set pay_number = #{mchBillno},platform_txn_no = #{mchBillno},out_cash = #{redValueDouble}
+		where 
+         out_trade_no= #{outTradeNo}
+	</update>
+	
+	
+	<select id="deleteBatch" resultType="java.lang.String">
+	
+	update operation_order  set order_is_show = 0  where order_arrears = 0 and order_id in 
+	<foreach item="list" index="index" collection="list" open="("
+			separator="," close=")">
+			#{list}
+		</foreach>
+		and order_exit_time IS NOT null 
+	
+	</select>
+	
+	<select id="findOrderPayNumberList" resultType="java.lang.String" parameterType="com.WeChatApi.bean.condition.operationOrderCondition">
+	select
+		out_trade_no 
+		from operation_order
+		where 1 = 1
+		<include refid="operationOrderConditions" /> 
+		and order_receipts != 0
+		order by order_entry_time desc
+		
+	</select>
+	
+	
+	<insert id="insertSelectRoadPayBy" parameterType="java.lang.String">
+	
+	   
+	
+	insert into road_parkinglots_pay (order_number, pkl_code, pkll_code,veh_plate,pay_number,platform_txn_no,pay_receipts,pay_method,pay_remark,pay_time
+		
+		)
+		values (#{order_number,jdbcType=VARCHAR}, #{pkl_code,jdbcType=VARCHAR},#{pkll_code,jdbcType=VARCHAR},#{veh_plate,jdbcType=VARCHAR},#{order_number,jdbcType=VARCHAR},#{order_number,jdbcType=VARCHAR},#{order_receivable,jdbcType=VARCHAR},"35","单笔收入",
+		NOW()
+		)
+	</insert>
+	
+
+	
+</mapper>

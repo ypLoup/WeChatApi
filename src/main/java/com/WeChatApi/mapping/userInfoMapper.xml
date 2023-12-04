@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.WeChatApi.dao.userInfoMapper">
+	<resultMap id="BaseResultMap" type="com.WeChatApi.bean.models.userInfo">
+		<id column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="user_mobile" property="userMobile" jdbcType="VARCHAR" />
+		<result column="user_idcard" property="userIdCard" jdbcType="VARCHAR" />
+		<result column="user_insurance" property="userInsurance" jdbcType="VARCHAR" />
+		<result column="face_token" property="faceToken" jdbcType="VARCHAR" />
+		<result column="user_face_img" property="userFaceImg" jdbcType="VARCHAR" />
+		<result column="user_group" property="userGroup" jdbcType="INTEGER" />
+		<result column="user_type" property="userType" jdbcType="INTEGER" />
+		<result column="api_key" property="apiKey" jdbcType="VARCHAR" />
+		<result column="user_register_status" property="userRegisterStatus" jdbcType="INTEGER" />
+		<result column="user_status" property="userStatus" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, user_name, user_mobile, user_idcard, user_insurance, face_token,user_face_img,user_group,user_type,api_key,user_register_status,user_status,create_time,update_time
+	</sql>
+	
+	<!-- 查询sysUser的条件参数 -->
+	<sql id="userInfoConditions">
+		<if test="userName != null and userName != ''">
+			and user_name = #{userName}
+		</if>
+		<if test="userMobile != null and userMobile != ''">
+			and user_mobile = #{userMobile}
+		</if>
+		<if test="userStatus != null">
+			and user_status = #{userStatus}
+		</if>
+		<if test="userIdCard != null and userIdCard != ''">
+			and user_idcard = #{userIdCard}
+		</if>
+	</sql>
+	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from user_info
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</delete>
+	
+	
+	<delete id="deleteBatch">
+		delete from user_info
+		where user_id in
+		<foreach item="ids" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	
+	<insert id="addUserInfo" parameterType="com.WeChatApi.bean.models.userInfo">
+		insert into user_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="userMobile != null">
+				user_mobile,
+			</if>
+			<if test="userIdCard != null">
+				user_idcard,
+			</if>
+			<if test="userInsurance != null">
+				user_insurance,
+			</if>
+			<if test="faceToken != null">
+				face_token,
+			</if>
+			<if test="userFaceImg != null">
+				user_face_img,
+			</if>
+			<if test="userGroup != null">
+				user_group,
+			</if>
+			<if test="userType != null">
+				user_type,
+			</if>
+			<if test="apiKey != null">
+				api_key,
+			</if>
+			<if test="userRegisterStatus != null">
+				user_register_status,
+			</if>
+			<if test="userStatus != null">
+				user_status,
+			</if>
+				create_time,
+			<if test="updateTime != null">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userMobile != null">
+				#{userMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="userIdCard != null">
+				#{userIdCard,jdbcType=VARCHAR},
+			</if>
+			<if test="userInsurance != null">
+				#{userInsurance,jdbcType=VARCHAR},
+			</if>
+			<if test="faceToken != null">
+				#{faceToken,jdbcType=VARCHAR},
+			</if>
+			<if test="userFaceImg != null">
+				#{userFaceImg,jdbcType=VARCHAR},
+			</if>
+			<if test="userGroup != null">
+				#{userGroup,jdbcType=VARCHAR},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=VARCHAR},
+			</if>
+			<if test="apiKey != null">
+				#{apiKey,jdbcType=VARCHAR},
+			</if>
+			<if test="userRegisterStatus != null">
+				#{userRegisterStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				#{userStatus,jdbcType=VARCHAR},
+			</if>
+			now(),
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<update id="updateUserInfo" parameterType="com.WeChatApi.bean.models.userInfo">
+		update user_info
+		<set>
+			<if test="userName != null">
+				user_Name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userMobile != null">
+				user_mobile = #{userMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="userIdCard != null">
+				user_idcard = #{userIdCard,jdbcType=VARCHAR},
+			</if>
+			<if test="userInsurance != null">
+				user_insurance = #{userInsurance,jdbcType=VARCHAR},
+			</if>
+			<if test="faceToken != null">
+				face_token = #{faceToken,jdbcType=VARCHAR},
+			</if>
+			<if test="userFaceImg != null">
+				user_face_img = #{userFaceImg,jdbcType=VARCHAR},
+			</if>
+			<if test="userGroup != null">
+				user_group = #{userGroup,jdbcType=VARCHAR},
+			</if>
+			<if test="userType != null">
+				user_type = #{userType,jdbcType=VARCHAR},
+			</if>
+			<if test="apiKey != null">
+				api_key = #{apiKey,jdbcType=VARCHAR},
+			</if>
+			<if test="userRegisterStatus != null">
+				user_register_status = #{userRegisterStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				user_status = #{userStatus,jdbcType=VARCHAR},
+			</if>
+				update_time = now(),
+		</set>
+		where user_id = #{userId,jdbcType=SMALLINT}
+	</update>
+	
+
+	<select id="findUserInfoByConditions" resultMap="BaseResultMap"
+		parameterType="com.WeChatApi.bean.condition.userInfoCondition">
+		select
+		<include refid="Base_Column_List" />
+		from user_info
+		where 1 = 1
+		<include refid="userInfoConditions" />
+		order by create_time desc
+		<if test="pageNo != null and limit != null">
+			limit ${(pageNo -1 ) * limit}, ${limit}
+		</if>
+	</select>
+	
+	<select id="findUserInfoCountByConditions" resultType="java.lang.Long" parameterType="com.WeChatApi.bean.condition.userInfoCondition" >
+		select
+			count(0)
+		from
+			user_info
+		where
+			1 = 1
+		<include refid="userInfoConditions" />
+	</select>
+	
+	<select id="findUserInfoAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_info
+		
+		order by create_time desc
+	</select>
+	
+	<update id="changeStatusBatch">
+	update user_info set user_status = #{status},update_time=now()
+	where user_id in
+		<foreach item="ids" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+	
+	
+	<update id="updateUserSendInfoStatus">
+	update user_info_to_send set send_status = #{sendStatus},update_time=now()
+	where user_id in
+		<foreach item="ids" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+	
+</mapper>

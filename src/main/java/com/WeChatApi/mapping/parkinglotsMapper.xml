@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.WeChatApi.dao.parkinglotsMapper">
+	<resultMap id="BaseResultMap" type="com.WeChatApi.bean.models.parkinglots">
+		<id column="pkl_id" property="pklId" jdbcType="INTEGER" />
+		<result column="pkl_code" property="pklCode" jdbcType="VARCHAR" />
+		<result column="pkl_number" property="pklNumber" jdbcType="VARCHAR"/>
+		<result column="pkl_name" property="pklName" jdbcType="VARCHAR" />
+		<result column="pkl_addresss" property="pklAddresss" jdbcType="VARCHAR" />
+		<result column="mch_appid" property="mchAppid" jdbcType="VARCHAR" />
+		<result column="region_code" property="regionCode" jdbcType="VARCHAR" />
+		<result column="jxdist_id" property="jxdistId" jdbcType="INTEGER" />
+		<result column="jxtown_id" property="jxtownId" jdbcType="INTEGER" />
+		<result column="pkl_telephone" property="pklTelephone" jdbcType="VARCHAR" />
+		<result column="pkl_lots_count" property="pklLotsCount" jdbcType="INTEGER" />
+		<result column="pkl_lots_count_ssv" property="pklLotsCountSsv" jdbcType="INTEGER" />
+		<result column="pkl_lots_count_lsv" property="pklLotsCountLsv" jdbcType="INTEGER" />
+		<result column="pkl_lots_count_bev" property="pklLotsCountBev" jdbcType="INTEGER" />
+		<result column="pkl_lots_count_other" property="pklLotsCountOther" jdbcType="INTEGER" />
+		<result column="pkl_lots_left" property="pklLotsLeft" jdbcType="INTEGER" />
+		<result column="pkl_lots_left_ssv" property="pklLotsLeftSsv" jdbcType="INTEGER" />
+		<result column="pkl_lots_left_lsv" property="pklLotsLeftLsv" jdbcType="INTEGER" />
+		<result column="pkl_lots_left_bev" property="pklLotsLeftBev" jdbcType="INTEGER" />
+		<result column="pkl_lots_left_other" property="pklLotsLeftOther" jdbcType="INTEGER" />
+		<result column="pkl_lots_book" property="pklLotsBook" jdbcType="INTEGER" />
+		<result column="pkl_lots_book_in" property="pklLotsBookIn" jdbcType="INTEGER" />
+		<result column="pkl_type" property="pklType" jdbcType="INTEGER" />
+		<result column="pkl_type_alipay" property="pklTypeAlipay" jdbcType="INTEGER" />
+		<result column="pkl_pay_unc" property="pklPayUnc" jdbcType="INTEGER" />
+		<result column="pkl_pay_etc" property="pklPayEtc" jdbcType="INTEGER" />
+		<result column="pkl_pay_card" property="pklPayCard" jdbcType="INTEGER" />
+		<result column="pkl_unmanned" property="pklUnmanned" jdbcType="INTEGER" />
+		<result column="pkl_co_gps_lng" property="pklCoGpsLng" jdbcType="DOUBLE" />
+		<result column="pkl_co_gps_lat" property="pklCoGpsLat" jdbcType="DOUBLE" />
+		<result column="pkl_co_amap_lng" property="pklCoAmapLng" jdbcType="DOUBLE" />
+		<result column="pkl_co_amap_lat" property="pklCoAmapLat" jdbcType="DOUBLE" />
+		<result column="pkl_co_bmap_lng" property="pklCoBmapLng" jdbcType="DOUBLE" />
+		<result column="pkl_co_bmap_lat" property="pklCoBmapLat" jdbcType="DOUBLE" />
+		<result column="pkl_remark" property="pklRemark" jdbcType="VARCHAR" />
+		<result column="pkl_rule" property="pklRule" jdbcType="INTEGER" />
+		<result column="pkl_tel" property="pklTel" jdbcType="VARCHAR" />
+		<result column="pkl_setup_status" property="pklSetupStatus" jdbcType="INTEGER" />
+		<result column="pkl_status" property="pklStatus" jdbcType="INTEGER" />
+		<result column="pkl_rule_detail" property="pklRuleDetail" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		pkl_id,pkl_code,pkl_number,pkl_name,pkl_addresss,mch_appid,region_code,jxdist_id,jxtown_id,pkl_telephone,pkl_lots_count,pkl_lots_count_ssv,pkl_lots_count_lsv,pkl_lots_count_bev,pkl_lots_count_other,pkl_lots_left,pkl_lots_left_ssv,pkl_lots_left_lsv,pkl_lots_left_bev,pkl_lots_left_other,pkl_lots_book,pkl_lots_book_in,pkl_type,pkl_type_alipay,pkl_pay_unc,pkl_pay_etc,pkl_pay_card,pkl_unmanned,pkl_co_gps_lng,pkl_co_gps_lat,pkl_co_amap_lng,pkl_co_amap_lat,pkl_co_bmap_lng,pkl_co_bmap_lat,pkl_remark,pkl_rule,pkl_tel,pkl_setup_status,pkl_status,pkl_rule_detail
+	</sql>
+	
+	<!-- 查询sysUser的条件参数 -->
+	<sql id="wechatUserConditions">
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="userMobile != null and userMobile != ''">
+			and user_mobile = #{userMobile}
+		</if>
+		<if test="userStatus != null">
+			and user_status = #{userStatus}
+		</if>
+		<if test="userOpenId != null and userOpenId != ''">
+			and user_openid = #{userOpenId}
+		</if>
+	</sql>
+	
+	
+	<select id="findParkinglotInfo" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from parkinglots
+		where 1 = 1
+		and pkl_status = 1 and pkl_code != "J202216589956"
+	</select>
+	
+	
+	<select id="findParkinglotInfoCount" resultType="java.lang.Long"  >
+		select
+			count(0)
+		from
+			parkinglots
+		where
+			1 = 1
+		and pkl_status = 1 and pkl_code != "J202216589956"
+	</select>
+	
+	<select id="findPayCodeInfoByPklCode" parameterType="java.lang.String" resultType="com.WeChatApi.bean.dto.roadPklPayCode">
+	select * from road_pkl_pay_code where road_pkl_code =  #{pklCode} and pay_code_status=1
+	</select>
+	
+	
+	<select id="findParkingLotsFreeCountByParkingCode" resultType="java.lang.Long"  parameterType="java.lang.String">
+		select
+			count(0)
+		from
+			parkinglots
+		where
+			1 = 1
+		and pkl_code = #{pklCode} and pkl_free_flag = 1
+	</select>
+	
+	
+	<select id="findParkinglotsCharge" resultType="java.util.Map">
+	
+	SELECT * FROM parkinglots_charge where c_status = 1
+	 </select>
+	 
+	 
+	 
+	 <select id="findParkinglotsChargeByChargeId" resultType="java.util.Map">
+	
+	SELECT c_id,c_tilte,c_parking_code,CAST(c_balances as CHAR) c_balances, CAST(c_point as CHAR) c_point,CAST(c_balances2 as CHAR) c_balances2, CAST(c_point2 as CHAR) c_point2,CAST(c_balances3 as CHAR) c_balances3, CAST(c_point3 as CHAR) c_point3,c_start_time,c_end_time,c_pu_id,c_create_time,c_status FROM parkinglots_charge where c_status = 1 and c_id = #{chargeId}
+	 </select>
+	 
+	 
+	 
+	 <insert id="insertParkinglotsChargeRecord" parameterType="com.WeChatApi.bean.dto.parkinglotsChargeRecordDto" useGeneratedKeys="true"
+        keyProperty="cr_id">
+	insert into parkinglots_charge_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cr_charge_id != null">
+				cr_charge_id,
+			</if>
+			<if test="cr_c_balances != null">
+				cr_c_balances,
+			</if>
+			<if test="cr_c_point != null">
+				cr_c_point,
+			</if>
+			<if test="cr_user_id != null">
+				cr_user_id,
+			</if>
+			<if test="cr_status != null">
+				cr_status,
+			</if>
+			<if test="charge_type != null">
+				charge_type,
+			</if>
+			cr_create_time
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cr_charge_id != null">
+				#{cr_charge_id},
+			</if>
+			<if test="cr_c_balances != null">
+				#{cr_c_balances},
+			</if>
+			<if test="cr_c_point != null">
+				#{cr_c_point},
+			</if>
+			<if test="cr_user_id != null">
+				#{cr_user_id},
+			</if>
+			<if test="cr_status != null">
+				#{cr_status},
+			</if>
+			<if test="charge_type != null">
+				#{charge_type},
+			</if>
+			now()
+		</trim>
+	</insert>
+	
+	
+	
+		 <select id="findParkingChargeRecordByCrId" resultType="java.util.Map">
+	
+	SELECT * FROM parkinglots_charge_record where cr_id = #{cr_id}
+	 </select>
+	 
+	 
+	 
+	 <select id="findParkinglotsChargeRecord" resultType="java.util.Map">
+	
+	SELECT * FROM parkinglots_charge_record where cr_status = 1 
+	
+	and  cr_user_id = #{userId}
+	
+	<if test="fpUrlStatus == '1'.toString()">
+			and fpUrl is not null
+ 
+	</if>
+	
+	<if test="fpUrlStatus == '0'.toString()">
+			and fpUrl is  null or  fpUrl = ""
+ 
+	</if>
+	
+	 </select>
+	 
+	 
+	 <select id="getSumPriceByOutTradeNoList" resultType="java.util.HashMap"  >
+		select
+			convert(SUM(cr_c_balances)/100,decimal(15,2)) as price,GROUP_CONCAT( DISTINCT cr_id ) as vehPlates
+		from
+			parkinglots_charge_record
+		where
+			1 = 1
+		
+		 AND fpUrl IS  null	
+         and cr_id in
+		<foreach item="no" index="index" collection="list" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</select>
+	
+	
+	
+	<update id="updateParkinglotsChargeRecordStatus">
+	update parkinglots_charge_record
+		
+			SET	cr_status = 1
+		
+		where cr_id = #{cr_id}
+	
+	</update>
+	
+	
+	<insert id="insertParkinglotsChargeLogInfo" 
+        >
+	
+		insert into parkinglots_charge_log (l_type, l_user_id, l_order_id,
+		l_balances,l_point,l_left_balances,l_left_point,l_text
+		)
+		values (#{i_type}, #{userId},#{cr_id},#{i_balances},#{i_point},
+		
+		#{newBalances},#{newPoint},#{i_text}
+		)
+	</insert>
+	
+	
+	<select id="getParkinglotsMchSeqByPklCode" resultType="java.lang.String"  parameterType="java.lang.String">
+		select
+			mchSeq
+		from
+			parkinglots
+		where
+			pkl_status = 1 and mchSeq_status = 1 
+		and pkl_code = #{pklCode} 
+	</select>
+	
+	 <select id="findParkinglotsInfoList" resultType="java.util.Map">
+	SELECT * FROM `parkinglots` where 1 = 1
+		and pkl_status = 1 and pkl_code = #{pklCode}
+	
+	 </select>
+	
+	
+	
+
+	
+</mapper>

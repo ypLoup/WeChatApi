@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.WeChatApi.dao.monthlyCarMapper">
+	
+	
+	
+	<!-- 查询sysUser的条件参数 -->
+	<sql id="userInfoConditions">
+		<if test="userName != null and userName != ''">
+			and user_name = #{userName}
+		</if>
+		<if test="userMobile != null and userMobile != ''">
+			and user_mobile = #{userMobile}
+		</if>
+		<if test="userStatus != null">
+			and user_status = #{userStatus}
+		</if>
+		<if test="userIdCard != null and userIdCard != ''">
+			and user_idcard = #{userIdCard}
+		</if>
+	</sql>
+	
+	
+	<select id="findSubscriptionByPlate" resultType="java.lang.String"   parameterType="java.lang.String">
+	
+	SELECT pkl_code FROM operation_subscription WHERE  veh_plate = #{plate}
+	
+	</select>
+	
+	<select id="findMonthlyCarByPlate" resultType="java.util.Map"   parameterType="java.lang.String">
+	
+	SELECT 	`sub_id`,`pkl_code`,`veh_id`,`veh_plate`,`veh_plate_color`,`veh_type`,`veh_color`,`user_id`,`user_fullname`,`user_mobile`,`sub_iswhite`,`pu_id`,`sub_create_datetime`,`sub_update_datetime`,DATE_FORMAT(sub_effective_time, '%Y-%m-%d %H:%i:%s') as sub_effective_time,DATE_FORMAT(sub_expire_time, '%Y-%m-%d %H:%i:%s') as sub_expire_time,`sub_previous_plate`,`sub_previous_modify_time`,`sub_remark`,`sub_status`,sub_self_help FROM operation_subscription WHERE  veh_plate = #{plate} and pkl_code = #{pklCode} and sub_status =1
+	
+	</select>
+	
+	
+	<select id="findSubscriptionTypeByPlkCodeList" resultType="java.util.Map" >
+	
+	SELECT * FROM operation_subscription_type WHERE st_status=1 and  st_pkl_code in 
+	
+	<foreach item="list" index="index" collection="plkCodeList" open="("
+			separator="," close=")">
+			#{list}
+		</foreach>
+	
+	</select>
+	
+	
+	
+	
+	
+	<delete id="deleteBatch">
+		delete from user_info
+		where user_id in
+		<foreach item="ids" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	
+	<insert id="insertSubscriptionRecord" parameterType="com.WeChatApi.bean.dto.operationSubscriptionRecordDto" useGeneratedKeys="true"
+        keyProperty="r_id">
+	insert into operation_subscription_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkl_code != null">
+				pkl_code,
+			</if>
+			<if test="r_sub_id != null">
+				r_sub_id,
+			</if>
+			<if test="r_type != null">
+				r_type,
+			</if>
+			<if test="sub_amount != null">
+				sub_amount,
+			</if>
+			<if test="sub_effective_time != null">
+				sub_effective_time,
+			</if>
+			sub_expire_time,
+			
+			sub_create_datetime,
+			pay_number,
+			record_status,
+			r_origin
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkl_code != null">
+				#{pkl_code},
+			</if>
+			<if test="r_sub_id != null">
+				#{r_sub_id},
+			</if>
+			<if test="r_type != null">
+				#{r_type},
+			</if>
+			<if test="sub_amount != null">
+				#{sub_amount},
+			</if>
+			<if test="sub_effective_time != null">
+				#{sub_effective_time},
+			</if>
+			DATE_ADD(CONCAT(SUBSTR(#{sub_effective_time} FROM 1 FOR 10)," 23:59:59"),INTERVAL #{days} DAY),
+			
+			now(),
+			<if test="outTradeNo != null">
+				#{outTradeNo},
+			</if>
+			2,
+			3
+		</trim>
+	</insert>
+	
+	
+	<update id="updateUserInfo" parameterType="com.WeChatApi.bean.models.userInfo">
+		update user_info
+		<set>
+			<if test="userName != null">
+				user_Name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userMobile != null">
+				user_mobile = #{userMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="userIdCard != null">
+				user_idcard = #{userIdCard,jdbcType=VARCHAR},
+			</if>
+			<if test="userInsurance != null">
+				user_insurance = #{userInsurance,jdbcType=VARCHAR},
+			</if>
+			<if test="faceToken != null">
+				face_token = #{faceToken,jdbcType=VARCHAR},
+			</if>
+			<if test="userFaceImg != null">
+				user_face_img = #{userFaceImg,jdbcType=VARCHAR},
+			</if>
+			<if test="userGroup != null">
+				user_group = #{userGroup,jdbcType=VARCHAR},
+			</if>
+			<if test="userType != null">
+				user_type = #{userType,jdbcType=VARCHAR},
+			</if>
+			<if test="apiKey != null">
+				api_key = #{apiKey,jdbcType=VARCHAR},
+			</if>
+			<if test="userRegisterStatus != null">
+				user_register_status = #{userRegisterStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				user_status = #{userStatus,jdbcType=VARCHAR},
+			</if>
+				update_time = now(),
+		</set>
+		where user_id = #{userId,jdbcType=SMALLINT}
+	</update>
+	
+
+	<update id="updateOperationSubscriptionRecordByRid">
+	<!-- update operation_subscription_record set record_status = 1
+	where r_id =
+		
+			#{rId} -->
+			
+			UPDATE operation_subscription os
+	LEFT JOIN operation_subscription_record osr ON os.sub_id = osr.r_sub_id
+	SET os.sub_status = 1,osr.record_status = 1
+	 os.sub_expire_time = osr.sub_expire_time
+	WHERE
+	 osr.r_id = #{rId}
+		
+	</update>
+	
+	
+	<select id="findSubscriptionRecordByUserOpenId" resultType="java.util.Map"   parameterType="java.lang.String">
+	
+	SELECT
+		os.*,park.pkl_subscription_fee
+    FROM
+	operation_subscription  os
+    LEFT JOIN parkinglots park ON os.pkl_code = park.pkl_code 
+    WHERE
+	veh_plate IN (
+		SELECT
+			v.uv_plate
+		FROM
+			wechat_user_vehicle v
+		LEFT JOIN wechat_user u ON v.user_id = u.user_id and
+		v.uv_status=1
+		WHERE sub_status =1
+		<if test="userOpenId != null and userOpenId != ''">
+			 and u.user_openId = #{userOpenId}
+		</if>
+		<if test="userOpenIdZfb != null and userOpenIdZfb != ''">
+			and u.user_openId_zfb = #{userOpenIdZfb}
+		</if>
+		)
+	
+	</select>
+	
+	
+	<insert id="insertSubscriptionRecord_new" parameterType="com.WeChatApi.bean.dto.operationSubscriptionRecordDto" useGeneratedKeys="true"
+        keyProperty="r_id">
+	insert into operation_subscription_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkl_code != null">
+				pkl_code,
+			</if>
+			<if test="r_sub_id != null">
+				r_sub_id,
+			</if>
+			<if test="r_type != null">
+				r_type,
+			</if>
+			<if test="sub_amount != null">
+				sub_amount,
+			</if>
+			<if test="sub_effective_time != null">
+				sub_effective_time,
+			</if>
+			sub_expire_time,
+			pu_id,
+			sub_create_datetime,
+			pay_number,
+			record_status,
+			r_origin
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkl_code != null">
+				#{pkl_code},
+			</if>
+			<if test="r_sub_id != null">
+				#{r_sub_id},
+			</if>
+			<if test="r_type != null">
+				#{r_type},
+			</if>
+			<if test="sub_amount != null">
+				#{sub_amount},
+			</if>
+			<if test="sub_effective_time != null">
+				#{sub_effective_time},
+			</if>
+			<if test="sub_expire_time != null">
+				#{sub_expire_time},
+			</if>
+			#{pu_id},
+			now(),
+			<if test="outTradeNo != null">
+				#{outTradeNo},
+			</if>
+			2,
+			3
+		</trim>
+	</insert>
+	
+	
+	<select id="findMonthlyPklRecord" resultType="java.util.Map"   parameterType="java.lang.String">
+	
+	SELECT
+		*
+    FROM
+	operation_subscription_record
+    
+    WHERE
+	r_sub_id = #{rSubId}
+	and record_status = 1
+	
+	</select>
+	
+	
+	
+		<select id="findMonthlyPklRecord_origin" resultType="java.util.Map"   parameterType="java.lang.String">
+	
+	SELECT
+		*
+    FROM
+	operation_subscription_record
+    
+    WHERE
+	r_sub_id = #{rSubId}
+	and record_status = 1
+	and r_origin = #{origin}
+	
+	</select>
+	
+	
+	<select id="getSumPriceByRIdList" resultType="java.util.HashMap"  >
+		select
+			convert(sum(sub_amount)/100,decimal(10,2)) as price,"1" as type
+		from
+			operation_subscription_record
+		where
+			1 = 1
+		
+			
+         and r_id in
+		<foreach item="no" index="index" collection="list" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</select>
+	
+	
+	<select id="getRoadSumPriceByRIdList" resultType="java.util.HashMap"  >
+		select
+			convert(sum(sub_amount)/100,decimal(10,2)) as price,"2" as type
+		from
+			road_operation_subscription_record
+		where
+			1 = 1
+		
+			
+         and r_id in
+		<foreach item="no" index="index" collection="list" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</select>
+	
+	
+		<update id="updateSubscriptionRecordByList">
+		update operation_subscription_record
+		set fpUrl = #{fpurl},companyName = #{companyName}, taxNumber = #{taxNumber} , addressMobile = #{addressMobile}
+			, bankNumber = #{bankNumber}, email = #{email}
+		
+		where 
+
+          r_id in
+		<foreach item="no" index="index" collection="list" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</update>
+	
+	<update id="updateRoadSubscriptionRecordByList">
+		update road_operation_subscription_record
+		set fpUrl = #{fpurl},companyName = #{companyName}, taxNumber = #{taxNumber} , addressMobile = #{addressMobile}
+			, bankNumber = #{bankNumber}, email = #{email}
+			
+		
+		where 
+
+          r_id in
+		<foreach item="no" index="index" collection="list" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</update>
+	
+	
+	<select id="findSubscriptionRecordByRId" resultType="java.util.Map"   parameterType="java.lang.String">
+	
+     SELECT * FROM `operation_subscription_record`  where r_id = #{rId} and record_status = 1 and r_origin=3 order by sub_create_datetime desc
+
+	
+	</select>
+	
+	
+	<insert id="insertMonthlyCarRefund" parameterType="com.WeChatApi.bean.dto.refundDto">
+	insert into monthlyCar_pay_refund
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="rId != null">
+				r_pay_id,
+			</if>
+			<if test="outRefundNo != null">
+				out_refund_no,
+			</if>
+			<if test="refundFee != null">
+				refund_fee,
+			</if>
+			<if test="refundId != null">
+				refund_id,
+			</if>
+			<if test="refundAdminId != null">
+				refund_admin_id,
+			</if>
+			<if test="orderType != null">
+				order_type,
+			</if>
+			refund_status,
+			refund_time
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="rId != null">
+				#{rId},
+			</if>
+			<if test="outRefundNo != null">
+				#{outRefundNo},
+			</if>
+			<if test="refundFee != null">
+				#{refundFee},
+			</if>
+			<if test="refundId != null">
+				#{refundId},
+			</if>
+			<if test="refundAdminId != null">
+				#{refundAdminId},
+			</if>
+			<if test="orderType != null">
+				#{orderType},
+			</if>
+			1,
+			now()
+		</trim>
+	</insert>
+	
+	
+		<select id="findSubscriptionRecordByRId_road" resultType="java.util.Map"   parameterType="java.lang.String">
+	
+     SELECT * FROM `road_operation_subscription_record`  where r_id = #{rId} and record_status = 1 and r_origin=3 order by sub_create_datetime desc
+
+	
+	</select>
+	
+	<select id="findMonthlyCarRefundByOutNo" resultType="com.WeChatApi.bean.models.parkinglotsPayRefund" parameterType="java.lang.String">
+	
+	SELECT * from monthlyCar_pay_refund
+	
+	where  out_refund_no = #{outRefundNo}
+	
+	</select>
+	
+			<update id="updateMonthlyCarRefundByOutNo">
+		update monthlyCar_pay_refund
+		set refund_id = #{refundId},refund_status = 2,last_update_time = now()
+		where 
+         out_refund_no= #{outRefundNo}
+	</update>
+	
+	
+	
+	<update id="updateMonthlyCarRefundByPayId">
+		update operation_subscription_record
+		set refund_amount = #{sum_refund_fee},refund_datetime = now()
+		where 
+          r_id = #{r_pay_id}
+	</update>
+	
+	<update id="updateMonthlyCarRefundByPayId_road">
+		update road_operation_subscription_record
+		set refund_amount = #{sum_refund_fee},refund_datetime = now()
+		where 
+          r_id = #{r_pay_id}
+	</update>
+	
+	
+	
+	<!-- 新包期含全包，单包sql   start -->
+	
+	
+	<select id="findMonthlyCarPackage"  resultType="java.util.Map">
+    SELECT * FROM `operation_subscription_all` where a_type = #{map.aType} and a_status = 1 and a_add_status = 1
+    </select>
+    
+    
+    <select id="findMonthlyCarPackage_single"  resultType="java.util.Map">
+    <if test=" map.pklType == 1">
+    SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.osp_id,osp.osp_money
+FROM
+	`parkinglots` p INNER JOIN operation_subscription_parkinglot osp ON p.pkl_code = osp.osp_pkl_code
+WHERE
+	osp_type = #{map.pklType} and osp_status = 1 and osp_add_status = 1 
+    </if>
+    <if test=" map.pklType == 2">
+    SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.osp_id,osp.osp_money
+FROM
+	`road_parkinglots` p INNER JOIN operation_subscription_parkinglot osp ON p.pkl_code = osp.osp_pkl_code
+WHERE
+	osp_type = #{map.pklType} and osp_status = 1 and osp_add_status = 1 
+    </if>
+    </select>
+	
+	<select id="findMonthlyCarPackageParkingLotInfo"  resultType="java.util.Map">
+	SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.a_id
+FROM
+	`parkinglots` p INNER JOIN operation_subscription_all_parkinglot osp ON p.pkl_code = osp.ap_pkl_code
+WHERE
+	a_id = #{map.aId} 
+    UNION ALL 
+     SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.a_id
+FROM
+	`road_parkinglots` p INNER JOIN operation_subscription_all_parkinglot osp ON p.pkl_code = osp.ap_pkl_code
+WHERE
+	a_id = #{map.aId}
+	
+    
+    </select>
+    
+    
+    <insert id="monthlyCarAudit" parameterType="java.util.Map">
+        insert into operation_subscription_audit (
+        <foreach collection="map" item="value" index="key" separator=",">
+            ${key}
+        </foreach>
+        )
+        values (
+        <foreach collection="map" item="value" index="key" separator=",">
+            #{value}
+        </foreach>
+        )
+
+
+    </insert>
+	
+	
+	<select id="findMonthlyCarAudit"  resultType="java.util.Map">
+	SELECT * FROM `operation_subscription_audit` where 1=1
+	<if test=" map.au_user_id != null and  map.au_user_id != ''">
+					and au_user_id =#{map.au_user_id}
+				</if>
+				<if test="map.au_type != null and map.au_type != ''">
+					and au_type = #{map.au_type}
+				</if>
+				<if test="map.au_status != null and map.au_status != ''">
+					and au_status = #{map.au_status}
+				</if>
+				<if test="map.au_id != null and map.au_id != ''">
+					and au_id = #{map.au_id}
+				</if>
+				
+    
+    </select>
+	
+	<select id="findOperationSubscriptionAllById"  resultType="java.util.Map">
+    SELECT * FROM `operation_subscription_all` where a_id = #{map.a_id} and a_status = 1 and a_add_status = 1
+    </select>
+    
+    <select id="findOperationSubscriptionParkinglotById"  resultType="java.util.Map">
+    SELECT * FROM `operation_subscription_parkinglot` where osp_id = #{map.osp_id} and osp_status = 1 and osp_add_status = 1
+    </select>
+    
+    <select id="findOperationSubscriptionParkinglotDetById"  resultType="java.util.Map">
+    
+
+
+SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.osp_id
+FROM
+	`parkinglots` p INNER JOIN operation_subscription_parkinglot osp ON p.pkl_code = osp.osp_pkl_code
+WHERE
+	osp_id = #{map.osp_id} and osp_status = 1
+    UNION ALL 
+     SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.osp_id
+FROM
+	`road_parkinglots` p INNER JOIN operation_subscription_parkinglot osp ON p.pkl_code = osp.osp_pkl_code
+WHERE
+	osp_id = #{map.osp_id} and osp_status = 1
+    </select>
+    
+    
+    <select id="findMonthlyCarPackageAllParkingLotInfo"  resultType="java.util.Map">
+    
+    <if test=" map.au_type == 2">
+SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.a_id
+FROM
+	`parkinglots` p INNER JOIN operation_subscription_all_parkinglot osp ON p.pkl_code = osp.ap_pkl_code
+WHERE
+	a_id = #{map.a_id} 
+   
+	</if>
+	
+    <if test=" map.au_type == 3">
+
+     SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.a_id
+FROM
+	`road_parkinglots` p INNER JOIN operation_subscription_all_parkinglot osp ON p.pkl_code = osp.ap_pkl_code
+WHERE
+	a_id = #{map.a_id}  
+	</if>
+
+ <if test=" map.au_type == 4">
+SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.a_id
+FROM
+	`parkinglots` p INNER JOIN operation_subscription_all_parkinglot osp ON p.pkl_code = osp.ap_pkl_code
+WHERE
+	a_id = #{map.a_id} 
+    UNION ALL 
+     SELECT
+	p.pkl_id , pkl_code , pkl_name ,osp.a_id
+FROM
+	`road_parkinglots` p INNER JOIN operation_subscription_all_parkinglot osp ON p.pkl_code = osp.ap_pkl_code
+WHERE
+	a_id = #{map.a_id}  
+	</if>
+    </select>
+    
+    
+    <select id="findSubscriptionRecordByUserOpenId_new" resultType="java.util.Map"   parameterType="java.lang.String">
+	
+	SELECT record.r_id,record.r_sub_id,record.sub_amount,record.pay_number,GROUP_CONCAT(osp_temp.pkl_name) pkl_names,osp_temp.sub_effective_time start_time , osp_temp.sub_expire_time end_time from operation_subscription_record record INNER JOIN 
+(SELECT
+		os.*,park.pkl_subscription_fee,park.pkl_name
+    FROM
+	operation_subscription  os
+    LEFT JOIN parkinglots park ON os.pkl_code = park.pkl_code 
+    WHERE
+	veh_plate IN (
+		SELECT
+			v.uv_plate
+		FROM
+			wechat_user_vehicle v
+		LEFT JOIN wechat_user u ON v.user_id = u.user_id and
+		v.uv_status=1
+		WHERE sub_status =1
+		<if test="userOpenId != null and userOpenId != ''">
+			 and u.user_openId = #{userOpenId}
+		</if>
+		<if test="userOpenIdZfb != null and userOpenIdZfb != ''">
+			and u.user_openId_zfb = #{userOpenIdZfb}
+		</if>
+		)
+)osp_temp ON record.r_sub_id = osp_temp.sub_id WHERE record.record_status = 1  AND record.r_origin =3  GROUP BY record.pay_number  ORDER BY record.r_id DESC 
+	
+	</select>
+	
+	
+	<select id="findSubscriptionRecordByAudit"  resultType="java.util.Map">
+	SELECT
+	*
+FROM
+	(
+		SELECT
+			au_temp.*, osr.r_id,
+			osr.sub_amount,
+			osr.pay_number,
+			osr.fpUrl
+		FROM
+			operation_subscription_record osr
+		INNER JOIN (
+			SELECT
+				osa.au_id,
+				osa.au_veh_plate,
+				osa.au_type,
+				osa.a_id,
+				osa.osp_id,
+				os.sub_effective_time,
+				os.sub_expire_time,
+				os.sub_id
+			FROM
+				`operation_subscription_audit` osa
+			INNER JOIN operation_subscription os ON osa.au_id = os.au_id
+			WHERE
+				au_user_id = #{map.au_user_id} AND au_status = 1 )au_temp ON osr.r_sub_id = au_temp.sub_id WHERE 1=1 <if test="map.fpUrl!= null and map.fpUrl != ''">
+			AND fpUrl IS NOT NULL </if >
+			AND osr.r_origin = 3
+			AND osr.record_status = 1
+			AND osr.pay_number IS NOT NULL
+			UNION ALL
+				SELECT
+					au_temp.*, osr.r_id,
+					osr.sub_amount,
+					osr.pay_number,
+					osr.fpUrl
+				FROM
+					road_operation_subscription_record osr
+				INNER JOIN (
+					SELECT
+						osa.au_id,
+						osa.au_veh_plate,
+						osa.au_type,
+						osa.a_id,
+						osa.osp_id,
+						os.sub_effective_time,
+						os.sub_expire_time,
+						os.sub_id
+					FROM
+						`operation_subscription_audit` osa
+					INNER JOIN road_operation_subscription os ON osa.au_id = os.au_id
+					WHERE
+						au_user_id = #{map.au_user_id} AND au_status = 1 )au_temp ON osr.r_sub_id = au_temp.sub_id WHERE 1=1 <if test="map.fpUrl!= null and map.fpUrl != ''">
+			AND fpUrl IS NOT NULL </if> AND osr.sub_origin=3 AND osr.record_status = 1 AND osr.pay_number IS not null) temp GROUP BY pay_number 
+	</select>
+	
+	
+	<update id="updateSubscriptionRecordByList_new">
+		update operation_subscription_record
+		set fpUrl = #{fpurl},companyName = #{companyName}, taxNumber = #{taxNumber} , addressMobile = #{addressMobile}
+			, bankNumber = #{bankNumber}, email = #{email}
+		
+		where 
+
+          pay_number in
+		<foreach item="no" index="index" collection="list" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</update>
+	
+	<update id="updateRoadSubscriptionRecordByList_new">
+		update road_operation_subscription_record
+		set fpUrl = #{fpurl},companyName = #{companyName}, taxNumber = #{taxNumber} , addressMobile = #{addressMobile}
+			, bankNumber = #{bankNumber}, email = #{email}
+			
+		
+		where 
+
+          pay_number in
+		<foreach item="no" index="index" collection="list" open="("
+			separator="," close=")">
+			#{no}
+		</foreach>
+		
+	</update>
+	
+	
+	<select id="findMonthlyCarSingleEndingTime" resultType="java.lang.String" parameterType="java.lang.String" >
+		SELECT sub_expire_time FROM (SELECT b.sub_expire_time FROM `operation_subscription_parkinglot` a  INNER JOIN operation_subscription b ON a.`osp_pkl_code` = b.pkl_code where a.osp_id = #{ospId} AND b.veh_plate =#{plate} AND b.sub_status =1
+UNION ALL 
+SELECT b.sub_expire_time FROM `operation_subscription_parkinglot` a  INNER JOIN road_operation_subscription b ON a.`osp_pkl_code` = b.pkl_code where a.osp_id = #{ospId} AND b.veh_plate =#{plate} AND b.sub_status =1) c ORDER BY sub_expire_time ASC LIMIT 1
+	</select>
+	
+	
+	
+	<select id="findMonthlyCarParkingAllEndingTime" resultType="java.lang.String" parameterType="java.lang.String" >
+		SELECT sub_expire_time FROM `operation_subscription` WHERE  `veh_plate` = #{plate} AND sub_expire_time &gt; now() ORDER BY sub_expire_time ASC LIMIT 1
+	</select>
+	
+	<select id="findMonthlyCarRoadAllEndingTime" resultType="java.lang.String" parameterType="java.lang.String" >
+		SELECT sub_expire_time FROM `road_operation_subscription` WHERE  `veh_plate` = #{plate} AND sub_expire_time &gt; now() ORDER BY sub_expire_time ASC LIMIT 1
+	</select>
+	
+	<select id="findMonthlyCarAllEndingTime" resultType="java.lang.String" parameterType="java.lang.String" >
+		SELECT sub_expire_time FROM (SELECT sub_expire_time FROM `operation_subscription` WHERE  `veh_plate` =#{plate} AND sub_expire_time &gt;now()  
+UNION ALL 
+SELECT sub_expire_time FROM `road_operation_subscription` WHERE  `veh_plate` =#{plate} AND sub_expire_time &gt;now() )c  ORDER by  sub_expire_time ASC LIMIT 1
+	</select>
+	
+	
+	<select id="findUseMonthlyCount" resultType="java.lang.Long" parameterType="java.lang.String" >
+		SELECT COUNT(0) FROM (SELECT sub_id FROM `operation_subscription` WHERE `au_id` = #{au_id} and DATEDIFF( `sub_expire_time`,NOW()) >30
+UNION ALL 
+SELECT sub_id  FROM `road_operation_subscription` WHERE `au_id` = #{au_id} and DATEDIFF( `sub_expire_time`,NOW()) >30) c 
+	</select>
+	
+	
+	
+	<select id="findMonthlyCarAuditCount"  resultType="java.lang.Long">
+	SELECT COUNT(0) FROM `operation_subscription_audit` where 1=1
+	<if test=" map.au_user_id != null and  map.au_user_id != ''">
+					and au_user_id =#{map.au_user_id}
+				</if>
+				<if test="map.au_type != null and map.au_type != ''">
+					and au_type = #{map.au_type}
+				</if>
+				<if test="map.au_veh_plate != null and map.au_veh_plate != ''">
+					and au_veh_plate = #{map.au_veh_plate}
+				</if>
+				<if test="map.au_veh_plate_color != null and map.au_veh_plate_color != ''">
+					and au_veh_plate_color = #{map.au_veh_plate_color}
+				</if>
+				<if test="map.a_id != null and map.a_id != ''">
+					and a_id = #{map.a_id}
+				</if>
+				<if test="map.osp_id != null and map.osp_id != ''">
+					and osp_id = #{map.osp_id}
+				</if>
+				and au_status = 1
+    
+    </select>
+	
+</mapper>
