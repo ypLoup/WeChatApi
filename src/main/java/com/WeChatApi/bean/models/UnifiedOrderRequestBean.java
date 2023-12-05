@@ -6,22 +6,22 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
- * 涓绘壂鍥涚爜鑱氬悎-璁㈠崟鍒涘缓璇锋眰鍙傛暟Bean瀵硅薄
+ * 主扫四码聚合-订单创建请求参数Bean对象
  *
  * @version v1.0.0
  * @author ruanmin
- * @Date: 2020骞�09鏈�01鏃�
+ * @Date: 2020�?09�?01�?
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UnifiedOrderRequestBean implements Serializable {
 
 	
 	/**
-	 * @Fields serialVersionUID:瀵硅薄璇存槑
+	 * @Fields serialVersionUID:对象说明
 	 */
 	private static final long serialVersionUID = 8410446766333181753L;
 	
-	private String appTp;//应用类型，01-电脑端WEB接入，02-POS接入，03-移动应用接入，04-移动端H5接入
+	private String appTp;//Ӧ�����ͣ�01-���Զ�WEB���룬02-POS���룬03-�ƶ�Ӧ�ý��룬04-�ƶ���H5����
 	private String purpPrtry;
 	private String merchId;
 	private String tradeType;

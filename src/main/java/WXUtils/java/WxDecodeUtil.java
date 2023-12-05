@@ -1,28 +1,22 @@
 package WXUtils.java;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.security.AlgorithmParameters;
-import java.security.Security;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.json.JSONObject;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.security.AlgorithmParameters;
+import java.security.Security;
+import java.util.*;
 
 
+import org.apache.tomcat.util.codec.binary.Base64;
 
 
 public class WxDecodeUtil {

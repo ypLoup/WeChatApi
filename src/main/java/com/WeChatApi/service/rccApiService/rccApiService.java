@@ -1,72 +1,37 @@
 package com.WeChatApi.service.rccApiService;
 
 
-
-import net.sf.json.JSONObject;
-
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.SimpleHttpConnectionManager;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.commons.httpclient.params.HttpClientParams;
-import org.apache.commons.httpclient.protocol.Protocol;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import cn.com.eagle.sdk.base.INetTools;
+import cn.com.eagle.sdk.bean.NetReqConfBean;
+import cn.com.eagle.sdk.bean.OipReqBean;
+import cn.com.eagle.sdk.bean.OipRspBean;
+import cn.com.eagle.sdk.net.factory.NetToolsHttpFactory;
 import com.WeChatApi.bean.dto.refundDto;
 import com.WeChatApi.bean.dto.roadPklPayCode;
 import com.WeChatApi.bean.dto.userChargeRecordDto;
-import com.WeChatApi.bean.models.UnifiedOrderRequestBean;
-import com.WeChatApi.bean.models.UnitePayRefundRequestBean;
-import com.WeChatApi.bean.models.WXOrderCreateGetRequestBean;
-import com.WeChatApi.bean.models.WXRefundGetRequestBean;
-import com.WeChatApi.bean.models.noVehiclePlate;
-import com.WeChatApi.bean.models.parkinglotsPay;
-import com.WeChatApi.bean.models.roadParkinglotsPay;
-import com.WeChatApi.bean.models.wechatUser;
+import com.WeChatApi.bean.models.*;
 import com.WeChatApi.controller.base.BaseServiceException;
 import com.WeChatApi.controller.base.StatusCode;
-import com.WeChatApi.controller.base.test;
-import com.WeChatApi.dao.businessMapper;
-import com.WeChatApi.dao.operationOrderMapper;
-import com.WeChatApi.dao.parkinglotsMapper;
-import com.WeChatApi.dao.roadParkinglotsPayMapper;
-import com.WeChatApi.dao.wechatUserMapper;
+import com.WeChatApi.dao.*;
 import com.WeChatApi.service.blueCardService.blueCardService;
 import com.WeChatApi.service.wechatApiService.wechatApiService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import cn.com.eagle.sdk.base.INetTools;
-import cn.com.eagle.sdk.bean.NetReqConfBean;
-import cn.com.eagle.sdk.bean.OipReqBean;
-import cn.com.eagle.sdk.bean.OipRspBean;
-import cn.com.eagle.sdk.net.factory.NetToolsHttpFactory;
+import javax.transaction.Transactional;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 

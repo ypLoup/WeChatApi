@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import sun.misc.BASE64Decoder;
  
 /**
- * MD5æŠ€æœ¯åŠ å¯†è§£å¯†
+ * MD5¼¼Êõ¼ÓÃÜ½âÃÜ
  */
 public class MD5Tools {
 	
@@ -13,7 +13,7 @@ public class MD5Tools {
 	
 	
     /***
-     * MD5åŠ ç  ç”Ÿæˆ32ä½md5ç 
+     * MD5¼ÓÂë Éú³É32Î»md5Âë
      */
     public static String string2MD5(String inStr){
         MessageDigest md5 = null;
@@ -42,7 +42,7 @@ public class MD5Tools {
     }
  
     /**
-     * åŠ å¯†è§£å¯†ç®—æ³• æ‰§è¡Œä¸€æ¬¡åŠ å¯†ï¼Œä¸¤æ¬¡è§£å¯†
+     * ¼ÓÃÜ½âÃÜËã·¨ Ö´ĞĞÒ»´Î¼ÓÃÜ£¬Á½´Î½âÃÜ
      */
     public static String convertMD5(String inStr){
  
@@ -83,13 +83,13 @@ public class MD5Tools {
     public static String toMD5(String plainText) {
         StringBuffer buf = new StringBuffer("");
         try {
-            // ç”Ÿæˆå®ç°æŒ‡å®šæ‘˜è¦ç®—æ³•çš„ MessageDigest å¯¹è±¡ã€‚
+            // Éú³ÉÊµÏÖÖ¸¶¨ÕªÒªËã·¨µÄ MessageDigest ¶ÔÏó¡£
             MessageDigest md = MessageDigest.getInstance("MD5");
-            // ä½¿ç”¨æŒ‡å®šçš„å­—èŠ‚æ•°ç»„æ›´æ–°æ‘˜è¦ã€‚
+            // Ê¹ÓÃÖ¸¶¨µÄ×Ö½ÚÊı×é¸üĞÂÕªÒª¡£
             md.update(plainText.getBytes());
-            // é€šè¿‡æ‰§è¡Œè¯¸å¦‚å¡«å……ä¹‹ç±»çš„æœ€ç»ˆæ“ä½œå®Œæˆå“ˆå¸Œè®¡ç®—ã€‚
+            // Í¨¹ıÖ´ĞĞÖîÈçÌî³äÖ®ÀàµÄ×îÖÕ²Ù×÷Íê³É¹şÏ£¼ÆËã¡£
             byte b[] = md.digest();
-            // ç”Ÿæˆå…·ä½“çš„md5å¯†ç åˆ°bufæ•°ç»„(32ä½å°å†™)
+            // Éú³É¾ßÌåµÄmd5ÃÜÂëµ½bufÊı×é(32Î»Ğ¡Ğ´)
             int i;
 
             for (int offset = 0; offset < b.length; offset++) {
@@ -112,13 +112,13 @@ public class MD5Tools {
     public static byte[] toMD5byte(byte[] plainText) {
         StringBuffer buf = new StringBuffer("");
         try {
-            // ç”Ÿæˆå®ç°æŒ‡å®šæ‘˜è¦ç®—æ³•çš„ MessageDigest å¯¹è±¡ã€‚
+            // Éú³ÉÊµÏÖÖ¸¶¨ÕªÒªËã·¨µÄ MessageDigest ¶ÔÏó¡£
             MessageDigest md = MessageDigest.getInstance("MD5");
-            // ä½¿ç”¨æŒ‡å®šçš„å­—èŠ‚æ•°ç»„æ›´æ–°æ‘˜è¦ã€‚
+            // Ê¹ÓÃÖ¸¶¨µÄ×Ö½ÚÊı×é¸üĞÂÕªÒª¡£
             md.update(plainText);
-            // é€šè¿‡æ‰§è¡Œè¯¸å¦‚å¡«å……ä¹‹ç±»çš„æœ€ç»ˆæ“ä½œå®Œæˆå“ˆå¸Œè®¡ç®—ã€‚
+            // Í¨¹ıÖ´ĞĞÖîÈçÌî³äÖ®ÀàµÄ×îÖÕ²Ù×÷Íê³É¹şÏ£¼ÆËã¡£
             byte b[] = md.digest();
-            // ç”Ÿæˆå…·ä½“çš„md5å¯†ç åˆ°bufæ•°ç»„
+            // Éú³É¾ßÌåµÄmd5ÃÜÂëµ½bufÊı×é
             int i;
 
             for (int offset = 0; offset < b.length; offset++) {
@@ -136,24 +136,24 @@ public class MD5Tools {
     }
 
     /**
-     * è§£å†³phpä¸javaMD5åŠ å¯†ä¸åŒ è·å–MD5åŠ å¯†åçš„å­—ç¬¦ä¸²
+     * ½â¾öphpÓëjavaMD5¼ÓÃÜ²»Í¬ »ñÈ¡MD5¼ÓÃÜºóµÄ×Ö·û´®
      *
      * @param str
-     *            æ˜æ–‡
-     * @return åŠ å¯†åçš„å­—ç¬¦ä¸²
+     *            Ã÷ÎÄ
+     * @return ¼ÓÃÜºóµÄ×Ö·û´®
      * @throws Exception
      */
     public static String getMD5(String str) throws Exception {
-        /** åˆ›å»ºMD5åŠ å¯†å¯¹è±¡ */
+        /** ´´½¨MD5¼ÓÃÜ¶ÔÏó */
         MessageDigest md5 = MessageDigest.getInstance("MD5");
-        /** è¿›è¡ŒåŠ å¯† */
+        /** ½øĞĞ¼ÓÃÜ */
         md5.update(str.getBytes("GBK"));
-        /** è·å–åŠ å¯†åçš„å­—èŠ‚æ•°ç»„ */
+        /** »ñÈ¡¼ÓÃÜºóµÄ×Ö½ÚÊı×é */
         byte[] md5Bytes = md5.digest();
         String res = "";
         for (int i = 0; i < md5Bytes.length; i++) {
             int temp = md5Bytes[i] & 0xFF;
-            if (temp <= 0XF) { // è½¬åŒ–æˆåå…­è¿›åˆ¶ä¸å¤Ÿä¸¤ä½ï¼Œå‰é¢åŠ é›¶
+            if (temp <= 0XF) { // ×ª»¯³ÉÊ®Áù½øÖÆ²»¹»Á½Î»£¬Ç°Ãæ¼ÓÁã
                 res += "0";
             }
             res += Integer.toHexString(temp);
@@ -183,7 +183,7 @@ public class MD5Tools {
 	    return ret.toString();
 	}
  
-    // æµ‹è¯•ä¸»å‡½æ•°
+    // ²âÊÔÖ÷º¯Êı
     public static void main(String args[]) throws IOException {
         /*String s = new String("e94287d7937aa5fac3113fcd8750fd50");
         long t = System.currentTimeMillis();
@@ -191,10 +191,10 @@ public class MD5Tools {
         
         System.out.println(new String(baseDecoder.decodeBuffer("AFA51873F8ED370A39329DBA79724B1F")));
         System.out.println(t);
-        System.out.println("åŸå§‹ï¼š" + s);
-        System.out.println("MD5åï¼š" + string2MD5(s));
-        System.out.println("åŠ å¯†çš„ï¼š" + convertMD5(s));*/
-        System.out.println("è§£å¯†çš„ï¼š" + convertMD5(convertMD5("e94287d7937aa5fac3113fcd8750fd50")));
+        System.out.println("Ô­Ê¼£º" + s);
+        System.out.println("MD5ºó£º" + string2MD5(s));
+        System.out.println("¼ÓÃÜµÄ£º" + convertMD5(s));*/
+        System.out.println("½âÃÜµÄ£º" + convertMD5(convertMD5("e94287d7937aa5fac3113fcd8750fd50")));
  
     }
 }

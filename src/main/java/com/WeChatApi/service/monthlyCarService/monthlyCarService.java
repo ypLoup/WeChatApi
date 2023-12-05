@@ -102,17 +102,17 @@ public class monthlyCarService {
 	public List<Map<String, String>> findSubscriptionTypeByPlate(Map<String, String> findTypeMap) {
 		List<Map<String, String>> list = new ArrayList<>();
 		if(StringUtils.isBlank(findTypeMap.get("userOpenId").toString())){
-			throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"å°ç¨‹åºuserOpenIdä¸èƒ½ä¸ºç©ºï¼");
+			throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"Ğ¡³ÌĞòuserOpenId²»ÄÜÎª¿Õ£¡");
 		}
 		
 		if(StringUtils.isBlank(findTypeMap.get("plate").toString())){
-			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"è½¦ç‰Œå·ä¸èƒ½ä¸ºç©ºï¼");
+			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"³µÅÆºÅ²»ÄÜÎª¿Õ£¡");
 		}
 		String plate = findTypeMap.get("plate").toString();
 		List<String> plkCodeList =  new ArrayList<>();
 		plkCodeList = monthlycarmapper.findSubscriptionByPlate(plate);
 		if(plkCodeList.size()==0){
-			throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"è½¦è¾†æ— åŒ…æœˆè®°å½•ï¼Œæ— æ³•ç»­åŒ…ï¼");
+			throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"³µÁ¾ÎŞ°üÔÂ¼ÇÂ¼£¬ÎŞ·¨Ğø°ü£¡");
 		}
 		
 		return monthlycarmapper.findSubscriptionTypeByPlkCodeList(plkCodeList);
@@ -137,30 +137,30 @@ public class monthlyCarService {
 		String days=wechatPayMap.get("days").toString();
 		
 		if(StringUtils.isBlank(userOpenId)){
-			throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"å°ç¨‹åºuserOpenIdä¸èƒ½ä¸ºç©ºï¼");
+			throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"Ğ¡³ÌĞòuserOpenId²»ÄÜÎª¿Õ£¡");
 		}
 		
 		if(StringUtils.isBlank(pklCode)){
-			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åœè½¦åœºç¼–å·ä¸èƒ½ä¸ºç©ºï¼");
+			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"Í£³µ³¡±àºÅ²»ÄÜÎª¿Õ£¡");
 		}
 		
 		
 		if(StringUtils.isBlank(plate)){
-			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"è½¦ç‰Œå·ä¸èƒ½ä¸ºç©ºï¼");
+			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"³µÅÆºÅ²»ÄÜÎª¿Õ£¡");
 		}
 		
 		if(StringUtils.isBlank(amount)){
-			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸé‡‘é¢ä¸èƒ½ä¸ºç©ºï¼");
+			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚ½ğ¶î²»ÄÜÎª¿Õ£¡");
 		}
 		
 		if(StringUtils.isBlank(days)){
-			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸå¤©æ•°ä¸èƒ½ä¸ºç©ºï¼");
+			throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚÌìÊı²»ÄÜÎª¿Õ£¡");
 		}
 		
 		Map<String, Object> monthlyCarMap = new HashMap<>();
 		monthlyCarMap=monthlycarmapper.findMonthlyCarByPlate(pklCode,plate);
 		if(monthlyCarMap==null){
-			throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"è½¦è¾†æ— åŒ…æœˆè®°å½•ï¼Œæ— æ³•ç»­åŒ…ï¼");
+			throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"³µÁ¾ÎŞ°üÔÂ¼ÇÂ¼£¬ÎŞ·¨Ğø°ü£¡");
 		}
 		LocalDate localDate = LocalDate.now();
 		/*System.out.println("localDate: " + localDate);
@@ -200,29 +200,29 @@ public Map<String, Object> getPrepayIdMonthlyCar(operationSubscriptionRecordDto 
 		
 		try{
 
-            //å…¬ä¼—å·çš„appid
+            //¹«ÖÚºÅµÄappid
             String appid = "wx606d7fcc6d1402c9";
             String openid = dto.getUserOpenId();
-            //å¼€å§‹å‘é€çº¢åŒ…
-            //logger.info("++++++++++++++å¼€å§‹å‘é€çº¢åŒ…++++++++++++++++++");
+            //¿ªÊ¼·¢ËÍºì°ü
+            //logger.info("++++++++++++++¿ªÊ¼·¢ËÍºì°ü++++++++++++++++++");
             SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
-            /** å½“å‰æ—¶é—´ yyyyMMddHHmmss */
+            /** µ±Ç°Ê±¼ä yyyyMMddHHmmss */
             String currTime = CommonUtil.getCurrTime();
-            /** 8ä½æ—¥æœŸ */
+            /** 8Î»ÈÕÆÚ */
             String strTime = currTime.substring(8, currTime.length());
-            /** å››ä½éšæœºæ•° */
+            /** ËÄÎ»Ëæ»úÊı */
             String strRandom = CommonUtil.buildRandom(4) + "";
-            //å•†æˆ·è®¢å•å·
+            //ÉÌ»§¶©µ¥ºÅ
             //parameters.put("mch_billno",strTime + strRandom);
             
             
-            /** å…¬ä¼—å·APPID */
+            /** ¹«ÖÚºÅAPPID */
             parameters.put("appid", appid);
-            parameters.put("body", dto.getPlate()+"åŒ…æœˆç¼´è´¹"+dto.getDays());
-            /** å•†æˆ·å· */
+            parameters.put("body", dto.getPlate()+"°üÔÂ½É·Ñ"+dto.getDays());
+            /** ÉÌ»§ºÅ */
             String mch_id = "1604629952";
             parameters.put("mch_id", mch_id);
-            /** éšæœºå­—ç¬¦ä¸² */
+            /** Ëæ»ú×Ö·û´® */
             parameters.put("nonce_str", CommonUtil.getNonceStr());
             parameters.put("notify_url", "https://jiashan.iparking.tech/mp/WeChatApi/monthlyCar/payCallback");
             parameters.put("out_trade_no", dto.getOutTradeNo());
@@ -230,29 +230,29 @@ public Map<String, Object> getPrepayIdMonthlyCar(operationSubscriptionRecordDto 
             parameters.put("spbill_create_ip", request.getRemoteAddr());
             parameters.put("total_fee", dto.getSub_amount());
             parameters.put("trade_type", "JSAPI");
-            parameters.put("attach", dto.getR_id());//ä¼˜æƒ åˆ¸recordId
+            parameters.put("attach", dto.getR_id());//ÓÅ»İÈ¯recordId
 
             
             
-            /** MD5è¿›è¡Œç­¾åï¼Œå¿…é¡»ä¸ºUTF-8ç¼–ç ï¼Œæ³¨æ„ä¸Šé¢å‡ ä¸ªå‚æ•°åç§°çš„å¤§å°å†™ */
+            /** MD5½øĞĞÇ©Ãû£¬±ØĞëÎªUTF-8±àÂë£¬×¢ÒâÉÏÃæ¼¸¸ö²ÎÊıÃû³ÆµÄ´óĞ¡Ğ´ */
             String api_key = "jgkj2020jgkj2020jgkj2020jgkj2020";
             String sign = CommonUtil.createSign("UTF-8", parameters,api_key);
             String requestJsonStr = new ObjectMapper().writeValueAsString(parameters);
-            //logger.info("å‘é€çš„ä¿¡æ¯æ˜¯"+requestJsonStr);
+            //logger.info("·¢ËÍµÄĞÅÏ¢ÊÇ"+requestJsonStr);
             parameters.put("sign", sign);//
-            /** ç”Ÿæˆxmlç»“æ„çš„æ•°æ®ï¼Œç”¨äºç»Ÿä¸€ä¸‹å•æ¥å£çš„è¯·æ±‚ */
+            /** Éú³Éxml½á¹¹µÄÊı¾İ£¬ÓÃÓÚÍ³Ò»ÏÂµ¥½Ó¿ÚµÄÇëÇó */
             String requestXML = CommonUtil.getRequestXml(parameters);
             /**
-             * è¯»å–è¯ä¹¦
+             * ¶ÁÈ¡Ö¤Êé
              * 
              */
             CloseableHttpClient httpclient = null;
             Map<String,String> result = new HashMap<String,String>();
            try {
                 KeyStore keyStore = KeyStore.getInstance("PKCS12");
-                String pathname = "/tomcat/apiclient_cert.p12";//è¿™é‡Œå¡«ä½ ä»¬çš„è¯ä¹¦çš„åœ°å€ï¼Œæˆ‘è¿™é‡Œæ”¾åœ¨linuxæœåŠ¡å™¨çš„/usrä¸‹é¢
+                String pathname = "/tomcat/apiclient_cert.p12";//ÕâÀïÌîÄãÃÇµÄÖ¤ÊéµÄµØÖ·£¬ÎÒÕâÀï·ÅÔÚlinux·şÎñÆ÷µÄ/usrÏÂÃæ
                 //String pathname="D:\\home\\apiclient_cert.p12";
-                FileInputStream instream = new FileInputStream(new File(pathname)); //æ­¤å¤„ä¸ºè¯ä¹¦æ‰€æ”¾çš„ç»å¯¹è·¯å¾„
+                FileInputStream instream = new FileInputStream(new File(pathname)); //´Ë´¦ÎªÖ¤ÊéËù·ÅµÄ¾ø¶ÔÂ·¾¶
                 try {
                     keyStore.load(instream, mch_id.toCharArray());
                 } finally {
@@ -273,14 +273,14 @@ public Map<String, Object> getPrepayIdMonthlyCar(operationSubscriptionRecordDto 
                         .build();
             }
             catch (Exception e){
-            	log.info("è¯»å–è¯ä¹¦ä¿¡æ¯çš„æ—¶å€™å‘ç”Ÿå¼‚å¸¸å¼‚å¸¸ä¿¡æ¯æ˜¯ï¼š"+e.getMessage());
+            	log.info("¶ÁÈ¡Ö¤ÊéĞÅÏ¢µÄÊ±ºò·¢ÉúÒì³£Òì³£ĞÅÏ¢ÊÇ£º"+e.getMessage());
                 e.printStackTrace();
             }
             try {
                 String requestUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
                 HttpPost httpPost = new HttpPost(requestUrl);
                 StringEntity reqEntity  = new StringEntity(requestXML, "utf-8");
-                // è®¾ç½®ç±»å‹
+                // ÉèÖÃÀàĞÍ
                 reqEntity.setContentType("application/x-www-form-urlencoded");
                 httpPost.setEntity(reqEntity);
                 log.info("executing request" + httpPost.getRequestLine());
@@ -289,21 +289,21 @@ public Map<String, Object> getPrepayIdMonthlyCar(operationSubscriptionRecordDto 
                     HttpEntity entity = response.getEntity();
                     System.out.println(response.getStatusLine());
                     if (entity != null) {
-                        // ä»requestä¸­å–å¾—è¾“å…¥æµ
+                        // ´ÓrequestÖĞÈ¡µÃÊäÈëÁ÷
                         InputStream inputStream = entity.getContent();
-                        // è¯»å–è¾“å…¥æµ
+                        // ¶ÁÈ¡ÊäÈëÁ÷
                         SAXReader reader = new SAXReader();
                         Document document = reader.read(inputStream);
-                        // å¾—åˆ°xmlæ ¹å…ƒç´ 
+                        // µÃµ½xml¸ùÔªËØ
                         Element root = document.getRootElement();
-                        // å¾—åˆ°æ ¹å…ƒç´ çš„æ‰€æœ‰å­èŠ‚ç‚¹
+                        // µÃµ½¸ùÔªËØµÄËùÓĞ×Ó½Úµã
                         List<Element> elementList = root.elements();
-                        // éå†æ‰€æœ‰å­èŠ‚ç‚¹
+                        // ±éÀúËùÓĞ×Ó½Úµã
                         for (Element e : elementList)
                         {
                             result.put(e.getName(), e.getText());
                         }
-                        // é‡Šæ”¾èµ„æº
+                        // ÊÍ·Å×ÊÔ´
                         inputStream.close();
                     }
                     EntityUtils.consume(entity);
@@ -325,26 +325,26 @@ public Map<String, Object> getPrepayIdMonthlyCar(operationSubscriptionRecordDto 
                 }
             }
             
-            log.info("å‘è·å–PrepayIdï¼š"+new ObjectMapper().writeValueAsString(result));
-            String refundjson=new ObjectMapper().writeValueAsString(dto);//å…³é”®
+            log.info("·¢»ñÈ¡PrepayId£º"+new ObjectMapper().writeValueAsString(result));
+            String refundjson=new ObjectMapper().writeValueAsString(dto);//¹Ø¼ü
             
             if(result.get("result_code").equals("SUCCESS")) {
             	Map<String, Object> map =CommonUtil.generateSignature(result);
-            	wechatUsermapper.insertApiLogs("ç»Ÿä¸€ä¸‹å•æ¥å£_è½¦è¾†è‡ªä¸»åŒ…æœˆ", refundjson, "success", new ObjectMapper().writeValueAsString(result));
+            	wechatUsermapper.insertApiLogs("Í³Ò»ÏÂµ¥½Ó¿Ú_³µÁ¾×ÔÖ÷°üÔÂ", refundjson, "success", new ObjectMapper().writeValueAsString(result));
             	
             	map.put("price", dto.getSub_amount());
                 return map;
                 }
             else {
-            	log.info("è·å–PrepayId="+openid+",å‘é€æ—¶é—´æ˜¯ï¼š"+CommonUtil.getPreDay(new Date(),0));
-            	wechatUsermapper.insertApiLogs("ç»Ÿä¸€ä¸‹å•æ¥å£_è½¦è¾†è‡ªä¸»åŒ…æœˆ", refundjson, "fail", new ObjectMapper().writeValueAsString(result));
+            	log.info("»ñÈ¡PrepayId="+openid+",·¢ËÍÊ±¼äÊÇ£º"+CommonUtil.getPreDay(new Date(),0));
+            	wechatUsermapper.insertApiLogs("Í³Ò»ÏÂµ¥½Ó¿Ú_³µÁ¾×ÔÖ÷°üÔÂ", refundjson, "fail", new ObjectMapper().writeValueAsString(result));
             	throw new BaseServiceException(
     					StatusCode.SYSTEM_ERROR.getCode(),
-    					"ç»Ÿä¸€ä¸‹å•æ¥å£è·å–å¤±è´¥ï¼Œè¯·é‡æ–°è”ç³»ç®¡ç†å‘˜ï¼"+"["+result.get("err_code_des")+"]");
+    					"Í³Ò»ÏÂµ¥½Ó¿Ú»ñÈ¡Ê§°Ü£¬ÇëÖØĞÂÁªÏµ¹ÜÀíÔ±£¡"+"["+result.get("err_code_des")+"]");
             }
         }
         catch (Exception e){
-        	log.info("ç»Ÿä¸€ä¸‹å•æ¥å£_è½¦è¾†è‡ªä¸»åŒ…æœˆå¼‚å¸¸ï¼Œå¼‚å¸¸ä¿¡æ¯æ˜¯ï¼š"+e.getMessage());
+        	log.info("Í³Ò»ÏÂµ¥½Ó¿Ú_³µÁ¾×ÔÖ÷°üÔÂÒì³££¬Òì³£ĞÅÏ¢ÊÇ£º"+e.getMessage());
         	throw new BaseServiceException(
 					StatusCode.SYSTEM_ERROR.getCode(),
 					e.getMessage());
@@ -387,16 +387,16 @@ public void callBackNotify(String rId) throws IOException {
     
     if(response==200){
     	JSONObject  dataJson = JSONObject.fromObject(postMethod.getResponseBodyAsString());
-    	log.info("++++++++++++++++++åŒ…æœŸè½¦ç»­åŒ…++++++++++++++++++++++"+dataJson);
+    	log.info("++++++++++++++++++°üÆÚ³µĞø°ü++++++++++++++++++++++"+dataJson);
         String errorCode = dataJson.getString("error_code");
         if(errorCode.equals("0")){
-        	log.info("sub_r_id"+rId+"å›è°ƒæˆåŠŸï¼");
-        	wechatUsermapper.insertApiLogs("åŒ…æœŸè½¦ç»­åŒ…æ¥å£", "sub_r_id:"+rId, "success", "");
+        	log.info("sub_r_id"+rId+"»Øµ÷³É¹¦£¡");
+        	wechatUsermapper.insertApiLogs("°üÆÚ³µĞø°ü½Ó¿Ú", "sub_r_id:"+rId, "success", "");
 
         	
         }else{
-        	log.info("sub_r_id"+rId+"å›è°ƒå¤±è´¥ï¼");
-        	wechatUsermapper.insertApiLogs("åŒ…æœŸè½¦ç»­åŒ…æ¥å£", "sub_r_id:"+rId, "fail", dataJson.getString("error_msg"));
+        	log.info("sub_r_id"+rId+"»Øµ÷Ê§°Ü£¡");
+        	wechatUsermapper.insertApiLogs("°üÆÚ³µĞø°ü½Ó¿Ú", "sub_r_id:"+rId, "fail", dataJson.getString("error_msg"));
         	throw new BaseServiceException(
         			Integer.parseInt(errorCode),
         			dataJson.getString("error_msg"));
@@ -406,7 +406,7 @@ public void callBackNotify(String rId) throws IOException {
     }else{
     	throw new BaseServiceException(
 				StatusCode.API_FREQUENTLY_ERROR.getCode(),
-				"è¯·æŸ¥çœ‹åŒ…æœŸè½¦ç»­åŒ…æ¥å£");
+				"Çë²é¿´°üÆÚ³µĞø°ü½Ó¿Ú");
     }
 	}finally {
 		postMethod.releaseConnection();
@@ -434,7 +434,7 @@ public void updateOperationSubscriptionRecordByRid(String rId) {
 public List<Map<String, String>> findSubscriptionRecordByUserOpenId(Map<String, String> findRecordMap) {
 	
 	if(StringUtils.isBlank(findRecordMap.get("userOpenId").toString())&&StringUtils.isBlank(findRecordMap.get("userOpenIdZfb").toString())){
-		throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"openIdä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"openId²»ÄÜÎª¿Õ£¡");
 	}
 	
 	return monthlycarmapper.findSubscriptionRecordByUserOpenId(findRecordMap.get("userOpenId").toString(),findRecordMap.get("userOpenIdZfb").toString());
@@ -459,38 +459,38 @@ public Map<String, Object> monthlyCarPayBywechat_new(Map<String, String> wechatP
 	String subExpireTime=wechatPayMap.get("subExpireTime").toString();
 	
 	if(StringUtils.isBlank(userOpenId)){
-		throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"å°ç¨‹åºuserOpenIdä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"Ğ¡³ÌĞòuserOpenId²»ÄÜÎª¿Õ£¡");
 	}
 	
 	if(StringUtils.isBlank(pklCode)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åœè½¦åœºç¼–å·ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"Í£³µ³¡±àºÅ²»ÄÜÎª¿Õ£¡");
 	}
 	
 	
 	if(StringUtils.isBlank(plate)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"è½¦ç‰Œå·ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"³µÅÆºÅ²»ÄÜÎª¿Õ£¡");
 	}
 	
 	if(StringUtils.isBlank(amount)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸé‡‘é¢ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚ½ğ¶î²»ÄÜÎª¿Õ£¡");
 	}
 	
 	if(StringUtils.isBlank(subEffectiveTime)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸèµ·å§‹æ—¶é—´ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚÆğÊ¼Ê±¼ä²»ÄÜÎª¿Õ£¡");
 	}
 	
 	if(StringUtils.isBlank(subExpireTime)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸç»“æŸæ—¶é—´ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚ½áÊøÊ±¼ä²»ÄÜÎª¿Õ£¡");
 	}
 	
 	Map<String, Object> monthlyCarMap = new HashMap<>();
 	monthlyCarMap=monthlycarmapper.findMonthlyCarByPlate(pklCode,plate);
 	if(monthlyCarMap==null){
-		throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"è½¦è¾†æ— åŒ…æœˆè®°å½•ï¼Œæ— æ³•ç»­åŒ…ï¼");
+		throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"³µÁ¾ÎŞ°üÔÂ¼ÇÂ¼£¬ÎŞ·¨Ğø°ü£¡");
 	}
 	String subSelfHelp = monthlyCarMap.get("sub_self_help").toString();
 	if(subSelfHelp.equals("0")){
-		throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"è‡ªåŠ©ç»­åŒ…æœªå¼€å¯ï¼");
+		throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"×ÔÖúĞø°üÎ´¿ªÆô£¡");
 	}
 	//LocalDate localDate = LocalDate.now();
 	 LocalDate beginDateTime = LocalDate.parse(monthlyCarMap.get("sub_expire_time").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -529,7 +529,7 @@ public Map<String, Object> monthlyCarPayBywechat_new(Map<String, String> wechatP
 
 public List<Map<String, String>> findMonthlyPklRecord(Map<String, String> findRecordMap) {
 	if(StringUtils.isBlank(findRecordMap.get("userOpenId").toString())&&StringUtils.isBlank(findRecordMap.get("userOpenIdZfb").toString())){
-		throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"openIdä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"openId²»ÄÜÎª¿Õ£¡");
 	}
 	if(findRecordMap.containsKey("origin")){
 		return monthlycarmapper.findMonthlyPklRecord_origin(findRecordMap.get("r_sub_id").toString(),findRecordMap.get("origin").toString());
@@ -560,38 +560,38 @@ String userOpenId=wechatPayMap.get("userOpenId").toString();
 	String subExpireTime=wechatPayMap.get("subExpireTime").toString();
 	
 	if(StringUtils.isBlank(userOpenId)){
-		throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"å°ç¨‹åºuserOpenIdä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"Ğ¡³ÌĞòuserOpenId²»ÄÜÎª¿Õ£¡");
 	}
 	
 	if(StringUtils.isBlank(pklCode)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åœè½¦åœºç¼–å·ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"Í£³µ³¡±àºÅ²»ÄÜÎª¿Õ£¡");
 	}
 	
 	
 	if(StringUtils.isBlank(plate)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"è½¦ç‰Œå·ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"³µÅÆºÅ²»ÄÜÎª¿Õ£¡");
 	}
 	
 	if(StringUtils.isBlank(amount)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸé‡‘é¢ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚ½ğ¶î²»ÄÜÎª¿Õ£¡");
 	}
 	
 	if(StringUtils.isBlank(subEffectiveTime)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸèµ·å§‹æ—¶é—´ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚÆğÊ¼Ê±¼ä²»ÄÜÎª¿Õ£¡");
 	}
 	
 	if(StringUtils.isBlank(subExpireTime)){
-		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸç»“æŸæ—¶é—´ä¸èƒ½ä¸ºç©ºï¼");
+		throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚ½áÊøÊ±¼ä²»ÄÜÎª¿Õ£¡");
 	}
 	
 	Map<String, Object> monthlyCarMap = new HashMap<>();
 	monthlyCarMap=monthlycarmapper.findMonthlyCarByPlate(pklCode,plate);
 	if(monthlyCarMap==null){
-		throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"è½¦è¾†æ— åŒ…æœˆè®°å½•ï¼Œæ— æ³•ç»­åŒ…ï¼");
+		throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"³µÁ¾ÎŞ°üÔÂ¼ÇÂ¼£¬ÎŞ·¨Ğø°ü£¡");
 	}
 	String subSelfHelp = monthlyCarMap.get("sub_self_help").toString();
 	if(subSelfHelp.equals("0")){
-		throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"è‡ªåŠ©ç»­åŒ…æœªå¼€å¯ï¼");
+		throw new BaseException(StatusCode.DATA_NOT_EXISTS.getCode(),"×ÔÖúĞø°üÎ´¿ªÆô£¡");
 	}
 	
 	//LocalDate localDate = LocalDate.now();
@@ -633,37 +633,37 @@ String userOpenId=wechatPayMap.get("userOpenId").toString();
 
 private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		HttpServletRequest request) {
-	//è·å¾—åˆå§‹åŒ–çš„AlipayClient
+	//»ñµÃ³õÊ¼»¯µÄAlipayClient
 			AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do","2021002116635517","MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDgrTZKCortL5ye3LVe3XhT/2FNVkeQZuMSKUbjJa8sFVyrASg0qTKpHNfNQ+WNSArFxLXUSJ6jnJnwKy8OBVuz7zgpTYfUbInNuxAussbOGvMwSzSF/ATWXJwPTjNj4atOcIvMwUG+33d9qBKa1V2mZz2y6XnkMKzLAFYPfFVAGM9mc37dN3gWd/wzV3n8D2SUQtOhPDqtcpiK4rHtUNp09b+ZQmCrTIXClhOaqAuAxzLJQ1+O0SOg48/Ta00RSoBRrDjn5ufrwDKpSArVF68WSmgQhlHzh/UO1ODY0a2XIDZD4BwNVlDF5sHpbJmvo53eJkFO9OZzsCdE7ixzQ1FhAgMBAAECggEBAIWEKbkCXuDo5Gg7vMStVC6Gmyo8VbbojZRjVy7xXBIUd8dfnqb8zZBWBaCD8sxsvYodhfirVyrfi1OANixc3swlIvjYjBmejp3lxo4Zy677sP1IE+RzieRhkJQ/4qY+m3C3zTxWtF1bq0TPNo8wsMCMpcvGl5sVmfnhL0NwnbDCcCPfLsRJmmeAVWTZZr6wIcXSMJ2UD5Rxjt3hZDs0H/e1MtPOY+AfUsZpCQg6IMlDovU7ceB8FxjWUTNM5lTyUzwiXY/stSZcQhPdJpDyxz1Tw4ifDku4rC5HGOL8NuisI5u/nDfoRWzEKPEAQh4hmBsGEAApQ4n2bMS5d7qrV6kCgYEA/mOxJA6RAkL9rmuqrngaYMpcG74+WFxCz10IVzV4JVcHqGSv3NhvMgE3m+usXHHRa0h/4usAlVrVJD/s2SampRrfVwf4mjxqL+9OSMW+CaSNWwaT5yBLMR/SPm+wATl1cfqE99Bg17BrHdCcw7sOUdS3E3OKtpMRYl55jG3amCMCgYEA4hlcwUzTuALQKDnfYpEtNnEtJ2Vi8i55ALM4t/LVBM/A+1dtuGExXcLypPOSzuqKr+z+zy/I4YlzG8iDRE0g7hbbb/jroK8unwKZ+HItEMi1YYPgQY2vvpcGsGJ/nkRhLzhc4+ccD+SHSmeNC26zurm9WqU66h1RQMwsoeMTpqsCgYA6ZxzWEFoOUN742lMXNw+nRQ4ceHLLynK0NMGjc+0fdXmWmXcelroAmvLvYw3xM1hG7yAdMqKxp2bjqaFwwUTlBuRbkMLsdg5S7vfkETHt+M9TJJF0MJ/SqWGVYALiZRSnlEJOupJhMmmFMM2syhchhlp5pr8j52PIV7REHzxeTQKBgHWQVH+aUBhFNjFEblgVPtopHR54BGwDKB3qEtrrJEJ9OE44lq+hsgab4IlOsY5vvC9f3tqicSR80OKob0Drjeze67kcSIDjti0uMBtUWwR4KIAND2Vmo/RJGUxL2ynTSmlAOGS0fg3xeTuB/n/sTv4PqFriwXCMT/yObcK7jTNDAoGBAOlrRAljuL67pdrsNDrELhDaULXP2kmuMup5iSmU5QN2i+6M77Hq4gmUuNPrHMNAwFhhCq/FTViWZYh3LgM2/l323ppbXIqsiqLXtbq5Ff+nee50RiwN1sT7KMDv00BBqLOjuDeQeOeD57RXVflgbMdnKaEZKupuFVyOQmKIREZF","json","UTF-8","MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqliWU4ndPe3KkRlQe85h2SDNb2l9UbPeaNmZZaced7Oc6T896WyZzB6+42gMQOOrRPWZui7ZCGmT8wzjTwFGXb9Zb/qmzXmV6nnQpz6NXCOJBL9VyKLm/EYjA0A5mwDwBD75trMXydcGWOdcQCuPi9HrH2YSJ9QUK2KzdCKQ3XMahhdtyjQcFxMXooVhPvnGi+4LgmsOJZU45cfZLnItHCPWDqRVrsoOjiNHHGVdUOxdKTor0suIE1W/IMfP0ITmMe0H1L+lItd+FBjDGfP2sd8R8phgrNi6b11Jg7ZXXCzsC9tkXn84lyKbWknybISYU9Sy1Lr9e/XgF9uX1jU76wIDAQAB","RSA2");
-	        //è®¾ç½®è¯·æ±‚å‚æ•°
+	        //ÉèÖÃÇëÇó²ÎÊı
 	        AlipayTradeCreateRequest request2 = new AlipayTradeCreateRequest();
 	        
 	        JSONObject json=new JSONObject();
-	        //è®¢å•å·
+	        //¶©µ¥ºÅ
 	        json.put("out_trade_no",dto.getOutTradeNo());
-	        //é‡‘é¢ è¿™é‡Œçš„é‡‘é¢æ˜¯ä»¥å…ƒä¸ºå•ä½çš„å¯ä»¥ä¸è½¬æ¢ä½†å¿…é¡»æ˜¯å­—ç¬¦ä¸²
+	        //½ğ¶î ÕâÀïµÄ½ğ¶îÊÇÒÔÔªÎªµ¥Î»µÄ¿ÉÒÔ²»×ª»»µ«±ØĞëÊÇ×Ö·û´®
 	        json.put("total_amount",dto.getSub_amount()/100.0f);
-	        //æè¿°
-	        json.put("subject","åœè½¦åœº["+dto.getPkl_code()+"]åŒ…æœˆ");
-	        //ç”¨æˆ·å”¯ä¸€æ ‡è¯†id è¿™é‡Œå¿…é¡»ä½¿ç”¨buyer_id å‚è€ƒæ–‡æ¡£
+	        //ÃèÊö
+	        json.put("subject","Í£³µ³¡["+dto.getPkl_code()+"]°üÔÂ");
+	        //ÓÃ»§Î¨Ò»±êÊ¶id ÕâÀï±ØĞëÊ¹ÓÃbuyer_id ²Î¿¼ÎÄµµ
 	        json.put("buyer_id",dto.getUserOpenId());
 	        
 	        json.put("passback_params", dto.getR_id());
-	        //å¯¹è±¡è½¬åŒ–ä¸ºjsonå­—ç¬¦ä¸²
+	        //¶ÔÏó×ª»¯Îªjson×Ö·û´®
 	        String jsonStr=json.toString();
-	        //å•†æˆ·é€šè¿‡è¯¥æ¥å£è¿›è¡Œäº¤æ˜“çš„åˆ›å»ºä¸‹å•
+	        //ÉÌ»§Í¨¹ı¸Ã½Ó¿Ú½øĞĞ½»Ò×µÄ´´½¨ÏÂµ¥
 	        request2.setBizContent(jsonStr);
-	        //å›è°ƒåœ°å€ æ˜¯èƒ½å¤Ÿè®¿é—®åˆ°çš„åŸŸååŠ ä¸Šæ–¹æ³•å
+	        //»Øµ÷µØÖ· ÊÇÄÜ¹»·ÃÎÊµ½µÄÓòÃû¼ÓÉÏ·½·¨Ãû
 	        request2.setNotifyUrl("https://jiashan.iparking.tech/mp/WeChatApi/monthlyCar/payCallback_alipay");
 	        try {
 	        	Map<String, Object>returnMap=new HashMap<String, Object>();
 	            AlipayTradeCreateResponse response = alipayClient.execute(request2);
 	            if(response.isSuccess()){
 	            	log.info(response.getBody());
-	            	wechatUsermapper.insertApiLogs("æ”¯ä»˜å®ç»Ÿä¸€ä¸‹å•åŒ…æœˆæ¥å£","ç”¨æˆ·id:"+dto.getUserOpenId()+"è®¢å•å·:"+dto.getOutTradeNo()+":é‡‘é¢:"+dto.getSub_amount()/100.0f+"æ”¯ä»˜å®äº¤æ˜“å·"+response.getTradeNo(), "success", response.getTradeNo());
+	            	wechatUsermapper.insertApiLogs("Ö§¸¶±¦Í³Ò»ÏÂµ¥°üÔÂ½Ó¿Ú","ÓÃ»§id:"+dto.getUserOpenId()+"¶©µ¥ºÅ:"+dto.getOutTradeNo()+":½ğ¶î:"+dto.getSub_amount()/100.0f+"Ö§¸¶±¦½»Ò×ºÅ"+response.getTradeNo(), "success", response.getTradeNo());
 	            	return response.getTradeNo();
 	            }else{
-	            	wechatUsermapper.insertApiLogs("æ”¯ä»˜å®ç»Ÿä¸€ä¸‹å•åŒ…æœˆæ¥å£","ç”¨æˆ·id:"+dto.getUserOpenId()+"è®¢å•å·:"+dto.getOutTradeNo()+":é‡‘é¢:"+dto.getSub_amount()/100.0f, "fail", response.getSubCode()+"_"+response.getSubMsg());
+	            	wechatUsermapper.insertApiLogs("Ö§¸¶±¦Í³Ò»ÏÂµ¥°üÔÂ½Ó¿Ú","ÓÃ»§id:"+dto.getUserOpenId()+"¶©µ¥ºÅ:"+dto.getOutTradeNo()+":½ğ¶î:"+dto.getSub_amount()/100.0f, "fail", response.getSubCode()+"_"+response.getSubMsg());
 	            	throw new BaseServiceException(
 							StatusCode.API_FREQUENTLY_ERROR.getCode(),response.getSubCode()+"_"
 									+ response.getSubMsg()
@@ -688,7 +688,7 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 					if(StringUtils.isBlank(invoiceDto.getUserOpenId())){
 						throw new BaseServiceException(
 								StatusCode.MISSING_OPENID_ERROR.getCode(),
-								"ç”¨æˆ·userOpenIdä¸èƒ½ä¸ºç©ºï¼");
+								"ÓÃ»§userOpenId²»ÄÜÎª¿Õ£¡");
 					}
 					
 					invoice invoice = invoicemapper.findInvoiceInfoByTaxNumber(invoiceDto.getTaxNumber(),invoiceDto.getUserOpenId());
@@ -696,28 +696,28 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 						/*if(StringUtils.isBlank(invoiceDto.getBankNumber())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"å¼€æˆ·è¡Œè´¦å·ä¸èƒ½ä¸ºç©ºï¼");
+									"¿ª»§ĞĞÕËºÅ²»ÄÜÎª¿Õ£¡");
 						}*/
 						
 						if(StringUtils.isBlank(invoiceDto.getCompanyName())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"å‘ç¥¨æŠ¬å¤´ä¸èƒ½ä¸ºç©ºï¼");
+									"·¢Æ±Ì§Í·²»ÄÜÎª¿Õ£¡");
 						}
 						/*if(StringUtils.isBlank(invoiceDto.getTaxNumber())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"å‘ç¥¨ç¨å·ä¸èƒ½ä¸ºç©ºï¼");
+									"·¢Æ±Ë°ºÅ²»ÄÜÎª¿Õ£¡");
 						}*/
 						if(StringUtils.isBlank(invoiceDto.getEmail())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"é‚®ç®±åœ°å€ä¸èƒ½ä¸ºç©ºï¼");
+									"ÓÊÏäµØÖ·²»ÄÜÎª¿Õ£¡");
 						}
 						/*if(StringUtils.isBlank(invoiceDto.getAddressMobile())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"è”ç³»åœ°å€ç”µè¯ä¸èƒ½ä¸ºç©ºï¼");
+									"ÁªÏµµØÖ·µç»°²»ÄÜÎª¿Õ£¡");
 						}*/
 						invoice invoice2 = new  invoice();
 						invoice2.setUserOpenId(userOpenId);
@@ -783,7 +783,7 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				
 				PostMethod postMethod = null;
 				try{
-				// è®¾ç½®ä¸Šä¼ æ–‡ä»¶ç›®å½•
+				// ÉèÖÃÉÏ´«ÎÄ¼şÄ¿Â¼
 			    ResourceBundle res = ResourceBundle.getBundle("blueCardApi");
 			    String doInvoiceUrl = res.getString("doInvoice_url");
 		    	
@@ -817,8 +817,8 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		            String data = dataJson.getString("data");
 		            JSONObject  dataJsonR = JSONObject.fromObject(data);
 		                
-		            	log.info("è®¢å•å·ï¼š"+outTradeNoList.toString()+"å¼€ç¥¨æˆåŠŸ");
-		            	wechatUsermapper.insertApiLogs("å¼€ç¥¨æ¥å£", "è®¢å•å·:"+outTradeNoList.toString()+";ç¨å·:"+invoice2.getTaxNumber()+";å¼€ç¥¨é‡‘é¢:"+sumPriceMap, "success", "å‘ç¥¨åœ°å€:"+dataJsonR.getString("pdfUrl"));
+		            	log.info("¶©µ¥ºÅ£º"+outTradeNoList.toString()+"¿ªÆ±³É¹¦");
+		            	wechatUsermapper.insertApiLogs("¿ªÆ±½Ó¿Ú", "¶©µ¥ºÅ:"+outTradeNoList.toString()+";Ë°ºÅ:"+invoice2.getTaxNumber()+";¿ªÆ±½ğ¶î:"+sumPriceMap, "success", "·¢Æ±µØÖ·:"+dataJsonR.getString("pdfUrl"));
 		            if(sumPriceMap.get("type").toString().equals("1")){
 		            	monthlycarmapper.updateSubscriptionRecordByList(outTradeNoList,dataJsonR.getString("pdfUrl"),invoice2.getCompanyName(),invoice2.getTaxNumber(),invoice2.getAddressMobile(),invoice2.getBankNumber(),invoice2.getEmail());
 		            }else{
@@ -827,9 +827,9 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		            	
 
 		            }else{
-		            	log.info("å¼€ç¥¨å·ï¼š"+outTradeNoList.toString()+"å¼€ç¥¨å¤±è´¥");
+		            	log.info("¿ªÆ±ºÅ£º"+outTradeNoList.toString()+"¿ªÆ±Ê§°Ü");
 
-		            	wechatUsermapper.insertApiLogs("å¼€ç¥¨æ¥å£", "è®¢å•å·:"+outTradeNoList.toString()+";ç¨å·:"+invoice2.getTaxNumber()+";å¼€ç¥¨é‡‘é¢:"+sumPriceMap, "fail", dataJson.getString("error_msg"));
+		            	wechatUsermapper.insertApiLogs("¿ªÆ±½Ó¿Ú", "¶©µ¥ºÅ:"+outTradeNoList.toString()+";Ë°ºÅ:"+invoice2.getTaxNumber()+";¿ªÆ±½ğ¶î:"+sumPriceMap, "fail", dataJson.getString("error_msg"));
 		            	throw new BaseServiceException(
 		            			Integer.parseInt(errorCode),
 		            			dataJson.getString("error_msg"));
@@ -839,7 +839,7 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 			    }else{
 			    	throw new BaseServiceException(
 							StatusCode.API_FREQUENTLY_ERROR.getCode(),
-							"è¯·æŸ¥çœ‹å¼€ç¥¨æ¥å£");
+							"Çë²é¿´¿ªÆ±½Ó¿Ú");
 			    }
 				}finally {
 					postMethod.releaseConnection();
@@ -854,17 +854,17 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				if(dto.getOrderType().equals("1")){//monthlyCar_inParking
 					List<Map<String, Object>>recordList= monthlycarmapper.findSubscriptionRecordByRId(dto.getrId().toString());
 					if(recordList.size()==0){
-						throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"æ— åœºå†…åŒ…æœŸæ”¯ä»˜è®°å½•ï¼Œè¯·æŸ¥è¯¢ï¼");
+						throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"ÎŞ³¡ÄÚ°üÆÚÖ§¸¶¼ÇÂ¼£¬Çë²éÑ¯£¡");
 					}
 					//String refundAmount=  recordList.get(0).get("refund_amount").toString();
 					int refund_fee =Integer.valueOf(recordList.get(0).get("refund_amount").toString());
 					int sum_refund_fee=refund_fee+dto.getRefundFee();
 					if(sum_refund_fee>Integer.valueOf(recordList.get(0).get("sub_amount").toString())){
-						throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"é€€æ¬¾æ€»é‡‘é¢å¤§äºåŒ…æœŸé‡‘é¢æ— éœ€é€€æ¬¾");
+						throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"ÍË¿î×Ü½ğ¶î´óÓÚ°üÆÚ½ğ¶îÎŞĞèÍË¿î");
 					}
-					log.info("åœºå†…åŒ…æœŸé€€æ¬¾å¼€å§‹========================"+new ObjectMapper().writeValueAsString(dto));
+					log.info("³¡ÄÚ°üÆÚÍË¿î¿ªÊ¼========================"+new ObjectMapper().writeValueAsString(dto));
 					String result =this.refundByWechat(dto);
-					log.info("åœºå†…åŒ…æœŸé€€æ¬¾ç»“æŸ========================"+new ObjectMapper().writeValueAsString(dto)+"ç»“æœï¼š"+result);
+					log.info("³¡ÄÚ°üÆÚÍË¿î½áÊø========================"+new ObjectMapper().writeValueAsString(dto)+"½á¹û£º"+result);
 					if(result.equals("SUCCESS")){
 						monthlycarmapper.insertMonthlyCarRefund(dto);
 					}
@@ -875,16 +875,16 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 					
 					List<Map<String, Object>>recordList= monthlycarmapper.findSubscriptionRecordByRId_road(dto.getrId().toString());
 					if(recordList.size()==0){
-						throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"æ— è·¯è¾¹åŒ…æœŸæ”¯ä»˜è®°å½•ï¼Œè¯·æŸ¥è¯¢ï¼");
+						throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"ÎŞÂ·±ß°üÆÚÖ§¸¶¼ÇÂ¼£¬Çë²éÑ¯£¡");
 					}
 					int refund_fee =Integer.valueOf(recordList.get(0).get("refund_amount").toString());
 					int sum_refund_fee=refund_fee+dto.getRefundFee();
 					if(sum_refund_fee>Integer.valueOf(recordList.get(0).get("sub_amount").toString())){
-						throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"é€€æ¬¾æ€»é‡‘é¢å¤§äºåŒ…æœŸé‡‘é¢æ— éœ€é€€æ¬¾");
+						throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"ÍË¿î×Ü½ğ¶î´óÓÚ°üÆÚ½ğ¶îÎŞĞèÍË¿î");
 					}
-					log.info("åœºå¤–åŒ…æœŸé€€æ¬¾å¼€å§‹========================"+new ObjectMapper().writeValueAsString(dto));
+					log.info("³¡Íâ°üÆÚÍË¿î¿ªÊ¼========================"+new ObjectMapper().writeValueAsString(dto));
 					String result =this.refundByWechat(dto);
-					log.info("åœºå¤–åŒ…æœŸé€€æ¬¾ç»“æŸ========================"+new ObjectMapper().writeValueAsString(dto)+"ç»“æœï¼š"+result);
+					log.info("³¡Íâ°üÆÚÍË¿î½áÊø========================"+new ObjectMapper().writeValueAsString(dto)+"½á¹û£º"+result);
 					if(result.equals("SUCCESS")){
 						monthlycarmapper.insertMonthlyCarRefund(dto);
 					}
@@ -899,20 +899,20 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		         try{
 
 		            SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
-		            /** å½“å‰æ—¶é—´ yyyyMMddHHmmss */
+		            /** µ±Ç°Ê±¼ä yyyyMMddHHmmss */
 		            String currTime = CommonUtil.getCurrTime();
-		            /** 8ä½æ—¥æœŸ */
+		            /** 8Î»ÈÕÆÚ */
 		            String strTime = currTime.substring(8, currTime.length());
-		            /** å››ä½éšæœºæ•° */
+		            /** ËÄÎ»Ëæ»úÊı */
 		            String strRandom = CommonUtil.buildRandom(4) + "";
-		            //å…¬ä¼—å·çš„appid
+		            //¹«ÖÚºÅµÄappid
 		            String appid = "wx606d7fcc6d1402c9";
-		            /** å…¬ä¼—å·APPID */
+		            /** ¹«ÖÚºÅAPPID */
 		            parameters.put("appid", appid);
-		            /** å•†æˆ·å· */
+		            /** ÉÌ»§ºÅ */
 		            String mch_id = "1604629952";
 		            parameters.put("mch_id", mch_id);
-		            /** éšæœºå­—ç¬¦ä¸² */
+		            /** Ëæ»ú×Ö·û´® */
 		            parameters.put("nonce_str", CommonUtil.getNonceStr());
 		            parameters.put("notify_url", "https://jiashan.iparking.tech/mp/WeChatApi/monthlyCar/refundCallback_monthlyCar");
 		            parameters.put("out_refund_no", dto.getOutRefundNo());
@@ -922,25 +922,25 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		            parameters.put("refund_fee", dto.getRefundFee());
 		            parameters.put("refund_desc", dto.getRefundReason());
 		            
-		            /** MD5è¿›è¡Œç­¾åï¼Œå¿…é¡»ä¸ºUTF-8ç¼–ç ï¼Œæ³¨æ„ä¸Šé¢å‡ ä¸ªå‚æ•°åç§°çš„å¤§å°å†™ */
+		            /** MD5½øĞĞÇ©Ãû£¬±ØĞëÎªUTF-8±àÂë£¬×¢ÒâÉÏÃæ¼¸¸ö²ÎÊıÃû³ÆµÄ´óĞ¡Ğ´ */
 		            String api_key = "jgkj2020jgkj2020jgkj2020jgkj2020";
 		            String sign = CommonUtil.createSign("UTF-8", parameters,api_key);
 		            String requestJsonStr = new ObjectMapper().writeValueAsString(parameters);
 
 		            parameters.put("sign", sign);//
-		            /** ç”Ÿæˆxmlç»“æ„çš„æ•°æ®ï¼Œç”¨äºç»Ÿä¸€ä¸‹å•æ¥å£çš„è¯·æ±‚ */
+		            /** Éú³Éxml½á¹¹µÄÊı¾İ£¬ÓÃÓÚÍ³Ò»ÏÂµ¥½Ó¿ÚµÄÇëÇó */
 		            String requestXML = CommonUtil.getRequestXml(parameters);
 		            /**
-		             * è¯»å–è¯ä¹¦
+		             * ¶ÁÈ¡Ö¤Êé
 		             * 
 		             */
 		            CloseableHttpClient httpclient = null;
 		            Map<String,String> result = new HashMap<String,String>();
 		           try {
 		                KeyStore keyStore = KeyStore.getInstance("PKCS12");
-		                String pathname = "/tomcat/apiclient_cert.p12";//è¿™é‡Œå¡«ä½ ä»¬çš„è¯ä¹¦çš„åœ°å€ï¼Œæˆ‘è¿™é‡Œæ”¾åœ¨linuxæœåŠ¡å™¨çš„/usrä¸‹é¢
+		                String pathname = "/tomcat/apiclient_cert.p12";//ÕâÀïÌîÄãÃÇµÄÖ¤ÊéµÄµØÖ·£¬ÎÒÕâÀï·ÅÔÚlinux·şÎñÆ÷µÄ/usrÏÂÃæ
 		                //String pathname="D:\\home\\apiclient_cert.p12";
-		                FileInputStream instream = new FileInputStream(new File(pathname)); //æ­¤å¤„ä¸ºè¯ä¹¦æ‰€æ”¾çš„ç»å¯¹è·¯å¾„
+		                FileInputStream instream = new FileInputStream(new File(pathname)); //´Ë´¦ÎªÖ¤ÊéËù·ÅµÄ¾ø¶ÔÂ·¾¶
 		                try {
 		                    keyStore.load(instream, mch_id.toCharArray());
 		                } finally {
@@ -959,14 +959,14 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		                        .build();
 		            }
 		            catch (Exception e){
-		            	log.info("è¯»å–è¯ä¹¦ä¿¡æ¯çš„æ—¶å€™å‘ç”Ÿå¼‚å¸¸å¼‚å¸¸ä¿¡æ¯æ˜¯ï¼š"+e.getMessage());
+		            	log.info("¶ÁÈ¡Ö¤ÊéĞÅÏ¢µÄÊ±ºò·¢ÉúÒì³£Òì³£ĞÅÏ¢ÊÇ£º"+e.getMessage());
 		                e.printStackTrace();
 		            }
 		            try {
 		                String requestUrl = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 		                HttpPost httpPost = new HttpPost(requestUrl);
 		                StringEntity reqEntity  = new StringEntity(requestXML, "utf-8");
-		                // è®¾ç½®ç±»å‹
+		                // ÉèÖÃÀàĞÍ
 		                reqEntity.setContentType("application/x-www-form-urlencoded");
 		                httpPost.setEntity(reqEntity);
 		                log.info("executing request" + httpPost.getRequestLine());
@@ -975,21 +975,21 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		                    HttpEntity entity = response.getEntity();
 		                    System.out.println(response.getStatusLine());
 		                    if (entity != null) {
-		                        // ä»requestä¸­å–å¾—è¾“å…¥æµ
+		                        // ´ÓrequestÖĞÈ¡µÃÊäÈëÁ÷
 		                        InputStream inputStream = entity.getContent();
-		                        // è¯»å–è¾“å…¥æµ
+		                        // ¶ÁÈ¡ÊäÈëÁ÷
 		                        SAXReader reader = new SAXReader();
 		                        Document document = reader.read(inputStream);
-		                        // å¾—åˆ°xmlæ ¹å…ƒç´ 
+		                        // µÃµ½xml¸ùÔªËØ
 		                        Element root = document.getRootElement();
-		                        // å¾—åˆ°æ ¹å…ƒç´ çš„æ‰€æœ‰å­èŠ‚ç‚¹
+		                        // µÃµ½¸ùÔªËØµÄËùÓĞ×Ó½Úµã
 		                        List<Element> elementList = root.elements();
-		                        // éå†æ‰€æœ‰å­èŠ‚ç‚¹
+		                        // ±éÀúËùÓĞ×Ó½Úµã
 		                        for (Element e : elementList)
 		                        {
 		                            result.put(e.getName(), e.getText());
 		                        }
-		                        // é‡Šæ”¾èµ„æº
+		                        // ÊÍ·Å×ÊÔ´
 		                        inputStream.close();
 		                    }
 		                    EntityUtils.consume(entity);
@@ -1010,24 +1010,24 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		                    e.printStackTrace();
 		                }
 		            }
-		            String refundjson=new ObjectMapper().writeValueAsString(dto);//å…³é”®
-		            log.info("é€€æ¬¾JSON"+new ObjectMapper().writeValueAsString(result));
+		            String refundjson=new ObjectMapper().writeValueAsString(dto);//¹Ø¼ü
+		            log.info("ÍË¿îJSON"+new ObjectMapper().writeValueAsString(result));
 
 		            if(result.get("result_code").equals("SUCCESS")) {
 
-		            	wechatUsermapper.insertApiLogs("åŒ…æœŸé€€æ¬¾æ¥å£", refundjson, "success", new ObjectMapper().writeValueAsString(result));
+		            	wechatUsermapper.insertApiLogs("°üÆÚÍË¿î½Ó¿Ú", refundjson, "success", new ObjectMapper().writeValueAsString(result));
 
 		                return result.get("result_code");
 		                }
 		            else {
-		            	wechatUsermapper.insertApiLogs("åŒ…æœŸé€€æ¬¾æ¥å£", refundjson, "fail", new ObjectMapper().writeValueAsString(result));
+		            	wechatUsermapper.insertApiLogs("°üÆÚÍË¿î½Ó¿Ú", refundjson, "fail", new ObjectMapper().writeValueAsString(result));
 		            	throw new BaseServiceException(
 		    					StatusCode.SYSTEM_ERROR.getCode(),
-		    					"å¾®ä¿¡é€€æ¬¾æ¥å£è·å–å¤±è´¥ï¼Œè¯·é‡æ–°è”ç³»ç®¡ç†å‘˜ï¼"+"["+result.get("err_code_des")+"]");
+		    					"Î¢ĞÅÍË¿î½Ó¿Ú»ñÈ¡Ê§°Ü£¬ÇëÖØĞÂÁªÏµ¹ÜÀíÔ±£¡"+"["+result.get("err_code_des")+"]");
 		            }
 		        }
 		        catch (Exception e){
-		        	log.info("å¾®ä¿¡é€€æ¬¾æ¥å£å¼‚å¸¸ï¼Œå¼‚å¸¸ä¿¡æ¯æ˜¯ï¼š"+e.getMessage());
+		        	log.info("Î¢ĞÅÍË¿î½Ó¿ÚÒì³££¬Òì³£ĞÅÏ¢ÊÇ£º"+e.getMessage());
 		        	throw new BaseServiceException(
 							StatusCode.SYSTEM_ERROR.getCode(),
 							e.getMessage());
@@ -1062,20 +1062,20 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				if(StringUtils.isBlank(map.get("userOpenId").toString())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"å°ç¨‹åºidä¸èƒ½ä¸ºç©º");
+							"Ğ¡³ÌĞòid²»ÄÜÎª¿Õ");
 				}
-				if(map.get("packageType").toString().equals("1")){// åŒ…æœŸç±»å‹ï¼š1å…¨åŒ…ï¼›2å•åŒ…
+				if(map.get("packageType").toString().equals("1")){// °üÆÚÀàĞÍ£º1È«°ü£»2µ¥°ü
 					if(StringUtils.isBlank(map.get("aType").toString())){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å…¨åŒ…ç±»å‹ä¸èƒ½ä¸ºç©º");
+								"È«°üÀàĞÍ²»ÄÜÎª¿Õ");
 					}
 				return monthlycarmapper.findMonthlyCarPackage(map);
 				}else{
 					if(StringUtils.isBlank(map.get("pklType").toString())){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"åœè½¦åœºç±»å‹ä¸èƒ½ä¸ºç©º");
+								"Í£³µ³¡ÀàĞÍ²»ÄÜÎª¿Õ");
 					}
 					return monthlycarmapper.findMonthlyCarPackage_single(map);
 				}
@@ -1092,16 +1092,16 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				    if(StringUtils.isBlank(map.get("userOpenId").toString())){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å°ç¨‹åºidä¸èƒ½ä¸ºç©º");
+								"Ğ¡³ÌĞòid²»ÄÜÎª¿Õ");
 					}
 				
 					if(StringUtils.isBlank(map.get("aId").toString())){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å…¨åŒ…ç¼–å·ä¸èƒ½ä¸ºç©º");
+								"È«°ü±àºÅ²»ÄÜÎª¿Õ");
 					}
 					
-					return monthlycarmapper.findMonthlyCarPackageParkingLotInfo(map);//å¥—é¤å†…åŒ…å«åœè½¦åœºè¯¦æƒ…
+					return monthlycarmapper.findMonthlyCarPackageParkingLotInfo(map);//Ì×²ÍÄÚ°üº¬Í£³µ³¡ÏêÇé
 			}
 
 
@@ -1114,34 +1114,34 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				if(StringUtils.isBlank(map.get("userOpenId").toString())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"å°ç¨‹åºidä¸èƒ½ä¸ºç©º");
+							"Ğ¡³ÌĞòid²»ÄÜÎª¿Õ");
 				}
 				if(StringUtils.isBlank(map.get("au_veh_plate").toString())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"è½¦ç‰Œä¸èƒ½ä¸ºç©º");
+							"³µÅÆ²»ÄÜÎª¿Õ");
 				}
 				if(StringUtils.isBlank(map.get("au_veh_plate_color").toString())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"è½¦ç‰Œé¢œè‰²ä¸èƒ½ä¸ºç©º");
+							"³µÅÆÑÕÉ«²»ÄÜÎª¿Õ");
 				}
 				if(StringUtils.isBlank(map.get("au_user_fullname").toString())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"è½¦ä¸»å§“åä¸èƒ½ä¸ºç©º");
+							"³µÖ÷ĞÕÃû²»ÄÜÎª¿Õ");
 				}
 				
 				if(StringUtils.isBlank(map.get("au_drive_license").toString())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"å›¾ç‰‡ä¿¡æ¯ä¸èƒ½ä¸ºç©º");
+							"Í¼Æ¬ĞÅÏ¢²»ÄÜÎª¿Õ");
 				}
 				
 				if(StringUtils.isBlank(map.get("au_type").toString())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"åŒ…æœŸç±»å‹ä¸èƒ½ä¸ºç©º");
+							"°üÆÚÀàĞÍ²»ÄÜÎª¿Õ");
 				}
 				
 				Map<String, Object> userMap = new HashMap<>();
@@ -1150,7 +1150,7 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				if(user==null){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"ç”¨æˆ·ä¿¡æ¯ä¸ºç©ºï¼");
+							"ÓÃ»§ĞÅÏ¢Îª¿Õ£¡");
 				}
 				
 				
@@ -1159,7 +1159,7 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				if(blackPlateNum != 0){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"è½¦è¾†å­˜åœ¨é»‘åå•è®°å½•ï¼Œè¯·æ ¸å®æ˜¯å¦è½¦è¾†æ¬ è´¹");
+							"³µÁ¾´æÔÚºÚÃûµ¥¼ÇÂ¼£¬ÇëºËÊµÊÇ·ñ³µÁ¾Ç··Ñ");
 				}
 				
 				userMap.put("au_user_id", user.getUserId());
@@ -1173,27 +1173,27 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 					if(StringUtils.isBlank(map.get("osp_id").toString())){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å•åŒ…ä¿¡æ¯ä¸èƒ½ä¸ºç©º");
+								"µ¥°üĞÅÏ¢²»ÄÜÎª¿Õ");
 					}
 					userMap.put("osp_id", map.get("osp_id").toString());
 					long num = monthlycarmapper.findMonthlyCarAuditCount(userMap);
 					if(num!=0){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"æœ‰ç›¸åŒå®¡æ ¸è®°å½•è¯·æ ¸å®");
+								"ÓĞÏàÍ¬ÉóºË¼ÇÂ¼ÇëºËÊµ");
 					}
 				}else{
 					if(StringUtils.isBlank(map.get("a_id").toString())){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å…¨åŒ…ä¿¡æ¯ä¸èƒ½ä¸ºç©º");
+								"È«°üĞÅÏ¢²»ÄÜÎª¿Õ");
 					}
 					userMap.put("a_id", map.get("a_id").toString());
 					long num = monthlycarmapper.findMonthlyCarAuditCount(userMap);
 					if(num!=0){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"æœ‰ç›¸åŒå®¡æ ¸è®°å½•è¯·æ ¸å®");
+								"ÓĞÏàÍ¬ÉóºË¼ÇÂ¼ÇëºËÊµ");
 					}
 				}
 				
@@ -1214,14 +1214,14 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				if(StringUtils.isBlank(map.get("userOpenId").toString())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"å°ç¨‹åºidä¸èƒ½ä¸ºç©º");
+							"Ğ¡³ÌĞòid²»ÄÜÎª¿Õ");
 				}
 				
 				wechatUser user = wechatUsermapper.findWechatUserInfoByOpenId(map.get("userOpenId").toString());
 				if(user==null){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"è¯·æ ¸å®ç”¨æˆ·ä¿¡æ¯");
+							"ÇëºËÊµÓÃ»§ĞÅÏ¢");
 				}
 				map.put("au_user_id", user.getUserId());
 				
@@ -1265,14 +1265,14 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				if(StringUtils.isBlank(map.get("userOpenId").toString())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"å°ç¨‹åºidä¸èƒ½ä¸ºç©º");
+							"Ğ¡³ÌĞòid²»ÄÜÎª¿Õ");
 				}
 				
 				wechatUser user = wechatUsermapper.findWechatUserInfoByOpenId(map.get("userOpenId").toString());
 				if(user==null){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"è¯·æ ¸å®ç”¨æˆ·ä¿¡æ¯");
+							"ÇëºËÊµÓÃ»§ĞÅÏ¢");
 				}
 				List<Map<String, Object>> packageInfo = new ArrayList<>();
 				List<Map<String, Object>> packageInfoList = new ArrayList<>();
@@ -1280,13 +1280,13 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 					if(StringUtils.isBlank(map.get("osp_id").toString())){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å•åŒ…ä¿¡æ¯ä¸èƒ½ä¸ºç©º");
+								"µ¥°üĞÅÏ¢²»ÄÜÎª¿Õ");
 					}
 					packageInfo = monthlycarmapper.findOperationSubscriptionParkinglotById(map);
 					if(packageInfo.size()==0){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å•åŒ…åœè½¦åœºå¥—é¤å·²å–æ¶ˆï¼Œè¯·è”ç³»ç®¡ç†å‘˜");
+								"µ¥°üÍ£³µ³¡Ì×²ÍÒÑÈ¡Ïû£¬ÇëÁªÏµ¹ÜÀíÔ±");
 					}
 					detMap.put("packageInfo", packageInfo);
 					detMap.put("parkingInfo", monthlycarmapper.findOperationSubscriptionParkinglotDetById(map));
@@ -1294,26 +1294,26 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 					if(packageInfo.get(0).get("osp_status").toString().equals("1")){
 						monthMap.put("price", Integer.parseInt(packageInfo.get(0).get("osp_money").toString()));
 						monthMap.put("days", Integer.parseInt(packageInfo.get(0).get("osp_base_day").toString())+Integer.parseInt(packageInfo.get(0).get("osp_give_day_month").toString()));
-						monthMap.put("name", "åŒ…æœˆ");
+						monthMap.put("name", "°üÔÂ");
 					}
 					
 					Map<String, Object> seasonMap = new HashMap<>();
 					if(packageInfo.get(0).get("osp_season_status").toString().equals("1")){
 					seasonMap.put("price", Integer.parseInt(packageInfo.get(0).get("osp_money").toString())*3);
 					seasonMap.put("days", Integer.parseInt(packageInfo.get(0).get("osp_base_day").toString())*3+Integer.parseInt(packageInfo.get(0).get("osp_give_day_season").toString()));
-					seasonMap.put("name", "åŒ…å­£");
+					seasonMap.put("name", "°ü¼¾");
 					}
 					Map<String, Object> halfYearMap = new HashMap<>();
 					if(packageInfo.get(0).get("osp_half_year_status").toString().equals("1")){
 					halfYearMap.put("price", Integer.parseInt(packageInfo.get(0).get("osp_money").toString())*6);
 					halfYearMap.put("days", Integer.parseInt(packageInfo.get(0).get("osp_base_day").toString())*6+Integer.parseInt(packageInfo.get(0).get("osp_give_day_half_year").toString()));
-					halfYearMap.put("name", "åŒ…åŠå¹´");
+					halfYearMap.put("name", "°ü°ëÄê");
 					}
 					Map<String, Object> yearMap = new HashMap<>();
 					if(packageInfo.get(0).get("osp_year_status").toString().equals("1")){
 					yearMap.put("price", Integer.parseInt(packageInfo.get(0).get("osp_money").toString())*12);
 					yearMap.put("days", Integer.parseInt(packageInfo.get(0).get("osp_base_day").toString())*12+Integer.parseInt(packageInfo.get(0).get("osp_give_day_year").toString()));
-					yearMap.put("name", "åŒ…å¹´");
+					yearMap.put("name", "°üÄê");
 					}
 					packageInfoList.add(monthMap);
 					packageInfoList.add(seasonMap);
@@ -1325,19 +1325,19 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 					if(StringUtils.isBlank(map.get("a_id").toString())){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å…¨åŒ…ä¸èƒ½ä¸ºç©º");
+								"È«°ü²»ÄÜÎª¿Õ");
 					}
 					if(StringUtils.isBlank(map.get("a_id").toString())){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å…¨åŒ…ä¸èƒ½ä¸ºç©º");
+								"È«°ü²»ÄÜÎª¿Õ");
 					}
 					packageInfo=monthlycarmapper.findOperationSubscriptionAllById(map);
 					
 					if(packageInfo.size()==0){
 						throw new BaseServiceException(
 								StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-								"å…¨åŒ…åœè½¦åœºå¥—é¤å·²å–æ¶ˆï¼Œè¯·è”ç³»ç®¡ç†å‘˜");
+								"È«°üÍ£³µ³¡Ì×²ÍÒÑÈ¡Ïû£¬ÇëÁªÏµ¹ÜÀíÔ±");
 					}
 					detMap.put("packageInfo",packageInfo);
 					
@@ -1347,25 +1347,25 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 					if(packageInfo.get(0).get("a_month_status").toString().equals("1")){
 					monthMap.put("price", Integer.parseInt(packageInfo.get(0).get("a_money").toString()));
 					monthMap.put("days", Integer.parseInt(packageInfo.get(0).get("a_base_day").toString())+Integer.parseInt(packageInfo.get(0).get("a_give_day_month").toString()));
-					monthMap.put("name", "åŒ…æœˆ");
+					monthMap.put("name", "°üÔÂ");
 				    }
 					Map<String, Object> seasonMap = new HashMap<>();
 					if(packageInfo.get(0).get("a_season_status").toString().equals("1")){
 					seasonMap.put("price", Integer.parseInt(packageInfo.get(0).get("a_money").toString())*3);
 					seasonMap.put("days", Integer.parseInt(packageInfo.get(0).get("a_base_day").toString())*3+Integer.parseInt(packageInfo.get(0).get("a_give_day_season").toString()));
-					seasonMap.put("name", "åŒ…å­£");
+					seasonMap.put("name", "°ü¼¾");
 			        }          
 					Map<String, Object> halfYearMap = new HashMap<>();
 					if(packageInfo.get(0).get("a_half_year_status").toString().equals("1")){
 					halfYearMap.put("price", Integer.parseInt(packageInfo.get(0).get("a_money").toString())*6);
 					halfYearMap.put("days", Integer.parseInt(packageInfo.get(0).get("a_base_day").toString())*6+Integer.parseInt(packageInfo.get(0).get("a_give_day_half_year").toString()));
-					halfYearMap.put("name", "åŒ…åŠå¹´");
+					halfYearMap.put("name", "°ü°ëÄê");
 					}
 					Map<String, Object> yearMap = new HashMap<>();
 					if(packageInfo.get(0).get("a_year_status").toString().equals("1")){
 					yearMap.put("price", Integer.parseInt(packageInfo.get(0).get("a_money").toString())*12);
 					yearMap.put("days", Integer.parseInt(packageInfo.get(0).get("a_base_day").toString())*12+Integer.parseInt(packageInfo.get(0).get("a_give_day_year").toString()));
-					yearMap.put("name", "åŒ…å¹´");
+					yearMap.put("name", "°üÄê");
 					}
 					packageInfoList.add(monthMap);
 					packageInfoList.add(seasonMap);
@@ -1401,63 +1401,63 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 				
 				
 				if(StringUtils.isBlank(userOpenId)){
-					throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"å°ç¨‹åºuserOpenIdä¸èƒ½ä¸ºç©ºï¼");
+					throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"Ğ¡³ÌĞòuserOpenId²»ÄÜÎª¿Õ£¡");
 				}
 				
 				if(StringUtils.isBlank(days)){
-					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸå¤©æ•°ä¸èƒ½ä¸ºç©º");
+					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚÌìÊı²»ÄÜÎª¿Õ");
 				}
 				
 				if(StringUtils.isBlank(au_id)){
-					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"å®¡æ ¸ä¿¡æ¯ä¸èƒ½ä¸ºç©º");
+					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"ÉóºËĞÅÏ¢²»ÄÜÎª¿Õ");
 				}
 				
 				
 				if(StringUtils.isBlank(plate)){
-					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"è½¦ç‰Œå·ä¸èƒ½ä¸ºç©ºï¼");
+					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"³µÅÆºÅ²»ÄÜÎª¿Õ£¡");
 				}
 				
 				if(StringUtils.isBlank(amount)){
-					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸé‡‘é¢ä¸èƒ½ä¸ºç©ºï¼");
+					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚ½ğ¶î²»ÄÜÎª¿Õ£¡");
 				}
 				wechatPayMap.put("au_status", "1");
 				List<Map<String, Object>> list = monthlycarmapper.findMonthlyCarAudit(wechatPayMap);
 				
 				if(list.size()==0){
-					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"å®¡æ ¸ä¿¡æ¯ä¸èƒ½ä¸ºç©ºï¼");
+					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"ÉóºËĞÅÏ¢²»ÄÜÎª¿Õ£¡");
 				}
 				
 				long useMonthly = monthlycarmapper.findUseMonthlyCount(au_id);
 				
 				if(useMonthly!=0){
-					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"åŒ…æœŸå¤©æ•°æœ‰ä½™ï¼Œæ— æ³•ç»­åŒ…");
+					throw new BaseException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),"°üÆÚÌìÊıÓĞÓà£¬ÎŞ·¨Ğø°ü");
 				}
 				
 				try{
 
-		            //å…¬ä¼—å·çš„appid
+		            //¹«ÖÚºÅµÄappid
 		            String appid = "wx606d7fcc6d1402c9";
 		            String openid = userOpenId;
-		            //å¼€å§‹å‘é€çº¢åŒ…
-		            //logger.info("++++++++++++++å¼€å§‹å‘é€çº¢åŒ…++++++++++++++++++");
+		            //¿ªÊ¼·¢ËÍºì°ü
+		            //logger.info("++++++++++++++¿ªÊ¼·¢ËÍºì°ü++++++++++++++++++");
 		            SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
-		            /** å½“å‰æ—¶é—´ yyyyMMddHHmmss */
+		            /** µ±Ç°Ê±¼ä yyyyMMddHHmmss */
 		            String currTime = CommonUtil.getCurrTime();
-		            /** 8ä½æ—¥æœŸ */
+		            /** 8Î»ÈÕÆÚ */
 		            String strTime = currTime.substring(8, currTime.length());
-		            /** å››ä½éšæœºæ•° */
+		            /** ËÄÎ»Ëæ»úÊı */
 		            String strRandom = CommonUtil.buildRandom(4) + "";
-		            //å•†æˆ·è®¢å•å·
+		            //ÉÌ»§¶©µ¥ºÅ
 		            //parameters.put("mch_billno",strTime + strRandom);
 		            String outTradeNo = currTime+strTime+strRandom;
 		            wechatPayMap.put("out_trade_no", outTradeNo);
-		            /** å…¬ä¼—å·APPID */
+		            /** ¹«ÖÚºÅAPPID */
 		            parameters.put("appid", appid);
-		            parameters.put("body", plate+"åŒ…æœˆç¼´è´¹"+days);
-		            /** å•†æˆ·å· */
+		            parameters.put("body", plate+"°üÔÂ½É·Ñ"+days);
+		            /** ÉÌ»§ºÅ */
 		            String mch_id = "1604629952";
 		            parameters.put("mch_id", mch_id);
-		            /** éšæœºå­—ç¬¦ä¸² */
+		            /** Ëæ»ú×Ö·û´® */
 		            parameters.put("nonce_str", CommonUtil.getNonceStr());
 		            parameters.put("notify_url", "https://jiashan.iparking.tech/mp/WeChatApi/monthlyCar/payCallback_package");
 		            parameters.put("out_trade_no", outTradeNo);
@@ -1465,29 +1465,29 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		            parameters.put("spbill_create_ip", request.getRemoteAddr());
 		            parameters.put("total_fee", amount);
 		            parameters.put("trade_type", "JSAPI");
-		            parameters.put("attach", au_id+"_"+days+"_"+outTradeNo);//ä¼˜æƒ åˆ¸recordId
+		            parameters.put("attach", au_id+"_"+days+"_"+outTradeNo);//ÓÅ»İÈ¯recordId
 
 		            
 		            
-		            /** MD5è¿›è¡Œç­¾åï¼Œå¿…é¡»ä¸ºUTF-8ç¼–ç ï¼Œæ³¨æ„ä¸Šé¢å‡ ä¸ªå‚æ•°åç§°çš„å¤§å°å†™ */
+		            /** MD5½øĞĞÇ©Ãû£¬±ØĞëÎªUTF-8±àÂë£¬×¢ÒâÉÏÃæ¼¸¸ö²ÎÊıÃû³ÆµÄ´óĞ¡Ğ´ */
 		            String api_key = "jgkj2020jgkj2020jgkj2020jgkj2020";
 		            String sign = CommonUtil.createSign("UTF-8", parameters,api_key);
 		            String requestJsonStr = new ObjectMapper().writeValueAsString(parameters);
-		            //logger.info("å‘é€çš„ä¿¡æ¯æ˜¯"+requestJsonStr);
+		            //logger.info("·¢ËÍµÄĞÅÏ¢ÊÇ"+requestJsonStr);
 		            parameters.put("sign", sign);//
-		            /** ç”Ÿæˆxmlç»“æ„çš„æ•°æ®ï¼Œç”¨äºç»Ÿä¸€ä¸‹å•æ¥å£çš„è¯·æ±‚ */
+		            /** Éú³Éxml½á¹¹µÄÊı¾İ£¬ÓÃÓÚÍ³Ò»ÏÂµ¥½Ó¿ÚµÄÇëÇó */
 		            String requestXML = CommonUtil.getRequestXml(parameters);
 		            /**
-		             * è¯»å–è¯ä¹¦
+		             * ¶ÁÈ¡Ö¤Êé
 		             * 
 		             */
 		            CloseableHttpClient httpclient = null;
 		            Map<String,String> result = new HashMap<String,String>();
 		           try {
 		                KeyStore keyStore = KeyStore.getInstance("PKCS12");
-		                String pathname = "/tomcat/apiclient_cert.p12";//è¿™é‡Œå¡«ä½ ä»¬çš„è¯ä¹¦çš„åœ°å€ï¼Œæˆ‘è¿™é‡Œæ”¾åœ¨linuxæœåŠ¡å™¨çš„/usrä¸‹é¢
+		                String pathname = "/tomcat/apiclient_cert.p12";//ÕâÀïÌîÄãÃÇµÄÖ¤ÊéµÄµØÖ·£¬ÎÒÕâÀï·ÅÔÚlinux·şÎñÆ÷µÄ/usrÏÂÃæ
 		                //String pathname="D:\\home\\apiclient_cert.p12";
-		                FileInputStream instream = new FileInputStream(new File(pathname)); //æ­¤å¤„ä¸ºè¯ä¹¦æ‰€æ”¾çš„ç»å¯¹è·¯å¾„
+		                FileInputStream instream = new FileInputStream(new File(pathname)); //´Ë´¦ÎªÖ¤ÊéËù·ÅµÄ¾ø¶ÔÂ·¾¶
 		                try {
 		                    keyStore.load(instream, mch_id.toCharArray());
 		                } finally {
@@ -1508,14 +1508,14 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		                        .build();
 		            }
 		            catch (Exception e){
-		            	log.info("è¯»å–è¯ä¹¦ä¿¡æ¯çš„æ—¶å€™å‘ç”Ÿå¼‚å¸¸å¼‚å¸¸ä¿¡æ¯æ˜¯ï¼š"+e.getMessage());
+		            	log.info("¶ÁÈ¡Ö¤ÊéĞÅÏ¢µÄÊ±ºò·¢ÉúÒì³£Òì³£ĞÅÏ¢ÊÇ£º"+e.getMessage());
 		                e.printStackTrace();
 		            }
 		            try {
 		                String requestUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 		                HttpPost httpPost = new HttpPost(requestUrl);
 		                StringEntity reqEntity  = new StringEntity(requestXML, "utf-8");
-		                // è®¾ç½®ç±»å‹
+		                // ÉèÖÃÀàĞÍ
 		                reqEntity.setContentType("application/x-www-form-urlencoded");
 		                httpPost.setEntity(reqEntity);
 		                log.info("executing request" + httpPost.getRequestLine());
@@ -1524,21 +1524,21 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		                    HttpEntity entity = response.getEntity();
 		                    System.out.println(response.getStatusLine());
 		                    if (entity != null) {
-		                        // ä»requestä¸­å–å¾—è¾“å…¥æµ
+		                        // ´ÓrequestÖĞÈ¡µÃÊäÈëÁ÷
 		                        InputStream inputStream = entity.getContent();
-		                        // è¯»å–è¾“å…¥æµ
+		                        // ¶ÁÈ¡ÊäÈëÁ÷
 		                        SAXReader reader = new SAXReader();
 		                        Document document = reader.read(inputStream);
-		                        // å¾—åˆ°xmlæ ¹å…ƒç´ 
+		                        // µÃµ½xml¸ùÔªËØ
 		                        Element root = document.getRootElement();
-		                        // å¾—åˆ°æ ¹å…ƒç´ çš„æ‰€æœ‰å­èŠ‚ç‚¹
+		                        // µÃµ½¸ùÔªËØµÄËùÓĞ×Ó½Úµã
 		                        List<Element> elementList = root.elements();
-		                        // éå†æ‰€æœ‰å­èŠ‚ç‚¹
+		                        // ±éÀúËùÓĞ×Ó½Úµã
 		                        for (Element e : elementList)
 		                        {
 		                            result.put(e.getName(), e.getText());
 		                        }
-		                        // é‡Šæ”¾èµ„æº
+		                        // ÊÍ·Å×ÊÔ´
 		                        inputStream.close();
 		                    }
 		                    EntityUtils.consume(entity);
@@ -1560,26 +1560,26 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 		                }
 		            }
 		            
-		            log.info("å‘è·å–PrepayIdï¼š"+new ObjectMapper().writeValueAsString(result));
-		            String refundjson=new ObjectMapper().writeValueAsString(wechatPayMap);//å…³é”®
+		            log.info("·¢»ñÈ¡PrepayId£º"+new ObjectMapper().writeValueAsString(result));
+		            String refundjson=new ObjectMapper().writeValueAsString(wechatPayMap);//¹Ø¼ü
 		            
 		            if(result.get("result_code").equals("SUCCESS")) {
 		            	Map<String, Object> map =CommonUtil.generateSignature(result);
-		            	wechatUsermapper.insertApiLogs("ç»Ÿä¸€ä¸‹å•æ¥å£_è½¦è¾†è‡ªä¸»åŒ…æœˆ", refundjson, "success", new ObjectMapper().writeValueAsString(result));
+		            	wechatUsermapper.insertApiLogs("Í³Ò»ÏÂµ¥½Ó¿Ú_³µÁ¾×ÔÖ÷°üÔÂ", refundjson, "success", new ObjectMapper().writeValueAsString(result));
 		            	
 		            	map.put("price", amount);
 		                return map;
 		                }
 		            else {
-		            	log.info("è·å–PrepayId="+openid+",å‘é€æ—¶é—´æ˜¯ï¼š"+CommonUtil.getPreDay(new Date(),0));
-		            	wechatUsermapper.insertApiLogs("ç»Ÿä¸€ä¸‹å•æ¥å£_è½¦è¾†è‡ªä¸»åŒ…æœˆ", refundjson, "fail", new ObjectMapper().writeValueAsString(result));
+		            	log.info("»ñÈ¡PrepayId="+openid+",·¢ËÍÊ±¼äÊÇ£º"+CommonUtil.getPreDay(new Date(),0));
+		            	wechatUsermapper.insertApiLogs("Í³Ò»ÏÂµ¥½Ó¿Ú_³µÁ¾×ÔÖ÷°üÔÂ", refundjson, "fail", new ObjectMapper().writeValueAsString(result));
 		            	throw new BaseServiceException(
 		    					StatusCode.SYSTEM_ERROR.getCode(),
-		    					"ç»Ÿä¸€ä¸‹å•æ¥å£è·å–å¤±è´¥ï¼Œè¯·é‡æ–°è”ç³»ç®¡ç†å‘˜ï¼"+"["+result.get("err_code_des")+"]");
+		    					"Í³Ò»ÏÂµ¥½Ó¿Ú»ñÈ¡Ê§°Ü£¬ÇëÖØĞÂÁªÏµ¹ÜÀíÔ±£¡"+"["+result.get("err_code_des")+"]");
 		            }
 		        }
 		        catch (Exception e){
-		        	log.info("ç»Ÿä¸€ä¸‹å•æ¥å£_è½¦è¾†è‡ªä¸»åŒ…æœˆå¼‚å¸¸ï¼Œå¼‚å¸¸ä¿¡æ¯æ˜¯ï¼š"+e.getMessage());
+		        	log.info("Í³Ò»ÏÂµ¥½Ó¿Ú_³µÁ¾×ÔÖ÷°üÔÂÒì³££¬Òì³£ĞÅÏ¢ÊÇ£º"+e.getMessage());
 		        	throw new BaseServiceException(
 							StatusCode.SYSTEM_ERROR.getCode(),
 							e.getMessage());
@@ -1622,16 +1622,16 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 			    
 			    if(response==200){
 			    	JSONObject  dataJson = JSONObject.fromObject(postMethod.getResponseBodyAsString());
-			    	log.info("++++++++++++++++++åŒ…æœŸå›è°ƒæ¥å£++++++++++++++++++++++"+dataJson);
+			    	log.info("++++++++++++++++++°üÆÚ»Øµ÷½Ó¿Ú++++++++++++++++++++++"+dataJson);
 			        String errorCode = dataJson.getString("error_code");
 			        if(errorCode.equals("0")){
-			        	log.info("au_id"+au_id+"å›è°ƒæˆåŠŸï¼");
-			        	wechatUsermapper.insertApiLogs("åŒ…æœŸå›è°ƒæ¥å£", "au_id:"+au_id, "success", "");
+			        	log.info("au_id"+au_id+"»Øµ÷³É¹¦£¡");
+			        	wechatUsermapper.insertApiLogs("°üÆÚ»Øµ÷½Ó¿Ú", "au_id:"+au_id, "success", "");
 
 			        	
 			        }else{
-			        	log.info("au_id"+au_id+"å›è°ƒå¤±è´¥ï¼");
-			        	wechatUsermapper.insertApiLogs("åŒ…æœŸå›è°ƒæ¥å£", "au_id:"+au_id, "fail", dataJson.getString("error_msg"));
+			        	log.info("au_id"+au_id+"»Øµ÷Ê§°Ü£¡");
+			        	wechatUsermapper.insertApiLogs("°üÆÚ»Øµ÷½Ó¿Ú", "au_id:"+au_id, "fail", dataJson.getString("error_msg"));
 			        	throw new BaseServiceException(
 			        			Integer.parseInt(errorCode),
 			        			dataJson.getString("error_msg"));
@@ -1641,7 +1641,7 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 			    }else{
 			    	throw new BaseServiceException(
 							StatusCode.API_FREQUENTLY_ERROR.getCode(),
-							"è¯·æŸ¥çœ‹åŒ…æœŸå›è°ƒæ¥å£");
+							"Çë²é¿´°üÆÚ»Øµ÷½Ó¿Ú");
 			    }
 				}finally {
 					postMethod.releaseConnection();
@@ -1654,14 +1654,14 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 			public List<Map<String, Object>> findSubscriptionRecordByUserOpenId_new(Map<String, Object> findRecordMap) {
 				
 				if(StringUtils.isBlank(findRecordMap.get("userOpenId").toString())&&StringUtils.isBlank(findRecordMap.get("userOpenIdZfb").toString())){
-					throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"openIdä¸èƒ½ä¸ºç©ºï¼");
+					throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"openId²»ÄÜÎª¿Õ£¡");
 				}
 
 				wechatUser user = wechatUsermapper.findWechatUserInfoByOpenId(findRecordMap.get("userOpenId").toString());
 				if(user==null){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"è¯·æ ¸å®ç”¨æˆ·ä¿¡æ¯");
+							"ÇëºËÊµÓÃ»§ĞÅÏ¢");
 				}
 				findRecordMap.put("au_user_id", user.getUserId());
 				findRecordMap.put("au_status", "1");
@@ -1678,7 +1678,7 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 					if(StringUtils.isBlank(invoiceDto.getUserOpenId())){
 						throw new BaseServiceException(
 								StatusCode.MISSING_OPENID_ERROR.getCode(),
-								"ç”¨æˆ·userOpenIdä¸èƒ½ä¸ºç©ºï¼");
+								"ÓÃ»§userOpenId²»ÄÜÎª¿Õ£¡");
 					}
 					
 					invoice invoice = invoicemapper.findInvoiceInfoByTaxNumber(invoiceDto.getTaxNumber(),invoiceDto.getUserOpenId());
@@ -1686,28 +1686,28 @@ private String getPrepayIdMonthlyCar_alipay(operationSubscriptionRecordDto dto,
 						/*if(StringUtils.isBlank(invoiceDto.getBankNumber())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"å¼€æˆ·è¡Œè´¦å·ä¸èƒ½ä¸ºç©ºï¼");
+									"¿ª»§ĞĞÕËºÅ²»ÄÜÎª¿Õ£¡");
 						}*/
 						
 						if(StringUtils.isBlank(invoiceDto.getCompanyName())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"å‘ç¥¨æŠ¬å¤´ä¸èƒ½ä¸ºç©ºï¼");
+									"·¢Æ±Ì§Í·²»ÄÜÎª¿Õ£¡");
 						}
 						/*if(StringUtils.isBlank(invoiceDto.getTaxNumber())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"å‘ç¥¨ç¨å·ä¸èƒ½ä¸ºç©ºï¼");
+									"·¢Æ±Ë°ºÅ²»ÄÜÎª¿Õ£¡");
 						}*/
 						if(StringUtils.isBlank(invoiceDto.getEmail())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"é‚®ç®±åœ°å€ä¸èƒ½ä¸ºç©ºï¼");
+									"ÓÊÏäµØÖ·²»ÄÜÎª¿Õ£¡");
 						}
 						/*if(StringUtils.isBlank(invoiceDto.getAddressMobile())){
 							throw new BaseServiceException(
 									StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-									"è”ç³»åœ°å€ç”µè¯ä¸èƒ½ä¸ºç©ºï¼");
+									"ÁªÏµµØÖ·µç»°²»ÄÜÎª¿Õ£¡");
 						}*/
 						invoice invoice2 = new  invoice();
 						invoice2.setUserOpenId(userOpenId);
@@ -1758,7 +1758,7 @@ private void doInvoiceSumPrice_monthlyCar_new(List<String> outTradeNoList, invoi
 				
 				PostMethod postMethod = null;
 				try{
-				// è®¾ç½®ä¸Šä¼ æ–‡ä»¶ç›®å½•
+				// ÉèÖÃÉÏ´«ÎÄ¼şÄ¿Â¼
 			    ResourceBundle res = ResourceBundle.getBundle("blueCardApi");
 			    String doInvoiceUrl = res.getString("doInvoice_url");
 		    	
@@ -1792,8 +1792,8 @@ private void doInvoiceSumPrice_monthlyCar_new(List<String> outTradeNoList, invoi
 		            String data = dataJson.getString("data");
 		            JSONObject  dataJsonR = JSONObject.fromObject(data);
 		                
-		            	log.info("è®¢å•å·ï¼š"+outTradeNoList.toString()+"å¼€ç¥¨æˆåŠŸ");
-		            	wechatUsermapper.insertApiLogs("å¼€ç¥¨æ¥å£", "è®¢å•å·:"+outTradeNoList.toString()+";ç¨å·:"+invoice2.getTaxNumber()+";å¼€ç¥¨é‡‘é¢:"+sumPriceMap, "success", "å‘ç¥¨åœ°å€:"+dataJsonR.getString("pdfUrl"));
+		            	log.info("¶©µ¥ºÅ£º"+outTradeNoList.toString()+"¿ªÆ±³É¹¦");
+		            	wechatUsermapper.insertApiLogs("¿ªÆ±½Ó¿Ú", "¶©µ¥ºÅ:"+outTradeNoList.toString()+";Ë°ºÅ:"+invoice2.getTaxNumber()+";¿ªÆ±½ğ¶î:"+sumPriceMap, "success", "·¢Æ±µØÖ·:"+dataJsonR.getString("pdfUrl"));
 		         
 		            	monthlycarmapper.updateSubscriptionRecordByList_new(outTradeNoList,dataJsonR.getString("pdfUrl"),invoice2.getCompanyName(),invoice2.getTaxNumber(),invoice2.getAddressMobile(),invoice2.getBankNumber(),invoice2.getEmail());
 		          
@@ -1802,9 +1802,9 @@ private void doInvoiceSumPrice_monthlyCar_new(List<String> outTradeNoList, invoi
 		            	
 
 		            }else{
-		            	log.info("å¼€ç¥¨å·ï¼š"+outTradeNoList.toString()+"å¼€ç¥¨å¤±è´¥");
+		            	log.info("¿ªÆ±ºÅ£º"+outTradeNoList.toString()+"¿ªÆ±Ê§°Ü");
 
-		            	wechatUsermapper.insertApiLogs("å¼€ç¥¨æ¥å£", "è®¢å•å·:"+outTradeNoList.toString()+";ç¨å·:"+invoice2.getTaxNumber()+";å¼€ç¥¨é‡‘é¢:"+sumPriceMap, "fail", dataJson.getString("error_msg"));
+		            	wechatUsermapper.insertApiLogs("¿ªÆ±½Ó¿Ú", "¶©µ¥ºÅ:"+outTradeNoList.toString()+";Ë°ºÅ:"+invoice2.getTaxNumber()+";¿ªÆ±½ğ¶î:"+sumPriceMap, "fail", dataJson.getString("error_msg"));
 		            	throw new BaseServiceException(
 		            			Integer.parseInt(errorCode),
 		            			dataJson.getString("error_msg"));
@@ -1814,7 +1814,7 @@ private void doInvoiceSumPrice_monthlyCar_new(List<String> outTradeNoList, invoi
 			    }else{
 			    	throw new BaseServiceException(
 							StatusCode.API_FREQUENTLY_ERROR.getCode(),
-							"è¯·æŸ¥çœ‹å¼€ç¥¨æ¥å£");
+							"Çë²é¿´¿ªÆ±½Ó¿Ú");
 			    }
 				}finally {
 					postMethod.releaseConnection();

@@ -27,12 +27,12 @@ public class SessionFilter implements Filter {
 		String loginUrl = httpRequest.getContextPath() + "/login.jsp";
 		
 		String url = httpRequest.getRequestURI();
-		if (!url.contains("login.jsp") && httpRequest.getSession(false) == null) {//indexï¿½ï¿½ï¿½ÒµÄµï¿½Â¼Ò³ï¿½ï¿½Â·ï¿½ï¿½
-			String str = "<script language='javascript'>alert('系统超时，请重新登录！');"
+		if (!url.contains("login.jsp") && httpRequest.getSession(false) == null) {//index???????????????????????????��??????
+			String str = "<script language='javascript'>alert('ϵͳ��ʱ�������µ�¼��');"
 					+ "window.top.location.href='"
 					+ loginUrl
 					+ "';</script>";
-			httpResponse.setContentType("text/html;charset=UTF-8");// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			httpResponse.setContentType("text/html;charset=UTF-8");// ?????????????????????????????????
 			PrintWriter writer = httpResponse.getWriter();
 			writer.write(str);
 			writer.flush();

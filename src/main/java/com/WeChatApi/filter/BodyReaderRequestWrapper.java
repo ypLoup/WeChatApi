@@ -17,7 +17,7 @@ public class BodyReaderRequestWrapper  extends HttpServletRequestWrapper {
     }
 
     /**
-     * å–å‡ºè¯·æ±‚ä½“bodyä¸­çš„å‚æ•°ï¼ˆåˆ›å»ºå¯¹è±¡æ—¶æ‰§è¡Œï¼‰
+     * È¡³öÇëÇóÌåbodyÖĞµÄ²ÎÊı£¨´´½¨¶ÔÏóÊ±Ö´ĞĞ£©
      * @param request
      */
     public BodyReaderRequestWrapper(HttpServletRequest request) throws IOException {

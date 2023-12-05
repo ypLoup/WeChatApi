@@ -5,14 +5,14 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
- * 閫�娆炬煡瑭�
+ * �?款查�?
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WXRefundQryGetRequestBean implements Serializable {
 
 	/**
-	 * @Fields serialVersionUID:瀵硅薄璇存槑
+	 * @Fields serialVersionUID:对象说明
 	 */
 	private static final long serialVersionUID = -6550181778591862295L;
 

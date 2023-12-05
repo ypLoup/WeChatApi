@@ -35,46 +35,46 @@ import net.sf.json.JSONObject;
 @Service
 public class anLockService {
 	
-	  //锟斤拷录锟接匡拷
+	  //��¼�ӿ�
 	 private String loginGetPath="https://yun.an-lock.com/api/userlogin";
-	 //锟斤拷取锟剿猴拷锟斤拷锟斤拷锟斤拷锟脚碉拷锟叫憋拷
+	 //��ȡ�˺��������ŵ��б�
 	 private String getStoreList ="https://yun.an-lock.com/api/netlock/getStoreList";
-	 //锟斤拷取锟脚碉拷锟斤拷锟斤拷锟斤拷锟斤拷锟借备
+	 //��ȡ�ŵ����������豸
 	 private String getDeviceList = "https://yun.an-lock.com/api/netlock/getDeviceList";
-	 //锟斤拷取锟脚店单锟斤拷锟斤拷锟斤拷锟借备
+	 //��ȡ�ŵ굥�������豸
 	 private String getDevice = "";
-	 //锟斤拷取锟斤拷锟斤拷锟借备钥锟斤拷锟叫憋拷
+	 //��ȡ�����豸Կ���б�
 	 private String getDeviceKeys = "";
-	 //锟斤拷取锟斤拷锟斤拷指锟斤拷keyid钥锟阶讹拷锟斤拷
+	 //��ȡ����ָ��keyidԿ�׶���
 	 private String getDeviceKey = "";
-	 //锟斤拷指锟斤拷锟斤拷锟斤拷锟斤拷锟皆匡拷锟�
+	 //��ָ���������Կ��?
 	 private String addNetLockKey = "";
-	 //锟斤拷锟斤拷钥锟斤拷
+	 //����Կ��
 	 private String freezeNetLockKey = "";
-	 //锟睫革拷钥锟阶匡拷锟斤拷时锟戒范围
+	 //�޸�Կ�׿���ʱ�䷶Χ
 	 private String reletNetLockKey = "";
-	 //删锟斤拷指锟斤拷锟斤拷锟斤拷钥锟斤拷
+	 //ɾ��ָ������Կ��
 	 private String deleteNetLockKey = "";
-	 //删锟斤拷指锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷钥锟斤拷
+	 //ɾ��ָ����������Կ��
 	 private String deleteNetLockKeyType = "";
-	 //锟睫革拷钥锟斤拷锟斤拷锟斤拷
+	 //�޸�Կ������
 	 private String setKeyPwd ="";
-	 //删锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷钥锟斤拷(锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷员锟斤拷锟斤拷)
+	 //ɾ����������Կ��(����������Ա����)
 	 private String cleanNetLockKey = "";
-	 //锟斤拷锟矫管硷拷锟斤拷锟斤拷锟斤拷锟斤拷
+	 //���ùܼ���������
 	 private String setManagerPwd = "";
-	 //锟斤拷取指锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷志
+	 //��ȡָ������������־
 	 private String getNetLockLogList = "";
-	 //锟斤拷锟斤拷锟斤拷锟斤拷璞�
+	 //���������?
 	 private String addDevice="";
-	 //删锟斤拷锟斤拷锟斤拷锟借备
+	 //ɾ�������豸
 	 private String  deleteDevice  ="";
 	 
 	// 
 	 private String getInfo="http://open.sennor.net:8088/device/getDeviceInfo?secretKey=D515A9CD19D846F2&deviceNumber=143B93E7B7E9";
 	 
 	 /**
-	  * 锟斤拷取锟斤拷录token
+	  * ��ȡ��¼token
 	  * @param username
 	  * @param password
 	  * @return
@@ -93,7 +93,7 @@ public class anLockService {
 		httppost.setHeader("Content-type","application/x-www-form-urlencoded; charset=utf-8") ;
 		//httppost.setHeader("Accept", "application/json");
 		//httppost.setHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)");
-		//锟斤拷锟秸诧拷锟斤拷
+		//���ղ���
 		Map<String,Object> param=new HashMap<String, Object>();
 		param.put("grant_type","password");
 		param.put("username",username);
@@ -110,22 +110,22 @@ public class anLockService {
 			return result;
 		} catch (Exception e) {
 			// TODO: handle exception
-			return "锟斤拷锟斤拷失锟杰ｏ拷";
+			return "����ʧ�ܣ�";
 		}*/
 		 if(StringUtils.isBlank(username)){
 			 throw new BaseServiceException(
 						StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-						"锟皆诧拷锟斤拷锟矫伙拷锟剿号诧拷锟斤拷为锟秸ｏ拷");
+						"�Բ����û��˺Ų���Ϊ�գ�");
 		 }
          if(StringUtils.isBlank(username)){
         	 throw new BaseServiceException(
 						StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-						"锟皆诧拷锟斤拷锟矫伙拷锟斤拷锟诫不锟斤拷为锟秸ｏ拷");
+						"�Բ����û����벻��Ϊ�գ�");
 		 }
 		    PostMethod postMethod = null;
 		    postMethod = new PostMethod(loginGetPath) ;
 		    postMethod.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8") ;
-		//锟斤拷锟斤拷锟斤拷锟矫ｏ拷锟斤拷要注锟斤拷木锟斤拷锟斤拷锟竭诧拷锟杰达拷NULL锟斤拷要锟斤拷锟斤拷锟街凤拷锟斤拷
+		//�������ã���Ҫע��ľ�����߲��ܴ�NULL��Ҫ�����ַ���
 		    NameValuePair[] data = {
 		            new NameValuePair("grant_type","password"),
 		            new NameValuePair("username",username),
@@ -136,11 +136,11 @@ public class anLockService {
 		    postMethod.setRequestBody(data);
 
 		    HttpClient httpClient = new HttpClient();
-		    int response = httpClient.executeMethod(postMethod); // 执锟斤拷POST锟斤拷锟斤拷
+		    int response = httpClient.executeMethod(postMethod); // ִ��POST����
 		    if(response==200){
 		    	return postMethod.getResponseBodyAsString() ;
 		    }else{
-		    	return "锟接口碉拷锟斤拷失锟杰ｏ拷";
+		    	return "�ӿڵ���ʧ�ܣ�";
 		    }
 		    
 		 
@@ -148,7 +148,7 @@ public class anLockService {
 
 	 
 	 /**
-	  * 锟斤拷取锟剿猴拷锟斤拷锟斤拷锟斤拷锟脚碉拷锟叫憋拷
+	  * ��ȡ�˺��������ŵ��б�
 	  * @param tokenKey
 	  * @return
 	  * @throws HttpException
@@ -158,7 +158,7 @@ public class anLockService {
 		
 		if(StringUtils.isBlank(tokenKey)){
 			throw new BaseServiceException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-						"锟皆诧拷锟斤拷tokenKey锟斤拷锟斤拷为锟秸ｏ拷");
+						"�Բ���tokenKey����Ϊ�գ�");
 		}
 		GetMethod getMethod=null;
 		getMethod =  new GetMethod(getStoreList);
@@ -169,7 +169,7 @@ public class anLockService {
 		if(response==200){
 	    	return getMethod.getResponseBodyAsString() ;
 	    }else{
-	    	return "锟接口碉拷锟斤拷失锟杰ｏ拷";
+	    	return "�ӿڵ���ʧ�ܣ�";
 	    }
 		
 	}
@@ -179,7 +179,7 @@ public class anLockService {
 		
 		if(StringUtils.isBlank(tokenKey)){
 			throw new BaseServiceException(StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-						"锟皆诧拷锟斤拷tokenKey锟斤拷锟斤拷为锟秸ｏ拷");
+						"�Բ���tokenKey����Ϊ�գ�");
 		}
 		GetMethod getMethod=null;
 		//getMethod

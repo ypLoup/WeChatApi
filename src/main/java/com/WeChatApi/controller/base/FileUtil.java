@@ -11,16 +11,16 @@ import java.util.List;
 public class FileUtil {
 	
 	/**
-     * @description ï¼šä¸Šä¼ æ–‡ä»¶æ–¹å¼:ç”±Springè½¬åˆ°java
+     * @description £ºÉÏ´«ÎÄ¼ş·½Ê½:ÓÉSpring×ªµ½java
      * @author : P2M.WBA
      * @date : 2018/6/22 13:57
      */
     public static File MultipartFileToFile(MultipartFile multiFile) {
-        // è·å–æ–‡ä»¶å
+        // »ñÈ¡ÎÄ¼şÃû
         String fileName = multiFile.getOriginalFilename();
-        // è·å–æ–‡ä»¶åç¼€
+        // »ñÈ¡ÎÄ¼şºó×º
         String prefix = fileName.substring(fileName.lastIndexOf("."));
-        // ç”¨å½“å‰æ—¶é—´ä½œä¸ºæ–‡ä»¶åï¼Œé˜²æ­¢ç”Ÿæˆçš„ä¸´æ—¶æ–‡ä»¶é‡å¤
+        // ÓÃµ±Ç°Ê±¼ä×÷ÎªÎÄ¼şÃû£¬·ÀÖ¹Éú³ÉµÄÁÙÊ±ÎÄ¼şÖØ¸´
         try {
             File file = File.createTempFile(System.currentTimeMillis() + "", prefix);
 
@@ -34,7 +34,7 @@ public class FileUtil {
     }
 
     /**
-     * @description ï¼šåˆ é™¤æ–‡ä»¶
+     * @description £ºÉ¾³ıÎÄ¼ş
      * @author : P2M.WBA
      * @date : 2018/6/22 13:59
      */
@@ -47,7 +47,7 @@ public class FileUtil {
     }
 
     /**
-     * è·å–é¡¹ç›®æ ¹è·¯å¾„(WebRoot)
+     * »ñÈ¡ÏîÄ¿¸ùÂ·¾¶(WebRoot)
      *
      * @return
      */
@@ -56,7 +56,7 @@ public class FileUtil {
         if (classLoader == null) {
             classLoader = ClassLoader.getSystemClassLoader();
         }
-        // è·å–åˆ°webrooté‡Œé¢çš„æ•°æ®
+        // »ñÈ¡µ½webrootÀïÃæµÄÊı¾İ
         URL url = classLoader.getResource("");
         File rootFile = new File(url.getPath() + "/");
         File webInfoDir = new File(rootFile.getParent() + "/");
@@ -65,7 +65,7 @@ public class FileUtil {
     }*/
 
     /**
-     * è·å–è·¯å¾„ä¸‹çš„æ‰€æœ‰æ–‡ä»¶
+     * »ñÈ¡Â·¾¶ÏÂµÄËùÓĞÎÄ¼ş
      *
      * @param path
      * @return
@@ -81,11 +81,11 @@ public class FileUtil {
             File[] files = file.listFiles();
 
             for (File fileIndex : files) {
-                //å¦‚æœè¿™ä¸ªæ–‡ä»¶æ˜¯ç›®å½•ï¼Œåˆ™è¿›è¡Œé€’å½’æœç´¢
+                //Èç¹ûÕâ¸öÎÄ¼şÊÇÄ¿Â¼£¬Ôò½øĞĞµİ¹éËÑË÷
                 if (fileIndex.isDirectory()) {
                     getFiles(fileIndex.getPath());
                 } else {
-                    //å¦‚æœæ–‡ä»¶æ˜¯æ™®é€šæ–‡ä»¶ï¼Œåˆ™å°†æ–‡ä»¶å¥æŸ„æ”¾å…¥é›†åˆä¸­
+                    //Èç¹ûÎÄ¼şÊÇÆÕÍ¨ÎÄ¼ş£¬Ôò½«ÎÄ¼ş¾ä±ú·ÅÈë¼¯ºÏÖĞ
                     fileList.add(fileIndex);
                 }
             }
@@ -94,7 +94,7 @@ public class FileUtil {
     }
 
     /**
-     * è·å–è·¯å¾„ä¸‹çš„æ‰€æœ‰æ–‡ä»¶åç§°(å…¨è·¯å¾„)
+     * »ñÈ¡Â·¾¶ÏÂµÄËùÓĞÎÄ¼şÃû³Æ(È«Â·¾¶)
      *
      * @param path
      * @return
@@ -110,11 +110,11 @@ public class FileUtil {
             File[] files = file.listFiles();
 
             for (File fileIndex : files) {
-                //å¦‚æœè¿™ä¸ªæ–‡ä»¶æ˜¯ç›®å½•ï¼Œåˆ™è¿›è¡Œé€’å½’æœç´¢
+                //Èç¹ûÕâ¸öÎÄ¼şÊÇÄ¿Â¼£¬Ôò½øĞĞµİ¹éËÑË÷
                 if (fileIndex.isDirectory()) {
                     getFiles(fileIndex.getPath());
                 } else {
-                    //å¦‚æœæ–‡ä»¶æ˜¯æ™®é€šæ–‡ä»¶ï¼Œåˆ™å°†æ–‡ä»¶å¥æŸ„æ”¾å…¥é›†åˆä¸­
+                    //Èç¹ûÎÄ¼şÊÇÆÕÍ¨ÎÄ¼ş£¬Ôò½«ÎÄ¼ş¾ä±ú·ÅÈë¼¯ºÏÖĞ
                     fileList.add(fileIndex.getName());
                 }
             }
@@ -123,7 +123,7 @@ public class FileUtil {
     }
 
     /**
-     * ä¸‹è½½
+     * ÏÂÔØ
      *
      * @param file
      * @param response
@@ -134,7 +134,7 @@ public class FileUtil {
         BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
         try {
-            // è®¾ç½®responseå‚æ•°ï¼Œå¯ä»¥æ‰“å¼€ä¸‹è½½é¡µé¢
+            // ÉèÖÃresponse²ÎÊı£¬¿ÉÒÔ´ò¿ªÏÂÔØÒ³Ãæ
             response.reset();
             response.setContentType("application/vnd.ms-excel;charset=utf-8");
             response.setHeader("Content-Disposition", "attachment;filename=" + new String(file.getName().getBytes("GB2312"), "ISO_8859_1"));

@@ -39,7 +39,7 @@ public class BaseController {
 		this.sysLogSettingService = sysLogSettingService;
 	}*/
 
-	//锟斤拷锟斤拷转锟斤拷锟斤拷yyyy-MM-dd HH:mm:ss锟斤拷
+	//����ת����yyyy-MM-dd HH:mm:ss��
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder){
 	    binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
@@ -47,17 +47,17 @@ public class BaseController {
 	}
 	
 	/**
-	 * 锟斤拷锟截凤拷页json锟斤拷锟斤拷
-	 * @param list 每页锟斤拷锟斤拷
-	 * @param total 锟杰硷拷录锟斤拷
-	 * @param code 锟斤拷锟截斤拷锟斤拷锟�
-	 * @param msg 锟斤拷锟斤拷锟斤拷息
-	 * @return 锟斤拷页json锟斤拷锟斤拷
+	 * ���ط�ҳjson����
+	 * @param list ÿҳ����
+	 * @param total �ܼ�¼��
+	 * @param code ���ؽ����?
+	 * @param msg ������Ϣ
+	 * @return ��ҳjson����
 	 */
 	protected ModelMap backJsonPageResult(List<?> list, long total, int code, String msg) {
 		ModelMap modelMap = new ModelMap();
 		if (null == list){
-			msg = "无记录";
+			msg = "�޼�¼";
 			modelMap.addAttribute("count", 0);
 			modelMap.addAttribute("data", new ArrayList<Object>());
 		}
@@ -72,16 +72,16 @@ public class BaseController {
 		//System.out.println(JSONObject.toJSON(modelMap));
 		return modelMap;
 	}
-	//默锟较凤拷页锟缴癸拷
+	//Ĭ�Ϸ�ҳ�ɹ�
 	protected ModelMap backJsonPageResult(List<?> list, long total) {
 		return backJsonPageResult(list, total,0,"Success");
 	}
 	/**
-	 * 锟斤拷锟截讹拷锟斤拷锟斤拷锟絣ist锟斤拷装锟斤拷锟絡son锟斤拷锟捷ｏ拷私锟叫ｏ拷
-	 * @param data 锟斤拷锟斤拷锟斤拷锟絣ist锟斤拷锟斤拷
-	 * @param code 锟斤拷锟截斤拷锟斤拷锟�
-	 * @param msg 锟斤拷锟斤拷锟斤拷息
-	 * @return 锟斤拷锟斤拷锟斤拷锟絣ist锟斤拷装锟斤拷锟絡son锟斤拷锟斤拷
+	 * ���ض������list��װ���json���ݣ�˽�У�
+	 * @param data �������list����
+	 * @param code ���ؽ����?
+	 * @param msg ������Ϣ
+	 * @return �������list��װ���json����
 	 */
 	protected ModelMap backJsonResult(Object data, int code ,String msg) {
 		ModelMap modelMap = new ModelMap();
@@ -93,7 +93,7 @@ public class BaseController {
 		//System.out.println(JSONObject.toJSON(modelMap));
 		return modelMap;
 	}
-	//默锟较成癸拷锟斤拷锟斤拷
+	//Ĭ�ϳɹ�����
 	protected ModelMap backJsonResult(Object data) {
 		return backJsonResult(data,0,"Success");
 	}
@@ -110,38 +110,38 @@ public class BaseController {
 	}
 	
 	/**
-	 * 锟斤拷锟截成癸拷锟斤拷json锟斤拷息
-	 * @param msg json锟斤拷息
-	 * @return 锟缴癸拷锟斤拷json锟斤拷息
+	 * ���سɹ���json��Ϣ
+	 * @param msg json��Ϣ
+	 * @return �ɹ���json��Ϣ
 	 */
 	protected ModelMap backJsonSuccessMsg(int code,String msg) {
 		return backJsonResult(null,code,msg);
 	}
-	//默锟较成癸拷锟斤拷息
+	//Ĭ�ϳɹ���Ϣ
 	protected ModelMap backJsonSuccessMsg() {
 		return backJsonSuccessMsg(0,"Success");
 	}
 	/**
-	 * 锟斤拷锟截成癸拷锟斤拷json锟斤拷息
-	 * @param msg json锟斤拷息
-	 * @return 锟缴癸拷锟斤拷json锟斤拷息
+	 * ���سɹ���json��Ϣ
+	 * @param msg json��Ϣ
+	 * @return �ɹ���json��Ϣ
 	 */
 	protected ModelMap backJsonSuccessMsg(String msg) {
 		return backJsonResult(null, 0, msg);
 	}
 	
 	/**
-	 * 锟斤拷锟斤拷失锟杰碉拷json锟斤拷息
-	 * @param code 锟届常锟斤拷锟斤拷
-	 * @param msg json锟斤拷息
-	 * @return 失锟杰碉拷json锟斤拷息
+	 * ����ʧ�ܵ�json��Ϣ
+	 * @param code �쳣����
+	 * @param msg json��Ϣ
+	 * @return ʧ�ܵ�json��Ϣ
 	 */
 	protected ModelMap backJsonFailureMsg(int code ,String msg) {
 		return backJsonResult(null,code,msg);
 	}
-	//默锟斤拷系统锟届常
+	//Ĭ��ϵͳ�쳣
 	protected ModelMap backJsonFailureMsg() {
-		return backJsonFailureMsg(900,"系统异常");
+		return backJsonFailureMsg(900,"ϵͳ�쳣");
 	}
 
 	public void payCallback(HttpServletRequest request, HttpServletResponse response) {

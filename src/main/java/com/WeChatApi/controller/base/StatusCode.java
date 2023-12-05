@@ -2,7 +2,7 @@ package com.WeChatApi.controller.base;
 
 
 /**
- * 文档编码
+ * �ĵ�����
  */
 public enum StatusCode {
 
@@ -48,12 +48,12 @@ public enum StatusCode {
   private int code;
 
   /**
-   * 淇℃伅
+   * 信息
    */
   private String errorMsg;
 
   /**
-   * 璇存槑
+   * 说明
    */
   private String remark;
 

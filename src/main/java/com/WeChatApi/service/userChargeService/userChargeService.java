@@ -98,7 +98,7 @@ public class userChargeService {
 	public List<Map<String, String>> findUserChargeRecordInfo(Map<String, String> findTypeMap) {
 		
 		if(StringUtils.isBlank(findTypeMap.get("userOpenId").toString())){
-			throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"å°ç¨‹åºuserOpenIdä¸èƒ½ä¸ºç©ºï¼");
+			throw new BaseException(StatusCode.MISSING_OPENID_ERROR.getCode(),"Ğ¡³ÌĞòuserOpenId²»ÄÜÎª¿Õ£¡");
 		}
 		wechatUser user =usermapper.findWechatUserInfoByOpenId(findTypeMap.get("userOpenId").toString());
 		if(findTypeMap.containsKey("fpUrl")){
@@ -122,7 +122,7 @@ public class userChargeService {
 			if(StringUtils.isBlank(invoiceDto.getUserOpenId())){
 				throw new BaseServiceException(
 						StatusCode.MISSING_OPENID_ERROR.getCode(),
-						"ç”¨æˆ·userOpenIdä¸èƒ½ä¸ºç©ºï¼");
+						"ÓÃ»§userOpenId²»ÄÜÎª¿Õ£¡");
 			}
 			
 			invoice invoice = invoicemapper.findInvoiceInfoByTaxNumber(invoiceDto.getTaxNumber(),invoiceDto.getUserOpenId());
@@ -130,28 +130,28 @@ public class userChargeService {
 				/*if(StringUtils.isBlank(invoiceDto.getBankNumber())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"å¼€æˆ·è¡Œè´¦å·ä¸èƒ½ä¸ºç©ºï¼");
+							"¿ª»§ĞĞÕËºÅ²»ÄÜÎª¿Õ£¡");
 				}*/
 				
 				if(StringUtils.isBlank(invoiceDto.getCompanyName())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"å‘ç¥¨æŠ¬å¤´ä¸èƒ½ä¸ºç©ºï¼");
+							"·¢Æ±Ì§Í·²»ÄÜÎª¿Õ£¡");
 				}
 				/*if(StringUtils.isBlank(invoiceDto.getTaxNumber())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"å‘ç¥¨ç¨å·ä¸èƒ½ä¸ºç©ºï¼");
+							"·¢Æ±Ë°ºÅ²»ÄÜÎª¿Õ£¡");
 				}*/
 				if(StringUtils.isBlank(invoiceDto.getEmail())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"é‚®ç®±åœ°å€ä¸èƒ½ä¸ºç©ºï¼");
+							"ÓÊÏäµØÖ·²»ÄÜÎª¿Õ£¡");
 				}
 				/*if(StringUtils.isBlank(invoiceDto.getAddressMobile())){
 					throw new BaseServiceException(
 							StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-							"è”ç³»åœ°å€ç”µè¯ä¸èƒ½ä¸ºç©ºï¼");
+							"ÁªÏµµØÖ·µç»°²»ÄÜÎª¿Õ£¡");
 				}*/
 				invoice invoice2 = new  invoice();
 				invoice2.setUserOpenId(userOpenId);
@@ -203,7 +203,7 @@ public class userChargeService {
 		
 		PostMethod postMethod = null;
 		try{
-		// è®¾ç½®ä¸Šä¼ æ–‡ä»¶ç›®å½•
+		// ÉèÖÃÉÏ´«ÎÄ¼şÄ¿Â¼
 	    ResourceBundle res = ResourceBundle.getBundle("blueCardApi");
 	    String doInvoiceUrl = res.getString("doInvoice_url");
     	
@@ -218,7 +218,7 @@ public class userChargeService {
 	            new NameValuePair("addressAndMobile",invoice2.getAddressMobile()),
 	            new NameValuePair("bankAndNumber",invoice2.getBankNumber()),
 	            new NameValuePair("email",invoice2.getEmail()),
-	            new NameValuePair("remark","é¢„å……å€¼è®¢å•å·ï¼š"+sumPriceMap.get("recordId").toString())
+	            new NameValuePair("remark","Ô¤³äÖµ¶©µ¥ºÅ£º"+sumPriceMap.get("recordId").toString())
 	            
 	    };
         
@@ -237,15 +237,15 @@ public class userChargeService {
             String data = dataJson.getString("data");
             JSONObject  dataJsonR = JSONObject.fromObject(data);
                 
-            	log.info("è®¢å•å·ï¼š"+outTradeNoList.toString()+"å¼€ç¥¨æˆåŠŸ");
-            	usermapper.insertApiLogs("é¢„å……å€¼å¼€ç¥¨æ¥å£", "è®¢å•å·:"+outTradeNoList.toString()+";ç¨å·:"+invoice2.getTaxNumber()+";å¼€ç¥¨é‡‘é¢:"+sumPriceMap, "success", "å‘ç¥¨åœ°å€:"+dataJsonR.getString("pdfUrl"));
+            	log.info("¶©µ¥ºÅ£º"+outTradeNoList.toString()+"¿ªÆ±³É¹¦");
+            	usermapper.insertApiLogs("Ô¤³äÖµ¿ªÆ±½Ó¿Ú", "¶©µ¥ºÅ:"+outTradeNoList.toString()+";Ë°ºÅ:"+invoice2.getTaxNumber()+";¿ªÆ±½ğ¶î:"+sumPriceMap, "success", "·¢Æ±µØÖ·:"+dataJsonR.getString("pdfUrl"));
             	userchargemapper.updateUserChargeRecordByList(outTradeNoList,dataJsonR.getString("pdfUrl"),invoice2.getCompanyName(),invoice2.getTaxNumber(),invoice2.getAddressMobile(),invoice2.getBankNumber(),invoice2.getEmail());
             	
 
             }else{
-            	log.info("å¼€ç¥¨å·ï¼š"+outTradeNoList.toString()+"å¼€ç¥¨å¤±è´¥");
+            	log.info("¿ªÆ±ºÅ£º"+outTradeNoList.toString()+"¿ªÆ±Ê§°Ü");
 
-            	usermapper.insertApiLogs("é¢„å……å€¼å¼€ç¥¨æ¥å£", "è®¢å•å·:"+outTradeNoList.toString()+";ç¨å·:"+invoice2.getTaxNumber()+";å¼€ç¥¨é‡‘é¢:"+sumPriceMap, "fail", dataJson.getString("error_msg"));
+            	usermapper.insertApiLogs("Ô¤³äÖµ¿ªÆ±½Ó¿Ú", "¶©µ¥ºÅ:"+outTradeNoList.toString()+";Ë°ºÅ:"+invoice2.getTaxNumber()+";¿ªÆ±½ğ¶î:"+sumPriceMap, "fail", dataJson.getString("error_msg"));
             	throw new BaseServiceException(
             			Integer.parseInt(errorCode),
             			dataJson.getString("error_msg"));
@@ -254,7 +254,7 @@ public class userChargeService {
 	    }else{
 	    	throw new BaseServiceException(
 					StatusCode.API_FREQUENTLY_ERROR.getCode(),
-					"è¯·æŸ¥çœ‹å¼€ç¥¨æ¥å£");
+					"Çë²é¿´¿ªÆ±½Ó¿Ú");
 	    }
 		}finally {
 			postMethod.releaseConnection();

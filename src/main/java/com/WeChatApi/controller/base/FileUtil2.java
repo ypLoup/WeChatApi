@@ -32,16 +32,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUtil2 extends BaseController{
 	private static Logger log = LoggerFactory.getLogger(FileUtil2.class);
 	private final static String BOUNDARY = UUID.randomUUID().toString()
-			.toLowerCase().replaceAll("-", "");// è¾¹ç•Œæ ‡è¯†
-	private final static String PREFIX = "--";// å¿…é¡»å­˜åœ¨
+			.toLowerCase().replaceAll("-", "");// ±ß½ç±êÊ¶
+	private final static String PREFIX = "--";// ±ØĞë´æÔÚ
 	private final static String LINE_END = "\r\n";
  
 	/**
 	 *  POST Multipart Request
 	 *  @Description: 
-	 *  @param requestUrl è¯·æ±‚url
-	 *  @param requestText è¯·æ±‚å‚æ•°
-	 *  @param requestFile è¯·æ±‚ä¸Šä¼ çš„æ–‡ä»¶
+	 *  @param requestUrl ÇëÇóurl
+	 *  @param requestText ÇëÇó²ÎÊı
+	 *  @param requestFile ÇëÇóÉÏ´«µÄÎÄ¼ş
 	 *  @return
 	 *  @throws Exception
 	 */
@@ -69,19 +69,19 @@ public class FileUtil2 extends BaseController{
 			conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
 			conn.connect();
  
-			// å¾€æœåŠ¡å™¨ç«¯å†™å†…å®¹ ä¹Ÿå°±æ˜¯å‘èµ·httpè¯·æ±‚éœ€è¦å¸¦çš„å‚æ•°
+			// Íù·şÎñÆ÷¶ËĞ´ÄÚÈİ Ò²¾ÍÊÇ·¢ÆğhttpÇëÇóĞèÒª´øµÄ²ÎÊı
 			os = new DataOutputStream(conn.getOutputStream());
-			// è¯·æ±‚å‚æ•°éƒ¨åˆ†
+			// ÇëÇó²ÎÊı²¿·Ö
 			writeParams(requestText, os);
-			// è¯·æ±‚ä¸Šä¼ æ–‡ä»¶éƒ¨åˆ†
+			// ÇëÇóÉÏ´«ÎÄ¼ş²¿·Ö
 			writeFile(requestFile, os);
-			// è¯·æ±‚ç»“æŸæ ‡å¿—
+			// ÇëÇó½áÊø±êÖ¾
 			String endTarget = PREFIX + BOUNDARY + PREFIX + LINE_END;
 			os.write(endTarget.getBytes());
 			os.flush();
 			
-			// è¯»å–æœåŠ¡å™¨ç«¯è¿”å›çš„å†…å®¹
-			System.out.println("======================å“åº”ä½“=========================");
+			// ¶ÁÈ¡·şÎñÆ÷¶Ë·µ»ØµÄÄÚÈİ
+			System.out.println("======================ÏìÓ¦Ìå=========================");
 			System.out.println("ResponseCode:" + conn.getResponseCode()
 					+ ",ResponseMessage:" + conn.getResponseMessage());
 			if(conn.getResponseCode()==200){
@@ -97,7 +97,7 @@ public class FileUtil2 extends BaseController{
 				buffer.append(line);
 			}
 			//......
-			System.out.println("è¿”å›æŠ¥æ–‡:" + buffer.toString());
+			System.out.println("·µ»Ø±¨ÎÄ:" + buffer.toString());
  
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -127,7 +127,7 @@ public class FileUtil2 extends BaseController{
 	}
  
 	/**
-	 * å¯¹postå‚æ•°è¿›è¡Œç¼–ç å¤„ç†å¹¶å†™å…¥æ•°æ®æµä¸­
+	 * ¶Ôpost²ÎÊı½øĞĞ±àÂë´¦Àí²¢Ğ´ÈëÊı¾İÁ÷ÖĞ
 	 * @throws Exception 
 	 * 
 	 * @throws IOException
@@ -136,9 +136,9 @@ public class FileUtil2 extends BaseController{
 	private static void writeParams(Map<String, String> requestText,
 			OutputStream os) throws Exception {
 		try{
-			String msg = "è¯·æ±‚å‚æ•°éƒ¨åˆ†:\n";
+			String msg = "ÇëÇó²ÎÊı²¿·Ö:\n";
 			if (requestText == null || requestText.isEmpty()) {
-				msg += "ç©º";
+				msg += "¿Õ";
 			} else {
 				StringBuilder requestParams = new StringBuilder();
 				Set<Map.Entry<String, String>> set = requestText.entrySet();
@@ -152,7 +152,7 @@ public class FileUtil2 extends BaseController{
 							.append(LINE_END);
 					requestParams.append("Content-Transfer-Encoding: 8bit").append(
 							LINE_END);
-					requestParams.append(LINE_END);// å‚æ•°å¤´è®¾ç½®å®Œä»¥åéœ€è¦ä¸¤ä¸ªæ¢è¡Œï¼Œç„¶åæ‰æ˜¯å‚æ•°å†…å®¹
+					requestParams.append(LINE_END);// ²ÎÊıÍ·ÉèÖÃÍêÒÔºóĞèÒªÁ½¸ö»»ĞĞ£¬È»ºó²ÅÊÇ²ÎÊıÄÚÈİ
 					requestParams.append(entry.getValue());
 					requestParams.append(LINE_END);
 				}
@@ -170,7 +170,7 @@ public class FileUtil2 extends BaseController{
 	}
  
 	/**
-	 * å¯¹postä¸Šä¼ çš„æ–‡ä»¶è¿›è¡Œç¼–ç å¤„ç†å¹¶å†™å…¥æ•°æ®æµä¸­
+	 * ¶ÔpostÉÏ´«µÄÎÄ¼ş½øĞĞ±àÂë´¦Àí²¢Ğ´ÈëÊı¾İÁ÷ÖĞ
 	 * 
 	 * @throws IOException
 	 * 
@@ -179,16 +179,16 @@ public class FileUtil2 extends BaseController{
 			OutputStream os) throws Exception {
 		InputStream is = null;
 		try{
-			String msg = "è¯·æ±‚ä¸Šä¼ æ–‡ä»¶éƒ¨åˆ†:\n";
+			String msg = "ÇëÇóÉÏ´«ÎÄ¼ş²¿·Ö:\n";
 			if (requestFile == null || requestFile.isEmpty()) {
-				msg += "ç©º";
+				msg += "¿Õ";
 			} else {
 				StringBuilder requestParams = new StringBuilder();
 				Set<Map.Entry<String, MultipartFile>> set = requestFile.entrySet();
 				Iterator<Entry<String, MultipartFile>> it = set.iterator();
 				while (it.hasNext()) {
 					Entry<String, MultipartFile> entry = it.next();
-					if(entry.getValue() == null){//å‰”é™¤valueä¸ºç©ºçš„é”®å€¼å¯¹
+					if(entry.getValue() == null){//ÌŞ³ıvalueÎª¿ÕµÄ¼üÖµ¶Ô
 						continue;
 					}
 					requestParams.append(PREFIX).append(BOUNDARY).append(LINE_END);
@@ -201,7 +201,7 @@ public class FileUtil2 extends BaseController{
 							.append(LINE_END);
 					requestParams.append("Content-Transfer-Encoding: 8bit").append(
 							LINE_END);
-					requestParams.append(LINE_END);// å‚æ•°å¤´è®¾ç½®å®Œä»¥åéœ€è¦ä¸¤ä¸ªæ¢è¡Œï¼Œç„¶åæ‰æ˜¯å‚æ•°å†…å®¹
+					requestParams.append(LINE_END);// ²ÎÊıÍ·ÉèÖÃÍêÒÔºóĞèÒªÁ½¸ö»»ĞĞ£¬È»ºó²ÅÊÇ²ÎÊıÄÚÈİ
  
 					os.write(requestParams.toString().getBytes());
 					os.write(entry.getValue().getBytes());
@@ -229,7 +229,7 @@ public class FileUtil2 extends BaseController{
 	}
  
 	/**
-	 * ContentType(è¿™éƒ¨åˆ†å¯å¿½ç•¥ï¼ŒMultipartFileæœ‰å¯¹åº”çš„æ–¹æ³•è·å–)
+	 * ContentType(Õâ²¿·Ö¿ÉºöÂÔ£¬MultipartFileÓĞ¶ÔÓ¦µÄ·½·¨»ñÈ¡)
 	 * 
 	 * @Description:
 	 * @param file
@@ -266,9 +266,9 @@ public class FileUtil2 extends BaseController{
 		}
 		return streamContentType;
 	}
-    //MockMultipartFileæ˜¯å•å…ƒæµ‹è¯•çš„ç±»ï¼Œæ•…éœ€è¦å•å…ƒæµ‹è¯•çš„åŒ…
-    //ContentTypeæ˜¯org.apache.http.entity.ContentType
-    //ContentType.APPLICATION_OCTET_STREAM.toString()å¯ç”¨å­—ç¬¦ä¸²application/octet-streamä»£æ›¿
+    //MockMultipartFileÊÇµ¥Ôª²âÊÔµÄÀà£¬¹ÊĞèÒªµ¥Ôª²âÊÔµÄ°ü
+    //ContentTypeÊÇorg.apache.http.entity.ContentType
+    //ContentType.APPLICATION_OCTET_STREAM.toString()¿ÉÓÃ×Ö·û´®application/octet-stream´úÌæ
     public static void main(String[] args) throws Exception {
 		String requestURL = "https://api.jkrms.jsycloud.com/admin/uploadBanner";
 		FileUtil2 httpReuqest = new FileUtil2();
@@ -278,7 +278,7 @@ public class FileUtil2 extends BaseController{
 		requestText.put("app_key", "e0dcf2f8f404e3a5f7f961dab6adbaa7");
 		requestText.put("token", "a190571fe32a6b315a1f9d310d5472da");
 		Map<String,MultipartFile> requestFile = new HashMap<String,MultipartFile>();
-		File file = new File("C:\\Users\\39496\\Desktop\\å¤‡ä»½\\aa.png");
+		File file = new File("C:\\Users\\39496\\Desktop\\±¸·İ\\aa.png");
 		FileInputStream fileInputStream = new FileInputStream(file);
 		MultipartFile multipartFile = new MockMultipartFile(file.getName(),     
           file.getName(),ContentType.MULTIPART_FORM_DATA.toString(), 

@@ -38,7 +38,7 @@ public class userInfoService {
 		if(StringUtils.isBlank(userinfo.getUserName())){
 			throw new BaseServiceException(
 					StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-					"å§“åä¸èƒ½ä¸ºç©ºï¼");
+					"ĞÕÃû²»ÄÜÎª¿Õ£¡");
 		}
 		userinfo.setFaceToken(UUID.randomUUID().toString());
 		userinfo.setApiKey("system");
@@ -51,7 +51,7 @@ public class userInfoService {
 		if(StringUtils.isBlank(userinfo.getUserName())){
 			throw new BaseServiceException(
 					StatusCode.PARAMETER_FORMATE_RROR.getCode(),
-					"å§“åä¸èƒ½ä¸ºç©ºï¼");
+					"ĞÕÃû²»ÄÜÎª¿Õ£¡");
 		}
 		
 		
@@ -80,8 +80,8 @@ public class userInfoService {
 			Map<String, String> map= new HashMap<String, String>();
 			map.put("value", userInfo.getUserId().toString());
 			if(userInfo.getUserName()==null){
-				map.put("title", "æœªå‘½å("+userInfo.getUserMobile()+")");
-				map.put("userName", "æœªå‘½å");
+				map.put("title", "Î´ÃüÃû("+userInfo.getUserMobile()+")");
+				map.put("userName", "Î´ÃüÃû");
 				map.put("userIdCard", userInfo.getUserIdCard());
 			}else{
 				map.put("userName", userInfo.getUserName());
@@ -97,7 +97,7 @@ public class userInfoService {
 		BASE64Decoder decoder = new BASE64Decoder();  
 		byte[] imgByte = decoder.decodeBuffer(base64EncoderImg);  
 		for ( int i = 0; i < imgByte. length; ++i) {  
-		     if (imgByte[i] < 0) { // è°ƒæ•´å¼‚å¸¸æ•°æ®  
+		     if (imgByte[i] < 0) { // µ÷ÕûÒì³£Êı¾İ  
 		         imgByte[i] += 256;  
 		    }  
 		}
@@ -124,7 +124,7 @@ public class userInfoService {
 	
 	private static boolean uploadImg (String path, String imgName, byte[] imgByte) {  
 		
-        // LinuxæœåŠ¡å™¨æ˜¯åæ–œæ   
+        // Linux·şÎñÆ÷ÊÇ·´Ğ±¸Ü  
        path=path.replaceAll( "/", "\\\\");  
        File filePath = new File(path);  
        filePath.setWritable( true, false);  
@@ -158,7 +158,7 @@ public class userInfoService {
 
 	public String uploadImg2(MultipartFile UploadFile) throws IllegalStateException, IOException {
 		String PluploadFileName = UploadFile.getOriginalFilename();
-        // è®¾ç½®ä¸Šä¼ æ–‡ä»¶ç›®å½•
+        // ÉèÖÃÉÏ´«ÎÄ¼şÄ¿Â¼
 		ResourceBundle res = ResourceBundle.getBundle("webConfig");
 	    String UploadPath = res.getString("upload_url");
         //String UploadPath = "/home/jgkj/Projects/platform_6900/app/image/register_face_image/";
